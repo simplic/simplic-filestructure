@@ -31,6 +31,15 @@ namespace Simplic.FileStructure
         }
 
         /// <summary>
+        /// Gets or sets the current hash for sync
+        /// </summary>
+        public string SyncHash
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the server path for file sync
         /// </summary>
         public string SyncPath

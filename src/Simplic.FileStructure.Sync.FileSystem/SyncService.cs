@@ -28,7 +28,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
         /// <returns>Enumerable of file paths</returns>
         public IEnumerable<string> GetFiles(string path, bool includeSubdirectories = false)
         {
-            return System.IO.Directory.GetFiles(path, "*.*", includeSubdirectories == true ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+            return System.IO.Directory.GetFiles(path, "*", includeSubdirectories == true ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
                 hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
             }
 
-            return Simplic.Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
+            return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
         }
     }
 }
