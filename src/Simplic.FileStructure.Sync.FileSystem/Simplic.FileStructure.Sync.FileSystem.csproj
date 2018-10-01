@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}</ProjectGuid>
+    <ProjectGuid>{39F11128-DB7C-4AC0-B51D-2C041869B88C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.FileStructure</RootNamespace>
-    <AssemblyName>Simplic.FileStructure</AssemblyName>
+    <RootNamespace>Simplic.FileStructure.Sync.FileSystem</RootNamespace>
+    <AssemblyName>Simplic.FileStructure.Sync.FileSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,34 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Cache, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Cache.6.0.18.619\lib\net451\Simplic.Cache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.14.318.906, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.14.318.906\lib\net451\Simplic.CoreLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Data, Version=1.3.18.101, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.3.18.101\lib\net451\Simplic.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Data.Sql, Version=1.12.18.101, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.Sql.1.12.18.101\lib\net451\Simplic.Data.Sql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,15 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Directory.cs" />
-    <Compile Include="FileStructure.cs" />
-    <Compile Include="IFileStructureService.cs" />
-    <Compile Include="IFileStructureRepository.cs" />
-    <Compile Include="ISyncService.cs" />
+    <Compile Include="SyncService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Simplic.FileStructure\Simplic.FileStructure.csproj">
+      <Project>{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}</Project>
+      <Name>Simplic.FileStructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

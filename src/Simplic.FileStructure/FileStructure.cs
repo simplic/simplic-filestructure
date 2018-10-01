@@ -24,7 +24,7 @@ namespace Simplic.FileStructure
         /// <summary>
         /// Gets or sets whether to use file system sync or not
         /// </summary>
-        public bool UseFileSystemSync
+        public bool UseFileSync
         {
             get;
             set;
