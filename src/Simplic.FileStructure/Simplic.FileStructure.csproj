@@ -68,12 +68,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Directory.cs" />
-    <Compile Include="FileStructure.cs" />
-    <Compile Include="IFileStructureService.cs" />
-    <Compile Include="IFileStructureRepository.cs" />
-    <Compile Include="ISyncService.cs" />
+    <Compile Include="Structure\Directory.cs" />
+    <Compile Include="Structure\FileStructure.cs" />
+    <Compile Include="Structure\FileStructureDocumenPath.cs" />
+    <Compile Include="Structure\IFileStructureService.cs" />
+    <Compile Include="Structure\IFileStructureRepository.cs" />
+    <Compile Include="Sync\ChangeLocation.cs" />
+    <Compile Include="Sync\ChangeType.cs" />
+    <Compile Include="Sync\ISyncQueueRepository.cs" />
+    <Compile Include="Sync\ISyncQueueService.cs" />
+    <Compile Include="Sync\ISyncStorageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sync\ISyncStorageWatcherService.cs" />
+    <Compile Include="Sync\SyncQueueEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

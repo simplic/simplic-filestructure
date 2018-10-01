@@ -9,7 +9,7 @@ namespace Simplic.FileStructure
     /// <summary>
     /// Sync service interface
     /// </summary>
-    public interface ISyncService
+    public interface ISyncStorageService
     {
         /// <summary>
         /// Check whether a file exists or not
@@ -74,5 +74,12 @@ namespace Simplic.FileStructure
         /// <param name="path">Directory</param>
         /// <returns>Hash as string</returns>
         string GetDirectoryHash(string path);
+
+        /// <summary>
+        /// Generate file hash
+        /// </summary>
+        /// <param name="path">File to hash</param>
+        /// <returns>Hash file</returns>
+        string GetFileHash(string path);
     }
 }

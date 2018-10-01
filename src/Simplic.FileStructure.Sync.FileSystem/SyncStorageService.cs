@@ -8,7 +8,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
     /// <summary>
     /// Sync service file system implementation
     /// </summary>
-    public class SyncService : ISyncService
+    public class SyncStorageService : ISyncStorageService
     {
         /// <summary>
         /// Esure that a path is existing
@@ -147,6 +147,25 @@ namespace Simplic.FileStructure.Sync.FileSystem
                 hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
                 hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
             }
+
+            return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
+        }
+
+        /// <summary>
+        /// Generate file hash
+        /// </summary>
+        /// <param name="path">File to hash</param>
+        /// <returns>Hash file</returns>
+        public string GetFileHash(string path)
+        {
+            if (IsFileExisting(path))
+                return "";
+
+            var hashBase = new StringBuilder();
+            var fileInfo = new FileInfo(path);
+            hashBase.Append(path);
+            hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
+            hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
 
             return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
         }
