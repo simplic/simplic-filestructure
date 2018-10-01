@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -48,7 +47,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
         /// <returns>True if the file exists</returns>
         public bool IsFileExisting(string path)
         {
-            return System.IO.File.Exists(path);
+            return File.Exists(path);
         }
 
         /// <summary>
@@ -60,7 +59,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
         {
             try
             {
-                return System.IO.File.ReadAllBytes(path);
+                return File.ReadAllBytes(path);
             }
             catch
             {
@@ -96,7 +95,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
         {
             try
             {
-                System.IO.File.Delete(path);
+                File.Delete(path);
                 return true;
             }
             catch
