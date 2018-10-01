@@ -144,6 +144,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
             {
                 var fileInfo = new FileInfo(file);
                 hashBase.Append(file);
+                hashBase.Append(fileInfo.Length);
                 hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
                 hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
             }
@@ -164,6 +165,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
             var hashBase = new StringBuilder();
             var fileInfo = new FileInfo(path);
             hashBase.Append(path);
+            hashBase.Append(fileInfo.Length);
             hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
             hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
 

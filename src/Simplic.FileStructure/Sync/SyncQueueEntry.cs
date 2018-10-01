@@ -73,5 +73,10 @@ namespace Simplic.FileStructure
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            return $"{Type}@{Location} `{SourcePath}` -> `{TargetPath}` from {CreateDateTime} ({Id})";
+        }
     }
 }

@@ -21,6 +21,6 @@ namespace Simplic.FileStructure
         /// Collect and process changes
         /// </summary>
         /// <returns>True if successfull</returns>
-        bool CollectAndProcess();
+        bool Collect();
     }
 }

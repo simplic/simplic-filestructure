@@ -32,18 +32,23 @@ namespace Simplic.FileStructure
         DeleteFile = 3,
 
         /// <summary>
+        /// File changed
+        /// </summary>
+        FileChanged = 4,
+
+        /// <summary>
         /// Directory created
         /// </summary>
-        NewDirectory = 4,
+        NewDirectory = 5,
 
         /// <summary>
         /// Directory moved
         /// </summary>
-        MoveDirectory = 5,
+        MoveDirectory = 6,
 
         /// <summary>
         /// Directory deleted
         /// </summary>
-        DeleteDirectory = 6
+        DeleteDirectory = 7
     }
 }

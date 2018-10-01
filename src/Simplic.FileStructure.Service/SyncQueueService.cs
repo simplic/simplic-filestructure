@@ -63,6 +63,15 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
+        /// Get all unhandled entries
+        /// </summary>
+        /// <returns>Entries</returns>
+        public IEnumerable<SyncQueueEntry> GetUnhandled()
+        {
+            return GetUnhandled();
+        }
+
+        /// <summary>
         /// Save queue instance to database
         /// </summary>
         /// <param name="obj">Object to save</param>
