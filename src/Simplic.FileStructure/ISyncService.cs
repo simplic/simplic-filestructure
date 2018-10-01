@@ -68,5 +68,11 @@ namespace Simplic.FileStructure
         /// <param name="path">Path to check</param>
         void EnsurePath(string path);
 
+        /// <summary>
+        /// Creates a hash for a directory and its content
+        /// </summary>
+        /// <param name="path">Directory</param>
+        /// <returns>Hash as string</returns>
+        string GetDirectoryHash(string path);
     }
 }
