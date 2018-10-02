@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -145,6 +146,9 @@ namespace Simplic.FileStructure.Sync.FileSystem
             if (!IsDirectoryExisting(path))
                 return "";
 
+            if (path.Length > 246)
+                return $"Path-Too-Long {path}";
+
             var files = GetFiles(path).ToList();
             if (files.Count == 0)
                 return "-";
@@ -152,11 +156,18 @@ namespace Simplic.FileStructure.Sync.FileSystem
             var hashBase = new StringBuilder();
             foreach (var file in files.OrderBy(x => x))
             {
-                var fileInfo = new FileInfo(file);
-                hashBase.Append(file);
-                hashBase.Append(fileInfo.Length);
-                hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
-                hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
+                try
+                {
+                    var fileInfo = new FileInfo(file);
+                    hashBase.Append(fileInfo.Name);
+                    hashBase.Append(fileInfo.Length);
+                    hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
+                    hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
+                }
+                catch (FileNotFoundException)
+                {
+                    return Guid.NewGuid().ToString();
+                }
             }
 
             return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
@@ -172,14 +183,24 @@ namespace Simplic.FileStructure.Sync.FileSystem
             if (!IsFileExisting(path))
                 return "";
 
-            var hashBase = new StringBuilder();
-            var fileInfo = new FileInfo(path);
-            hashBase.Append(fileInfo.Name);
-            hashBase.Append(fileInfo.Length);
-            hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
-            hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
+            if (path.Length > 246)
+                return $"Path-Too-Long {path}";
 
-            return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
+            try
+            {
+                var hashBase = new StringBuilder();
+                var fileInfo = new FileInfo(path);
+                hashBase.Append(fileInfo.Name);
+                hashBase.Append(fileInfo.Length);
+                hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
+                hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());
+
+                return Security.Cryptography.CryptographyHelper.HashSHA256(hashBase.ToString());
+            }
+            catch (FileNotFoundException)
+            {
+                return Guid.NewGuid().ToString();
+            }
         }
     }
 }
