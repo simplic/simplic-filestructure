@@ -135,16 +135,27 @@ namespace Simplic.FileStructure.Sync.FileSystem
         {
             lock (lockObj)
             {
-                if (!IsDirectory(e.FullPath))
+                try
                 {
-                    // Check whether the file has changed
-                    if (storageHashService.GetFileHash(e.Name) != storageHashService.BuildFileHash(e.Name))
+                    if (!IsDirectory(e.FullPath))
                     {
-                        var entry = CreateEntry(e.FullPath, "", e.Name, "", ChangeType.Unknown, ChangeType.FileChanged);
+                        // Check whether the file has changed
+                        if (storageHashService.GetFileHash(e.Name) != storageHashService.BuildFileHash(e.Name))
+                        {
+                            var entry = CreateEntry(e.FullPath, "", e.Name, "", ChangeType.Unknown, ChangeType.FileChanged);
 
-                        if (entry != null)
-                            tempQueue.Add(entry);
+                            if (entry != null)
+                                tempQueue.Add(entry);
+                        }
                     }
+                }
+                catch (FileNotFoundException)
+                {
+                    /* swallow */
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    /* swallow */
                 }
             }
         }
