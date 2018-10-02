@@ -66,6 +66,15 @@ namespace Simplic.FileStructure
         }
 
         /// <summary>
+        /// Gets or sets the file/directory hash
+        /// </summary>
+        public string Hash
+        {
+            get;
+            set;
+        } = "-";
+
+        /// <summary>
         /// Gets or sets whether the change was handled
         /// </summary>
         public bool IsHandled
@@ -76,7 +85,7 @@ namespace Simplic.FileStructure
 
         public override string ToString()
         {
-            return $"{Type}@{Location} `{SourcePath}` -> `{TargetPath}` from {CreateDateTime} ({Id})";
+            return $"{Type}@{Location} `{SourcePath}` -> `{TargetPath}` from {CreateDateTime} ({Hash})";
         }
     }
 }

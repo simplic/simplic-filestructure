@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SyncStorageHashService.cs" />
     <Compile Include="SyncStorageWatcherService.cs" />
     <Compile Include="SyncStorageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

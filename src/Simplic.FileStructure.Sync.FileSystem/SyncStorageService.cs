@@ -20,6 +20,16 @@ namespace Simplic.FileStructure.Sync.FileSystem
         }
 
         /// <summary>
+        /// Get all subdirectories
+        /// </summary>
+        /// <param name="path">Root path</param>
+        /// <returns>Enumerable of paths</returns>
+        public IEnumerable<string> GetAllSubdirectories(string path)
+        {
+            return System.IO.Directory.GetDirectories(path, "*", System.IO.SearchOption.AllDirectories);
+        }
+
+        /// <summary>
         /// Get all files
         /// </summary>
         /// <param name="path">Path to read all bytes from</param>
@@ -132,7 +142,7 @@ namespace Simplic.FileStructure.Sync.FileSystem
         /// <returns>Hash as string</returns>
         public string GetDirectoryHash(string path)
         {
-            if (IsDirectoryExisting(path))
+            if (!IsDirectoryExisting(path))
                 return "";
 
             var files = GetFiles(path).ToList();
@@ -159,12 +169,12 @@ namespace Simplic.FileStructure.Sync.FileSystem
         /// <returns>Hash file</returns>
         public string GetFileHash(string path)
         {
-            if (IsFileExisting(path))
+            if (!IsFileExisting(path))
                 return "";
 
             var hashBase = new StringBuilder();
             var fileInfo = new FileInfo(path);
-            hashBase.Append(path);
+            hashBase.Append(fileInfo.Name);
             hashBase.Append(fileInfo.Length);
             hashBase.Append(fileInfo.LastWriteTime.ToLongDateString());
             hashBase.Append(fileInfo.LastWriteTime.ToLongTimeString());

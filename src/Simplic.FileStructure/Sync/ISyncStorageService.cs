@@ -19,6 +19,13 @@ namespace Simplic.FileStructure
         bool IsFileExisting(string path);
 
         /// <summary>
+        /// Get all subdirectories
+        /// </summary>
+        /// <param name="path">Root path</param>
+        /// <returns>Enumerable of paths</returns>
+        IEnumerable<string> GetAllSubdirectories(string path);
+
+        /// <summary>
         /// Check whether a directory exists or not
         /// </summary>
         /// <param name="path">Path to check</param>
