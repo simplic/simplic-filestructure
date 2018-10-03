@@ -14,7 +14,9 @@ namespace Simplic.FileStructure.UI
     public class FileStructureViewModel : ExtendableViewModel, Studio.UI.IWindowViewModel<FileStructure>
     {
         private ObservableCollection<DirectoryViewModel> directories;
+        private DirectoryViewModel selectedDirectory;
         private FileStructure model;
+
 
         /// <summary>
         /// Create view model
@@ -125,6 +127,23 @@ namespace Simplic.FileStructure.UI
             set
             {
                 PropertySetter(value, (newValue) => { model.IsTemplate = newValue; });
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected directory
+        /// </summary>
+        public DirectoryViewModel SelectedDirectory
+        {
+            get
+            {
+                return selectedDirectory;
+            }
+
+            set
+            {
+                selectedDirectory = value;
+                RaisePropertyChanged(nameof(SelectedDirectory));
             }
         }
     }

@@ -32,6 +32,22 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Simplic.Framework.Base">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Base.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Simplic.Framework.DBUI">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DBUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Simplic.Studio.UI, Version=1.0.18.926, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Studio.UI.1.0.18.926\lib\net451\Simplic.Studio.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Simplic.UI">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -41,19 +57,67 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileStructureControl.xaml.cs">
       <DependentUpon>FileStructureControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\FileStructureDocumentGrid.cs" />
+    <Compile Include="FileStructureWindow.xaml.cs">
+      <DependentUpon>FileStructureWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\DirectoryViewModel.cs" />
+    <Compile Include="ViewModel\FileStructureViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="FileStructureControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FileStructureWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.FileStructure\Simplic.FileStructure.csproj">
+      <Project>{edfbfc8d-6bbe-4c46-bba7-8c3423a52152}</Project>
+      <Name>Simplic.FileStructure</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
