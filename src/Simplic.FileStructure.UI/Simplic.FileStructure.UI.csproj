@@ -98,6 +98,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\FileStructureViewModel.cs" />
+    <Compile Include="ViewModel\IDirectoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="FileStructureControl.xaml">

@@ -12,17 +12,54 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls.TreeView;
+using Telerik.Windows.DragDrop;
 
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
     /// Interaction logic for FileStructureEditor.xaml
     /// </summary>
-    public partial class FileStructureEditor : UserControl
+    public partial class FileStructureControl : UserControl
     {
-        public FileStructureEditor()
+        public FileStructureControl()
         {
             InitializeComponent();
+
+            DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
+        }
+
+        /// <summary>
+        /// Preview drop handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void OnPreviewDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
+        {
+            var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            if (options != null)
+            {
+                var droppedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+                var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
+
+                // Remove from parent
+                (droppedDirectory.Parent as IDirectoryBaseViewModel).Directories.Remove(droppedDirectory);
+
+                // Add to new parent
+                if (targetItem == null)
+                {
+                    droppedDirectory.StructureViewModel.Directories.Add(droppedDirectory);
+                    droppedDirectory.Parent = droppedDirectory.StructureViewModel;
+                }
+                else
+                {
+                    targetItem.Directories.Add(droppedDirectory);
+                    droppedDirectory.Parent = targetItem;
+                }
+
+                // Drag/Drop already done above
+                e.Handled = true;
+            }
         }
     }
 }
