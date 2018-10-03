@@ -34,7 +34,7 @@ namespace FileSystemWatcherTest
             watcher.Initialize(new Simplic.FileStructure.FileStructure
             {
                 UseFileSync = true,
-                SyncPath = @"C:\Users\beggers.SPIEGELBURG\Sources"
+                SyncPath = @"C:\Users\beggers.SPIEGELBURG\Sources\simplic-framework"
             });
             Console.WriteLine("Watching...");
 

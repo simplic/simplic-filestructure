@@ -48,6 +48,24 @@ namespace Simplic.FileStructure
         }
 
         /// <summary>
+        /// Gets or sets the hash in the storage
+        /// </summary>
+        public string StorageHash
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the hash in the file structure
+        /// </summary>
+        public string FileStructureHash
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the path as string
         /// </summary>
         public string Path

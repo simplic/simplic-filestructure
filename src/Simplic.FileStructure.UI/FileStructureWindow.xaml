@@ -1,20 +1,12 @@
-﻿<UserControl x:Class="Simplic.FileStructure.UI.FileStructureEditor"
+﻿<UserControl x:Class="Simplic.FileStructure.UI.FileStructureWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Simplic.FileStructure.UI"
              mc:Ignorable="d" 
-             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".3*" />
-            <ColumnDefinition Width=".7*" />
-        </Grid.ColumnDefinitions>
-
-        <telerik:RadTreeView x:Name="directoryTreeView" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Directories}">
             
-        </telerik:RadTreeView>
     </Grid>
 </UserControl>

@@ -83,6 +83,10 @@ namespace Simplic.FileStructure
             set;
         }
 
+        /// <summary>
+        /// Get entry as readable string
+        /// </summary>
+        /// <returns>Entry as string</returns>
         public override string ToString()
         {
             return $"{Type}@{Location} `{SourcePath}` -> `{TargetPath}` from {CreateDateTime} ({Hash})";
