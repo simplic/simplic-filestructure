@@ -8,17 +8,11 @@
              xmlns:local="clr-namespace:Simplic.FileStructure.UI"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <DataTemplate x:Key="ObjectItem">
-            <StackPanel Orientation="Horizontal">
-                <!-- <Image Source="{Binding ImageUrl, Mode=OneWay}" Width="16" Height="16" Margin="0,0,3,0"/> -->
-                <TextBlock Text="{Binding Name}" />
-            </StackPanel>
-        </DataTemplate>
         <HierarchicalDataTemplate x:Key="ExplorerItem"
            ItemsSource="{Binding Directories}">
             <StackPanel Orientation="Horizontal">
                 <!--<Image Source="{Binding ImageUrl, Mode=OneWay}" Width="16" Height="16" Margin="0,0,3,0"/> -->
-                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
             </StackPanel>
         </HierarchicalDataTemplate>
     </UserControl.Resources>
@@ -31,7 +25,8 @@
         <telerik:RadTreeView ItemTemplate="{StaticResource ExplorerItem}" x:Name="directoryTreeView" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Directories}"
                              SelectionMode="Single" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"						
                              IsDragDropEnabled="True"
-						     IsDropPreviewLineEnabled="True">
+						     IsDropPreviewLineEnabled="True"
+                             IsEditable="True">
             <telerik:RadContextMenu.ContextMenu>
                 <telerik:RadContextMenu>
                     <telerik:RadMenuItem Header="filestructure_add_directory" Command="{Binding AddDirectoryCommand}">

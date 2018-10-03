@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Simplic.FileStructure.UI
@@ -49,6 +50,7 @@ namespace Simplic.FileStructure.UI
                 }
 
                 SelectedDirectory = directoryViewModel;
+                RawDirectories.Add(directoryViewModel);
             });
 
             removeDirectoryCommand = new RelayCommand((e) =>
@@ -84,6 +86,29 @@ namespace Simplic.FileStructure.UI
                 rawDirectories.Add(directoryViewModel);
                 directoryViewModel.LoadChildren(directory, model.Directories);
             }
+        }
+
+        /// <summary>
+        /// Get structure instance
+        /// </summary>
+        /// <returns>Structure instance</returns>
+        public FileStructure GetStructure()
+        {
+            model.Directories.Clear();
+            foreach (var directory in rawDirectories)
+            {
+                // Reset parent directory
+                directory.Model.Parent = null;
+
+                // Set parent
+                var parent = directory.Parent;
+                if (parent is DirectoryViewModel)
+                    directory.Model.Parent = (parent as DirectoryViewModel).Model;
+
+                model.Directories.Add(directory.Model);
+            }
+
+            return model;
         }
 
         /// <summary>

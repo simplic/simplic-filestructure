@@ -57,6 +57,9 @@ namespace Simplic.FileStructure.UI
                     droppedDirectory.Parent = targetItem;
                 }
 
+                // Reset selected item
+                droppedDirectory.StructureViewModel.SelectedDirectory = droppedDirectory;
+
                 // Drag/Drop already done above
                 e.Handled = true;
             }

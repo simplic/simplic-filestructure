@@ -1,7 +1,9 @@
-﻿using Simplic.FileStructure;
+﻿using Newtonsoft.Json;
+using Simplic.FileStructure;
 using Simplic.FileStructure.UI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,26 +24,34 @@ namespace FileStructureDirectoryDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        private JsonSerializerSettings jsonSettings;
         public MainWindow()
         {
+            jsonSettings = new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+
             InitializeComponent();
 
             var viewModel = new FileStructureViewModel();
 
             var structure = new FileStructure();
-            structure.Directories.Add(new Directory()
+
+            if (File.Exists("Sample.json"))
             {
-                Name = "Root 1"
-            });
-
-            structure.Directories.Add(new Directory() { Name = "Root 2" });
-
-            structure.Directories.Add(new Directory() { Name = "Sub 1 1", Parent = structure.Directories[0] });
-            structure.Directories.Add(new Directory() { Name = "Sub 1 2", Parent = structure.Directories[2] });
+                structure = JsonConvert.DeserializeObject<FileStructure>(File.ReadAllText("Sample.json"), jsonSettings);
+            }
 
             viewModel.Initialize(structure);
             
             DataContext = viewModel;
+
+            this.Closed += (s, e) => 
+            {
+                File.WriteAllText("Sample.json", JsonConvert.SerializeObject(viewModel.GetStructure(), jsonSettings));
+            };
         }
     }
 }

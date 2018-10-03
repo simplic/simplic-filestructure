@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Simplic.UI.MVC;
+using System.Windows.Data;
 
 namespace Simplic.FileStructure.UI
 {
@@ -25,6 +26,7 @@ namespace Simplic.FileStructure.UI
         public DirectoryViewModel(Directory model, FileStructureViewModel structureViewModel)
         {
             directories = new ObservableCollection<DirectoryViewModel>();
+
             this.structureViewModel = structureViewModel;
             this.model = model;
         }
@@ -91,6 +93,8 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
+                model.Name = value;
+                RaisePropertyChanged(nameof(Name));
                 // PropertySetter(value, (newValue) => { model.Name = newValue; });
             }
         }
