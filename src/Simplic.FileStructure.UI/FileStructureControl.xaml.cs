@@ -28,6 +28,7 @@ namespace Simplic.FileStructure.UI
         {
             InitializeComponent();
 
+            // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.Framework.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Simplic.FileStructure.UI
     /// <summary>
     /// Interaction logic for FileStructureWindow.xaml
     /// </summary>
-    public partial class FileStructureWindow : UserControl
+    public partial class FileStructureWindow : DefaultRibbonWindow
     {
         public FileStructureWindow()
         {

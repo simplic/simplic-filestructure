@@ -32,6 +32,10 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Simplic.CoreLib, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.0.18.619\lib\net451\Simplic.CoreLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Simplic.Framework.Base">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Base.dll</HintPath>
       <Private>False</Private>
@@ -39,6 +43,20 @@
     <Reference Include="Simplic.Framework.DBUI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DBUI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Simplic.Icon, Version=6.0.18.620, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Icon.6.0.18.620\lib\net451\Simplic.Icon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Icon.UI">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Icon.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Localization.UI">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Localization.UI.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Studio.UI, Version=1.0.18.926, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Studio.UI.1.0.18.926\lib\net451\Simplic.Studio.UI.dll</HintPath>
@@ -125,7 +143,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="package.bat" />
     <None Include="packages.config" />
+    <None Include="Simplic.FileStructure.UI.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

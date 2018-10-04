@@ -23,6 +23,8 @@ namespace Simplic.FileStructure.UI
         private FileStructure model;
         private ICommand addDirectoryCommand;
         private ICommand removeDirectoryCommand;
+        private ICommand archiveFromClipboard;
+        private ICommand archiveFromScanner;
 
         /// <summary>
         /// Create view model
@@ -270,6 +272,38 @@ namespace Simplic.FileStructure.UI
             get
             {
                 return rawDirectories;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the archive from clipboard command
+        /// </summary>
+        public ICommand ArchiveFromClipboard
+        {
+            get
+            {
+                return archiveFromClipboard;
+            }
+
+            set
+            {
+                archiveFromClipboard = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the archive from scanner command
+        /// </summary>
+        public ICommand ArchiveFromScanner
+        {
+            get
+            {
+                return archiveFromScanner;
+            }
+
+            set
+            {
+                archiveFromScanner = value;
             }
         }
     }
