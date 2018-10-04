@@ -41,6 +41,8 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         public FileStructureDocumentGrid()
         {
+            LoadConfiguration("Grid_Document_FileStructure");
+
             // Profile changed
             SelectedProfileChanged += (s, e) =>
             {
