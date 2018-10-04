@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.TreeView;
 using Telerik.Windows.DragDrop;
 
@@ -37,6 +39,8 @@ namespace Simplic.FileStructure.UI
         private static void OnPreviewDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
         {
             var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            var treeView = sender as Telerik.Windows.Controls.RadTreeView;
+
             if (options != null)
             {
                 var droppedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
@@ -59,6 +63,17 @@ namespace Simplic.FileStructure.UI
 
                 // Reset selected item
                 droppedDirectory.StructureViewModel.SelectedDirectory = droppedDirectory;
+
+                treeView.Dispatcher.BeginInvoke(new Action(() => {
+                    var treeViewItem = treeView.ContainerFromItemRecursive(droppedDirectory);
+
+                    // TODO: This is null, don't know why
+                    if (treeViewItem != null)
+                    {
+                        treeViewItem.Focus();
+                        Keyboard.Focus(treeViewItem);
+                    }
+                }), DispatcherPriority.Normal);
 
                 // Drag/Drop already done above
                 e.Handled = true;

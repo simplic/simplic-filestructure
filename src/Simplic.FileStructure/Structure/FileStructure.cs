@@ -22,6 +22,15 @@ namespace Simplic.FileStructure
         } = Guid.NewGuid();
 
         /// <summary>
+        /// Gets or sets the connected instancedata guid
+        /// </summary>
+        public Guid? InstanceDataGuid
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets whether to use file system sync or not
         /// </summary>
         public bool UseFileSync
