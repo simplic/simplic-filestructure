@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.FileStructure
 {
@@ -60,6 +56,16 @@ namespace Simplic.FileStructure
         /// Gets or sets the hash in the file structure
         /// </summary>
         public string FileStructureHash
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets whether this document path is the main/primary document path.
+        /// Between a document and a file structure only one primary path possible
+        /// </summary>
+        public bool IsPrimaryPath
         {
             get;
             set;
