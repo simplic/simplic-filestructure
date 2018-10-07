@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Simplic.UI.MVC;
 using System.Windows.Data;
+using System.IO;
 
 namespace Simplic.FileStructure.UI
 {
@@ -93,8 +94,23 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(value) || value.Contains("\\") || value.Contains("/"))
+                        throw new Exception();
+
+                    // Demo path
+                    Path.GetFullPath($"C:\\{value}");
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show("invalid_path_messagebox", "invalid_path_messagebox_title", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                    return;
+                }
+
                 model.Name = value;
                 RaisePropertyChanged(nameof(Name));
+                structureViewModel.RaisePropertyChanged("SelectedPath");
                 // PropertySetter(value, (newValue) => { model.Name = newValue; });
             }
         }

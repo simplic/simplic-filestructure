@@ -58,6 +58,13 @@ namespace Simplic.FileStructure.UI
                 }
                 else
                 {
+                    // Disable drag and drop over the same item
+                    if (targetItem.Model.Id == droppedDirectory.Model.Id)
+                    {
+                        e.Handled = false;
+                        return;
+                    }
+
                     targetItem.Directories.Add(droppedDirectory);
                     droppedDirectory.Parent = targetItem;
                 }

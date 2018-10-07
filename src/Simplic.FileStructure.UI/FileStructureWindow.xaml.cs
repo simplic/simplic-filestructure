@@ -24,6 +24,21 @@ namespace Simplic.FileStructure.UI
         public FileStructureWindow()
         {
             InitializeComponent();
+
+            var viewModel = new FileStructureViewModel();
+            var structure = new FileStructure();
+
+            viewModel.Initialize(structure);
+
+            DataContext = viewModel;
+        }
+
+        public static void ShowSame()
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                var d = new FileStructureWindow();
+                d.Show();
+            }));
         }
     }
 }

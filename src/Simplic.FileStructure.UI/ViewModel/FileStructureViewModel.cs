@@ -25,13 +25,14 @@ namespace Simplic.FileStructure.UI
         private ICommand removeDirectoryCommand;
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
+        private string selectedPath;
 
         /// <summary>
         /// Create view model
         /// </summary>
         public FileStructureViewModel()
         {
-            addDirectoryCommand = new RelayCommand((e) => 
+            addDirectoryCommand = new RelayCommand((e) =>
             {
                 var directory = new Directory();
                 directory.Name = "new_directory_name";
@@ -59,7 +60,7 @@ namespace Simplic.FileStructure.UI
             {
                 if (SelectedDirectory != null)
                 {
-                    SelectedDirectory.RemoveDirectory();                   
+                    SelectedDirectory.RemoveDirectory();
 
                     SelectedDirectory = null;
                 }
@@ -213,6 +214,7 @@ namespace Simplic.FileStructure.UI
             {
                 selectedDirectory = value;
                 RaisePropertyChanged(nameof(SelectedDirectory));
+                RaisePropertyChanged(nameof(SelectedPath));
             }
         }
 
@@ -304,6 +306,34 @@ namespace Simplic.FileStructure.UI
             set
             {
                 archiveFromScanner = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected path
+        /// </summary>
+        public string SelectedPath
+        {
+            get
+            {
+                if (SelectedDirectory == null)
+                    selectedPath = "/";
+
+                var parent = SelectedDirectory.Parent as DirectoryViewModel;
+                selectedPath = $"/{SelectedDirectory.Name}";
+
+                while (parent != null)
+                {
+                    selectedPath = $"/{parent.Name}" + selectedPath;
+                    parent = parent.Parent as DirectoryViewModel;
+                }
+
+                return selectedPath;
+            }
+
+            set
+            {
+                selectedPath = value;
             }
         }
     }

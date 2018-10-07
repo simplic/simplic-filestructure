@@ -5,14 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
     /// Grid which will be shown next to the file structure treeview
     /// </summary>
-    public class FileStructureDocumentGrid : IntegratedGridView
+    public class FileStructureDocumentGrid : UserControl
     {
+        private IntegratedGridView integratedGridView;
+        private Guid lastDirectoryId;
+
         /// <summary>
         /// Directory id binding property
         /// </summary>
@@ -29,8 +33,20 @@ namespace Simplic.FileStructure.UI
             var grid = d as FileStructureDocumentGrid;
             if (grid.isLoaded)
             {
-                grid.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", e.NewValue.ToString());
-                grid.RefreshData();
+                if (grid.lastDirectoryId != (Guid)e.NewValue && (Guid)e.NewValue != Guid.Empty)
+                {
+                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", e.NewValue.ToString());
+                    grid.integratedGridView.RefreshData();
+
+                    grid.lastDirectoryId = (Guid)e.NewValue;
+                }
+                if ((Guid)e.NewValue == Guid.Empty)
+                {
+                    grid.integratedGridView.CancelLoading();
+                    grid.integratedGridView.EmbeddedGridView.Clear();
+
+                    grid.lastDirectoryId = (Guid)e.NewValue;
+                }
             }
         }
 
@@ -41,12 +57,16 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         public FileStructureDocumentGrid()
         {
-            LoadConfiguration("Grid_Document_FileStructure");
+            integratedGridView = new IntegratedGridView();
+            Content = integratedGridView;
+
+            integratedGridView.LoadConfiguration("Grid_Document_FileStructure");
 
             // Profile changed
-            SelectedProfileChanged += (s, e) =>
+            integratedGridView.SelectedProfileChanged += (s, e) =>
             {
-                EmbeddedGridView?.SetPlaceholder("[DirectoryId]", DirectoryId.ToString());
+                lastDirectoryId = DirectoryId;
+                integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", DirectoryId.ToString());
             };
 
             // Control loaded
@@ -54,7 +74,6 @@ namespace Simplic.FileStructure.UI
             {
                 if (!isLoaded)
                 {
-                    this.RefreshData();
                     isLoaded = true;
                 }
             };

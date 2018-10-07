@@ -18,14 +18,21 @@
         </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".3*" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width=".7*" />
         </Grid.ColumnDefinitions>
 
-        <telerik:RadTreeView ItemTemplate="{StaticResource ExplorerItem}" x:Name="directoryTreeView" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Directories}"
+        <simplic:TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding SelectedPath}" IsReadOnly="True" />
+
+        <telerik:RadTreeView ItemTemplate="{StaticResource ExplorerItem}" x:Name="directoryTreeView" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Directories}"
                              SelectionMode="Single" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"						
-                             IsDragDropEnabled="True"
+                             IsDragDropEnabled="True" Margin="2"
 						     IsDropPreviewLineEnabled="True"
                              IsEditable="True">
             <telerik:RadContextMenu.ContextMenu>
@@ -54,6 +61,14 @@
             </telerik:RadContextMenu.ContextMenu>
         </telerik:RadTreeView>
 
-        <!-- <local:FileStructureDocumentGrid x:Name="documentGrid" Grid.Column="1" Grid.Row="0" /> -->
+        <GridSplitter Grid.Column="1" Grid.Row="1"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Stretch"
+              Background="LightBlue" 
+              ShowsPreview="True"
+              Width="4"
+              />
+        
+        <local:FileStructureDocumentGrid Margin="2" x:Name="documentGrid" Grid.Column="2" Grid.Row="1" DirectoryId="{Binding SelectedDirectory.Model.Id}" />
     </Grid>
 </UserControl>
