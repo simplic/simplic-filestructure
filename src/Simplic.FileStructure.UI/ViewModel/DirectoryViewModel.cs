@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using Simplic.UI.MVC;
 using System.Windows.Data;
 using System.IO;
+using Simplic.Localization;
 
 namespace Simplic.FileStructure.UI
 {
@@ -19,6 +20,7 @@ namespace Simplic.FileStructure.UI
         private ObservableCollection<DirectoryViewModel> directories;
         private Directory model;
         private FileStructureViewModel structureViewModel;
+        private ILocalizationService localizationService;
 
         /// <summary>
         /// Initialize viewmodel
@@ -26,6 +28,8 @@ namespace Simplic.FileStructure.UI
         /// <param name="model"></param>
         public DirectoryViewModel(Directory model, FileStructureViewModel structureViewModel)
         {
+            localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
+
             directories = new ObservableCollection<DirectoryViewModel>();
 
             this.structureViewModel = structureViewModel;
@@ -104,8 +108,19 @@ namespace Simplic.FileStructure.UI
                 }
                 catch
                 {
-                    System.Windows.MessageBox.Show("invalid_path_messagebox", "invalid_path_messagebox_title", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                    System.Windows.MessageBox.Show(localizationService.Translate("invalid_path_messagebox"), localizationService.Translate("invalid_path_messagebox_title"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                     return;
+                }
+
+                // Check whether a directory with the same name already exists on the same level
+                if (Parent is IDirectoryBaseViewModel && Parent != null)
+                {
+                    var directoryParent = Parent as IDirectoryBaseViewModel;
+                    if (directoryParent.Directories.Any(x => x.Name?.ToLower() == value?.ToLower() && x != this))
+                    {
+                        System.Windows.MessageBox.Show(localizationService.Translate("fs_directory_already_exists"), localizationService.Translate("fs_directory_already_exists_title"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                        return;
+                    }
                 }
 
                 PropertySetter(value, (newValue) => { model.Name = newValue; });

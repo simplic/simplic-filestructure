@@ -35,7 +35,7 @@
                 <telerik:RadTreeView ItemTemplate="{StaticResource ExplorerItem}" x:Name="directoryTreeView" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Directories}"
                              SelectionMode="Single" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"						
                              IsDragDropEnabled="True" Margin="2"
-						     IsDropPreviewLineEnabled="True"
+						     IsDropPreviewLineEnabled="False"
                              IsEditable="True"
                              PreviewMouseDown="TreeViewMouseDown">
                     <telerik:RadContextMenu.ContextMenu>

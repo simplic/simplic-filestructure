@@ -44,6 +44,9 @@ namespace Simplic.FileStructure.UI
                 var directory = new Directory();
                 directory.Name = localizationService.Translate("fs_new_directory_name");
 
+                // Save child directory list
+                ObservableCollection<DirectoryViewModel> childrenDirectory = null;
+
                 var directoryViewModel = new DirectoryViewModel(directory, this)
                 {
                     Parent = SelectedDirectory as IViewModelBase ?? this
@@ -52,15 +55,29 @@ namespace Simplic.FileStructure.UI
                 if (SelectedDirectory == null)
                 {
                     Directories.Add(directoryViewModel);
+                    childrenDirectory = Directories;
                 }
                 else
                 {
                     directory.Parent = SelectedDirectory.Model;
                     SelectedDirectory.Directories.Add(directoryViewModel);
+
+                    childrenDirectory = SelectedDirectory.Directories;
                 }
 
                 SelectedDirectory = directoryViewModel;
                 RawDirectories.Add(directoryViewModel);
+
+                // Check if directory is already existing
+                var currentName = directoryViewModel.Name;
+                int nameCounter = 1;
+                while (childrenDirectory.Any(x => x.Name?.ToLower() == currentName.ToLower() && x != directoryViewModel))
+                {
+                    currentName = $"{directoryViewModel.Name} {nameCounter}";
+                    nameCounter++;
+                }
+
+                directoryViewModel.Name = currentName;
 
                 // Expand parent
                 if (container?.IsExpanded != null)

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Simplic.Localization;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +26,20 @@ namespace Simplic.FileStructure.UI
     /// </summary>
     public partial class FileStructureControl : UserControl
     {
+        private static ILocalizationService localizationService;
+
         public FileStructureControl()
         {
             InitializeComponent();
 
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
+            DragDropManager.AddDragOverHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnDragOver), true);
 
             EventManager.RegisterClassHandler(typeof(RadTreeViewItem), Mouse.MouseDownEvent, new MouseButtonEventHandler(OnTreeViewItemMouseDown), false);
+
+            if (localizationService == null)
+                localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
         }
 
         /// <summary>
@@ -49,6 +57,47 @@ namespace Simplic.FileStructure.UI
                 // Expand item
                 treeViewitem.IsExpanded = true;
                 e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Drag over handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void OnDragOver(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
+        {
+            var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            if (options != null)
+            {
+                var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+                var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
+
+                ObservableCollection<DirectoryViewModel> childDirectoryList;
+
+                // Add to new parent
+                if (targetItem == null)
+                {
+                    childDirectoryList = draggedDirectory.StructureViewModel.Directories;
+                }
+                else
+                {
+                    childDirectoryList = targetItem.Directories;
+                }
+
+                if (targetItem == draggedDirectory || childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
+                {
+                    options.DropAction = DropAction.None;
+                    e.Effects = DragDropEffects.None;
+                    options.UpdateDragVisual();
+                }
+                else
+                {
+                    options.DropAction = DropAction.Move;
+                    options.DropPosition = DropPosition.Inside;
+                    e.Effects = DragDropEffects.Move;
+                    options.UpdateDragVisual();
+                }
             }
         }
 
@@ -97,7 +146,7 @@ namespace Simplic.FileStructure.UI
 
                 treeView.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    var treeViewItem = treeView.ContainerFromItemRecursive(droppedDirectory);
+                    var treeViewItem = GetTreeViewItem(treeView, droppedDirectory);
 
                     // TODO: This is null, don't know why
                     if (treeViewItem != null)
@@ -110,6 +159,44 @@ namespace Simplic.FileStructure.UI
                 // Drag/Drop already done above
                 e.Handled = true;
             }
+        }
+
+        /// <summary>
+        /// Get treeview item by data context
+        /// </summary>
+        /// <param name="treeView">Treeview instance</param>
+        /// <param name="viewModel">Datacontext of the treeview</param>
+        /// <returns>Tree view item if found</returns>
+        private static RadTreeViewItem GetTreeViewItem(RadTreeView treeView, DirectoryViewModel viewModel)
+        {
+            var items = GetAllItemContainers(treeView);
+            return items.FirstOrDefault(x => x.DataContext == viewModel);
+        }
+
+        /// <summary>
+        /// Get a collection of rad tree view items.
+        /// </summary>
+        /// <param name="itemsControl"></param>
+        /// <returns></returns>
+        private static Collection<RadTreeViewItem> GetAllItemContainers(ItemsControl itemsControl)
+        {
+            Collection<RadTreeViewItem> allItems = new Collection<RadTreeViewItem>();
+            for (int i = 0; i < itemsControl.Items.Count; i++)
+            {
+                // try to get the item Container  
+                RadTreeViewItem childItemContainer = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as RadTreeViewItem;
+                // the item container maybe null if it is still not generated from the runtime  
+                if (childItemContainer != null)
+                {
+                    allItems.Add(childItemContainer);
+                    Collection<RadTreeViewItem> childItems = GetAllItemContainers(childItemContainer);
+                    foreach (RadTreeViewItem childItem in childItems)
+                    {
+                        allItems.Add(childItem);
+                    }
+                }
+            }
+            return allItems;
         }
 
         /// <summary>
