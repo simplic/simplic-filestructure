@@ -14,7 +14,7 @@ namespace Simplic.FileStructure.UI
     /// <summary>
     /// Directory viewmodel
     /// </summary>
-    public class DirectoryViewModel : ViewModelBase, IDirectoryBaseViewModel
+    public class DirectoryViewModel : ExtendableViewModel, IDirectoryBaseViewModel
     {
         private ObservableCollection<DirectoryViewModel> directories;
         private Directory model;
@@ -99,7 +99,7 @@ namespace Simplic.FileStructure.UI
                     if (string.IsNullOrWhiteSpace(value) || value.Contains("\\") || value.Contains("/"))
                         throw new Exception();
 
-                    // Demo path
+                    // Demo path, to check whether the path is correct
                     Path.GetFullPath($"C:\\{value}");
                 }
                 catch
@@ -108,10 +108,8 @@ namespace Simplic.FileStructure.UI
                     return;
                 }
 
-                model.Name = value;
-                RaisePropertyChanged(nameof(Name));
+                PropertySetter(value, (newValue) => { model.Name = newValue; });
                 structureViewModel.RaisePropertyChanged("SelectedPath");
-                // PropertySetter(value, (newValue) => { model.Name = newValue; });
             }
         }
 
@@ -141,13 +139,5 @@ namespace Simplic.FileStructure.UI
                 return structureViewModel;
             }
         }
-
-        // public override Uri ImageUrl
-        // {
-        //     get
-        //     {
-        //         return null;
-        //     }
-        // }
     }
 }

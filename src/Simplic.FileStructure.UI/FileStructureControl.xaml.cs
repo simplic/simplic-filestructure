@@ -30,6 +30,26 @@ namespace Simplic.FileStructure.UI
 
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
+
+            EventManager.RegisterClassHandler(typeof(RadTreeViewItem), Mouse.MouseDownEvent, new MouseButtonEventHandler(OnTreeViewItemMouseDown), false);
+        }
+
+        /// <summary>
+        /// Item mouse down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal static void OnTreeViewItemMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var treeViewitem = sender as RadTreeViewItem;
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                treeViewitem.IsSelected = true;
+
+                // Expand item
+                treeViewitem.IsExpanded = true;
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -67,12 +87,16 @@ namespace Simplic.FileStructure.UI
 
                     targetItem.Directories.Add(droppedDirectory);
                     droppedDirectory.Parent = targetItem;
+
+                    // Expand target item
+                    options.DropTargetItem.IsExpanded = true;
                 }
 
                 // Reset selected item
                 droppedDirectory.StructureViewModel.SelectedDirectory = droppedDirectory;
 
-                treeView.Dispatcher.BeginInvoke(new Action(() => {
+                treeView.Dispatcher.BeginInvoke(new Action(() =>
+                {
                     var treeViewItem = treeView.ContainerFromItemRecursive(droppedDirectory);
 
                     // TODO: This is null, don't know why
@@ -85,6 +109,41 @@ namespace Simplic.FileStructure.UI
 
                 // Drag/Drop already done above
                 e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Preview mouse down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TreeViewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right && !(e.OriginalSource is Image) && !(e.OriginalSource is TextBlock))
+            {
+                ViewModel.SelectedDirectory = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current datacontext as <see cref="FileStructureViewModel"/>
+        /// </summary>
+        public FileStructureViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as FileStructureViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Gets the directory tree view
+        /// </summary>
+        public RadTreeView DirectoryTreeView
+        {
+            get
+            {
+                return directoryTreeView;
             }
         }
     }

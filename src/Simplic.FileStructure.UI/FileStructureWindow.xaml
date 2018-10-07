@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Simplic.FileStructure.UI" WindowStartupLocation="CenterOwner"
-             Height="768" Width="1024"
-             mc:Ignorable="d" Title="filestructure_window" LayoutContext="Win_FileStructureWindow"
+             Height="768" Width="1124"
+             mc:Ignorable="d" Title="{simplic:Localization Key=filestructure_window}" LayoutContext="Win_FileStructureWindow"
              xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

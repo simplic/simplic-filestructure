@@ -25,7 +25,7 @@ namespace Simplic.FileStructure.UI
         {
             InitializeComponent();
 
-            var viewModel = new FileStructureViewModel();
+            var viewModel = new FileStructureViewModel(fileStructureControl.DirectoryTreeView);
             var structure = new FileStructure();
 
             viewModel.Initialize(structure);

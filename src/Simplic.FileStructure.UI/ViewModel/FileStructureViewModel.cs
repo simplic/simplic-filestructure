@@ -1,4 +1,5 @@
 ﻿using Simplic.Framework.UI;
+using Simplic.Localization;
 using Simplic.UI.MVC;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -14,7 +16,7 @@ namespace Simplic.FileStructure.UI
     /// <summary>
     /// File structure editor viewmodel
     /// </summary>
-    public class FileStructureViewModel : ViewModelBase, Studio.UI.IWindowViewModel<FileStructure>, IDirectoryBaseViewModel
+    public class FileStructureViewModel : ExtendableViewModel, Studio.UI.IWindowViewModel<FileStructure>, IDirectoryBaseViewModel
     {
         private ObservableCollection<DirectoryViewModel> directories;
         private IList<DirectoryViewModel> rawDirectories;
@@ -26,16 +28,21 @@ namespace Simplic.FileStructure.UI
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
         private string selectedPath;
+        private ILocalizationService localizationService;
 
         /// <summary>
         /// Create view model
         /// </summary>
-        public FileStructureViewModel()
+        public FileStructureViewModel(Telerik.Windows.Controls.RadTreeView directoryTreeView)
         {
+            localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
+
             addDirectoryCommand = new RelayCommand((e) =>
             {
+                var container = directoryTreeView.SelectedContainer;
+
                 var directory = new Directory();
-                directory.Name = "new_directory_name";
+                directory.Name = localizationService.Translate("fs_new_directory_name");
 
                 var directoryViewModel = new DirectoryViewModel(directory, this)
                 {
@@ -54,6 +61,10 @@ namespace Simplic.FileStructure.UI
 
                 SelectedDirectory = directoryViewModel;
                 RawDirectories.Add(directoryViewModel);
+
+                // Expand parent
+                if (container?.IsExpanded != null)
+                    container.IsExpanded = true;
             });
 
             removeDirectoryCommand = new RelayCommand((e) =>
@@ -136,7 +147,7 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
-                // PropertySetter(value, (newValue) => { model.UseFileSync = newValue; });
+                PropertySetter(value, (newValue) => { model.UseFileSync = newValue; });
             }
         }
 
@@ -151,7 +162,7 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
-                // PropertySetter(value, (newValue) => { model.SyncHash = newValue; });
+                PropertySetter(value, (newValue) => { model.SyncHash = newValue; });
             }
         }
 
@@ -166,7 +177,7 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
-                // PropertySetter(value, (newValue) => { model.SyncPath = newValue; });
+                PropertySetter(value, (newValue) => { model.SyncPath = newValue; });
             }
         }
 
@@ -181,7 +192,7 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
-                // PropertySetter(value, (newValue) => { model.Name = newValue; });
+                PropertySetter(value, (newValue) => { model.Name = newValue; });
             }
         }
 
@@ -196,7 +207,8 @@ namespace Simplic.FileStructure.UI
             }
             set
             {
-                // PropertySetter(value, (newValue) => { model.IsTemplate = newValue; });
+                PropertySetter(value, (newValue) => { model.IsTemplate = newValue; });
+                RaisePropertyChanged(nameof(SettingVisibility));
             }
         }
 
@@ -319,7 +331,7 @@ namespace Simplic.FileStructure.UI
                 if (SelectedDirectory == null)
                     selectedPath = "/";
 
-                var parent = SelectedDirectory.Parent as DirectoryViewModel;
+                var parent = SelectedDirectory?.Parent as DirectoryViewModel;
                 selectedPath = $"/{SelectedDirectory.Name}";
 
                 while (parent != null)
@@ -334,6 +346,17 @@ namespace Simplic.FileStructure.UI
             set
             {
                 selectedPath = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a visibility falg based on <see cref="IsTemplate"/>
+        /// </summary>
+        public Visibility SettingVisibility
+        {
+            get
+            {
+                return IsTemplate ? Visibility.Collapsed : Visibility.Visible;
             }
         }
     }
