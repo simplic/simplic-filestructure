@@ -127,13 +127,6 @@ namespace Simplic.FileStructure.UI
                 }
                 else
                 {
-                    // Disable drag and drop over the same item
-                    if (targetItem.Model.Id == droppedDirectory.Model.Id)
-                    {
-                        e.Handled = false;
-                        return;
-                    }
-
                     targetItem.Directories.Add(droppedDirectory);
                     droppedDirectory.Parent = targetItem;
 
@@ -144,59 +137,11 @@ namespace Simplic.FileStructure.UI
                 // Reset selected item
                 droppedDirectory.StructureViewModel.SelectedDirectory = droppedDirectory;
 
-                treeView.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    var treeViewItem = GetTreeViewItem(treeView, droppedDirectory);
-
-                    // TODO: This is null, don't know why
-                    if (treeViewItem != null)
-                    {
-                        treeViewItem.Focus();
-                        Keyboard.Focus(treeViewItem);
-                    }
-                }), DispatcherPriority.Normal);
-
                 // Drag/Drop already done above
-                e.Handled = true;
+                // So cancel it internally, to prevent from adding new items twice
+                options.DropAction = DropAction.None;
+                e.Effects = DragDropEffects.None;
             }
-        }
-
-        /// <summary>
-        /// Get treeview item by data context
-        /// </summary>
-        /// <param name="treeView">Treeview instance</param>
-        /// <param name="viewModel">Datacontext of the treeview</param>
-        /// <returns>Tree view item if found</returns>
-        private static RadTreeViewItem GetTreeViewItem(RadTreeView treeView, DirectoryViewModel viewModel)
-        {
-            var items = GetAllItemContainers(treeView);
-            return items.FirstOrDefault(x => x.DataContext == viewModel);
-        }
-
-        /// <summary>
-        /// Get a collection of rad tree view items.
-        /// </summary>
-        /// <param name="itemsControl"></param>
-        /// <returns></returns>
-        private static Collection<RadTreeViewItem> GetAllItemContainers(ItemsControl itemsControl)
-        {
-            Collection<RadTreeViewItem> allItems = new Collection<RadTreeViewItem>();
-            for (int i = 0; i < itemsControl.Items.Count; i++)
-            {
-                // try to get the item Container  
-                RadTreeViewItem childItemContainer = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as RadTreeViewItem;
-                // the item container maybe null if it is still not generated from the runtime  
-                if (childItemContainer != null)
-                {
-                    allItems.Add(childItemContainer);
-                    Collection<RadTreeViewItem> childItems = GetAllItemContainers(childItemContainer);
-                    foreach (RadTreeViewItem childItem in childItems)
-                    {
-                        allItems.Add(childItem);
-                    }
-                }
-            }
-            return allItems;
         }
 
         /// <summary>
