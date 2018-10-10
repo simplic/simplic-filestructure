@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Structure\Directory.cs" />
+    <Compile Include="Structure\DirectoryType.cs" />
     <Compile Include="Structure\FileStructure.cs" />
     <Compile Include="Structure\FileStructureDocumenPath.cs" />
     <Compile Include="Structure\IFileStructureDocumentPathRepository.cs" />

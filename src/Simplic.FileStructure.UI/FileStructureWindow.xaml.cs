@@ -21,22 +21,37 @@ namespace Simplic.FileStructure.UI
     /// </summary>
     public partial class FileStructureWindow : DefaultRibbonWindow
     {
+        /// <summary>
+        /// Initialize file structure window
+        /// </summary>
         public FileStructureWindow()
         {
             InitializeComponent();
 
-            var viewModel = new FileStructureViewModel(fileStructureControl.DirectoryTreeView);
-            var structure = new FileStructure();
+            AllowPaging = false;
+        }
 
-            viewModel.Initialize(structure);
+        /// <summary>
+        /// Initialize file structure window
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        public void Initialize(FileStructure fileStructure)
+        {
+            var viewModel = new FileStructureViewModel(fileStructureControl.DirectoryTreeView);
+
+            viewModel.Initialize(fileStructure);
 
             DataContext = viewModel;
         }
 
-        public static void ShowSame()
+        /// <summary>
+        /// Show sample window
+        /// </summary>
+        public static void ShowSample()
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                 var d = new FileStructureWindow();
+                d.Initialize(new FileStructure());
                 d.Show();
             }));
         }

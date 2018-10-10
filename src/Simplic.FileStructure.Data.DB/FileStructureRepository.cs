@@ -44,6 +44,16 @@ namespace Simplic.FileStructure.Data.DB
         }
 
         /// <summary>
+        /// Get file structure by instance data guid
+        /// </summary>
+        /// <param name="id">Unique instance data guid</param>
+        /// <returns>File structure instance if exists</returns>
+        public FileStructure GetByInstanceDataGuid(Guid id)
+        {
+            return GetByColumn<Guid>("InstanceDataGuid", id);
+        }
+
+        /// <summary>
         /// Get all structures
         /// </summary>
         /// <returns>Structure instance</returns>

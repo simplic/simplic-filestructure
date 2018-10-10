@@ -24,13 +24,23 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
+        /// Get file structure by instance data guid
+        /// </summary>
+        /// <param name="id">Unique instance data guid</param>
+        /// <returns>File structure instance if exists</returns>
+        public FileStructure GetByInstanceDataGuid(Guid id)
+        {
+            return repository.GetByInstanceDataGuid(id);
+        }
+
+        /// <summary>
         /// Delete a structure instance
         /// </summary>
         /// <param name="id">Id to delete</param>
         /// <returns>True if successull</returns>
         public bool Delete(Guid id)
         {
-            return Delete(id);
+            return repository.Delete(id);
         }
 
         /// <summary>
@@ -40,7 +50,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Delete(FileStructure obj)
         {
-            return Delete(obj);
+            return repository.Delete(obj);
         }
 
         /// <summary>
@@ -59,7 +69,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>Structure instance</returns>
         public IEnumerable<FileStructure> GetAll()
         {
-            return GetAll();
+            return repository.GetAll();
         }
 
         /// <summary>
@@ -69,7 +79,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Save(FileStructure obj)
         {
-            return Save(obj);
+            return repository.Save(obj);
         }
     }
 }
