@@ -1,9 +1,5 @@
-﻿using Simplic.FileStructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Service
 {
@@ -13,7 +9,7 @@ namespace Simplic.FileStructure.Service
     public class FileStructureDocumentPathService : IFileStructureDocumentPathService
     {
         private readonly IFileStructureDocumentPathRepository repository;
-
+        
         /// <summary>
         /// Initialize service
         /// </summary>

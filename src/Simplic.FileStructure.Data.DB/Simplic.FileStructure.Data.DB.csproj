@@ -54,6 +54,13 @@
       <HintPath>..\packages\Simplic.Data.Sql.1.12.18.101\lib\net451\Simplic.Data.Sql.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Simplic.DataStack, Version=6.6.518.1021, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.DataStack.6.6.518.1021\lib\net451\Simplic.DataStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Framework.Extension">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Extension.dll</HintPath>
+    </Reference>
     <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
       <Private>True</Private>
