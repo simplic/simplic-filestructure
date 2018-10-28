@@ -1,4 +1,5 @@
 ﻿using Simplic.Framework.UI;
+using Simplic.Icon;
 using Simplic.Localization;
 using Simplic.UI.MVC;
 using System;
@@ -8,8 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Telerik.Windows.Controls;
 
 namespace Simplic.FileStructure.UI
 {
@@ -19,70 +22,51 @@ namespace Simplic.FileStructure.UI
     public class FileStructureViewModel : ExtendableViewModel, Studio.UI.IWindowViewModel<FileStructure>, IDirectoryBaseViewModel
     {
         private ObservableCollection<DirectoryViewModel> directories;
+        private ObservableCollection<RadMenuItem> directoryTypeMenuItems;
         private IList<DirectoryViewModel> rawDirectories;
 
         private DirectoryViewModel selectedDirectory;
         private FileStructure model;
-        private ICommand addDirectoryCommand;
+        private RadTreeView directoryTreeView;
+        private string selectedPath;
+
         private ICommand removeDirectoryCommand;
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
-        private string selectedPath;
-        private ILocalizationService localizationService;
+
+        private readonly ILocalizationService localizationService;
+        private readonly IIconService iconService;
+        private readonly IDirectoryTypeService directoryTypeService;
 
         /// <summary>
         /// Create view model
         /// </summary>
-        public FileStructureViewModel(Telerik.Windows.Controls.RadTreeView directoryTreeView)
+        public FileStructureViewModel(RadTreeView directoryTreeView)
         {
+            this.directoryTreeView = directoryTreeView;
+
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
+            directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
+            iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
 
-            addDirectoryCommand = new RelayCommand((e) =>
+            directoryTypeMenuItems = new ObservableCollection<RadMenuItem>();
+            foreach (var type in directoryTypeService.GetAll())
             {
-                var container = directoryTreeView.SelectedContainer;
-
-                var directory = new Directory();
-                directory.Name = localizationService.Translate("fs_new_directory_name");
-
-                // Save child directory list
-                ObservableCollection<DirectoryViewModel> childrenDirectory = null;
-
-                var directoryViewModel = new DirectoryViewModel(directory, this)
+                var menuItem = new RadMenuItem
                 {
-                    Parent = SelectedDirectory as IViewModelBase ?? this
+                    Header = localizationService.Translate(type.Name),
+                    Icon = new Image
+                    {
+                        Source = iconService.GetByNameAsImage(type.IconName),
+                        Width = 16,
+                        Height = 16
+                    },
+                    Tag = type
                 };
 
-                if (SelectedDirectory == null)
-                {
-                    Directories.Add(directoryViewModel);
-                    childrenDirectory = Directories;
-                }
-                else
-                {
-                    directory.Parent = SelectedDirectory.Model;
-                    SelectedDirectory.Directories.Add(directoryViewModel);
-
-                    childrenDirectory = SelectedDirectory.Directories;
-                }
-
-                SelectedDirectory = directoryViewModel;
-                RawDirectories.Add(directoryViewModel);
-
-                // Check if directory is already existing
-                var currentName = directoryViewModel.Name;
-                int nameCounter = 1;
-                while (childrenDirectory.Any(x => x.Name?.ToLower() == currentName.ToLower() && x != directoryViewModel))
-                {
-                    currentName = $"{directoryViewModel.Name} {nameCounter}";
-                    nameCounter++;
-                }
-
-                directoryViewModel.Name = currentName;
-
-                // Expand parent
-                if (container?.IsExpanded != null)
-                    container.IsExpanded = true;
-            });
+                directoryTypeMenuItems.Add(menuItem);
+                menuItem.Click += MenuItem_Click;
+            }
 
             removeDirectoryCommand = new RelayCommand((e) =>
             {
@@ -91,9 +75,70 @@ namespace Simplic.FileStructure.UI
                     SelectedDirectory.RemoveDirectory();
 
                     SelectedDirectory = null;
+
+                    IsDirty = true;
                 }
 
             }, (e) => { return selectedDirectory != null; });
+        }
+
+        /// <summary>
+        /// Add directory item clicked
+        /// </summary>
+        /// <param name="sender">Menu instance</param>
+        /// <param name="e">Argumetns</param>
+        private void MenuItem_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            var directoryType = ((sender as RadMenuItem).Tag as DirectoryType);
+
+            var container = directoryTreeView.SelectedContainer;
+
+            var directory = new Directory
+            {
+                DirectoryTypeId = directoryType.Id,
+                Name = localizationService.Translate("fs_new_directory_name")
+            };
+
+            // Save child directory list
+            ObservableCollection<DirectoryViewModel> childrenDirectory = null;
+
+            var directoryViewModel = new DirectoryViewModel(directory, this)
+            {
+                Parent = SelectedDirectory as IViewModelBase ?? this
+            };
+
+            if (SelectedDirectory == null)
+            {
+                Directories.Add(directoryViewModel);
+                childrenDirectory = Directories;
+            }
+            else
+            {
+                directory.Parent = SelectedDirectory.Model;
+                SelectedDirectory.Directories.Add(directoryViewModel);
+
+                childrenDirectory = SelectedDirectory.Directories;
+            }
+
+            SelectedDirectory = directoryViewModel;
+            RawDirectories.Add(directoryViewModel);
+
+            // Check if directory is already existing
+            var currentName = directoryViewModel.Name;
+            int nameCounter = 1;
+            while (childrenDirectory.Any(x => x.Name?.ToLower() == currentName.ToLower() && x != directoryViewModel))
+            {
+                currentName = $"{directoryViewModel.Name} {nameCounter}";
+                nameCounter++;
+            }
+
+            directoryViewModel.Name = currentName;
+
+            // Expand parent
+            if (container?.IsExpanded != null)
+                container.IsExpanded = true;
+
+            IsDirty = true;
         }
 
         /// <summary>
@@ -117,6 +162,14 @@ namespace Simplic.FileStructure.UI
                 rawDirectories.Add(directoryViewModel);
                 directoryViewModel.LoadChildren(directory, model.Directories);
             }
+
+            RemoveValidators(nameof(Name));
+
+            // Add template validator
+            if (model.IsTemplate)
+                AddValidator(nameof(Name), new StringPropertyNoWhiteSpace());
+
+            IsDirty = false;
         }
 
         /// <summary>
@@ -248,22 +301,6 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the add directory command
-        /// </summary>
-        public ICommand AddDirectoryCommand
-        {
-            get
-            {
-                return addDirectoryCommand;
-            }
-
-            set
-            {
-                addDirectoryCommand = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the remove directory command
         /// </summary>
         public ICommand RemoveDirectoryCommand
@@ -346,7 +383,10 @@ namespace Simplic.FileStructure.UI
             get
             {
                 if (SelectedDirectory == null)
+                {
                     selectedPath = "/";
+                    return selectedPath;
+                }
 
                 var parent = SelectedDirectory?.Parent as DirectoryViewModel;
                 selectedPath = $"/{SelectedDirectory.Name}";
@@ -374,6 +414,29 @@ namespace Simplic.FileStructure.UI
             get
             {
                 return IsTemplate ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        /// Gets a visibility falg based on <see cref="IsTemplate"/>
+        /// </summary>
+        public Visibility TemplateGridVisibility
+        {
+            get
+            {
+                return IsTemplate ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public ObservableCollection<RadMenuItem> DirectoryTypeMenuItems
+        {
+            get
+            {
+                return directoryTypeMenuItems;
+            }
+
+            set
+            {
+                directoryTypeMenuItems = value;
             }
         }
     }

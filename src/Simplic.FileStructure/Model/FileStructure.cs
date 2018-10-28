@@ -89,6 +89,20 @@ namespace Simplic.FileStructure
         {
             get;
             set;
-        } 
+        }
+
+        /// <summary>
+        /// Copy file structure
+        /// </summary>
+        /// <returns>New file structure</returns>
+        public FileStructure Copy()
+        {
+            var json = JsonConvert.SerializeObject(this);
+            var fileStructure = JsonConvert.DeserializeObject<FileStructure>(json);
+
+            fileStructure.Id = Guid.NewGuid();
+
+            return fileStructure;
+        }
     }
 }

@@ -25,7 +25,6 @@ namespace Simplic.FileStructure.Data.DB
         {
             jsonSettings = new JsonSerializerSettings
             {
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
                 TypeNameHandling = TypeNameHandling.Auto
             };
         }
@@ -40,6 +39,10 @@ namespace Simplic.FileStructure.Data.DB
         protected override FileStructure GetByColumn<T>(string columnName, T id)
         {
             var structure = base.GetByColumn<T>(columnName, id);
+
+            if (structure == null)
+                return null;
+
             return JsonConvert.DeserializeObject<FileStructure>(Encoding.UTF8.GetString(structure.Configuration), jsonSettings);
         }
 
@@ -112,7 +115,7 @@ namespace Simplic.FileStructure.Data.DB
         {
             get
             {
-                return "Guid";
+                return "Id";
             }
         }
 

@@ -9,6 +9,8 @@ using Simplic.UI.MVC;
 using System.Windows.Data;
 using System.IO;
 using Simplic.Localization;
+using Simplic.Icon;
+using System.Windows.Media.Imaging;
 
 namespace Simplic.FileStructure.UI
 {
@@ -20,7 +22,12 @@ namespace Simplic.FileStructure.UI
         private ObservableCollection<DirectoryViewModel> directories;
         private Directory model;
         private FileStructureViewModel structureViewModel;
-        private ILocalizationService localizationService;
+        private DirectoryType directoryType;
+        private BitmapImage iconImage;
+
+        private readonly ILocalizationService localizationService;
+        private readonly IIconService iconService;
+        private readonly IDirectoryTypeService directoryTypeService;
 
         /// <summary>
         /// Initialize viewmodel
@@ -29,7 +36,9 @@ namespace Simplic.FileStructure.UI
         public DirectoryViewModel(Directory model, FileStructureViewModel structureViewModel)
         {
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
-
+            directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
+            iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+            
             directories = new ObservableCollection<DirectoryViewModel>();
 
             this.structureViewModel = structureViewModel;
@@ -43,7 +52,7 @@ namespace Simplic.FileStructure.UI
         /// <param name="directoryModels">Complete directory list</param>
         internal void LoadChildren(Directory parent, IList<Directory> directoryModels)
         {
-            foreach (var directory in directoryModels.Where(x => x.Parent == parent))
+            foreach (var directory in directoryModels.Where(x => x.Parent?.Id == parent?.Id))
             {
                 var directoryViewModel = new DirectoryViewModel(directory, structureViewModel)
                 {
@@ -152,6 +161,34 @@ namespace Simplic.FileStructure.UI
             get
             {
                 return structureViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current directory type
+        /// </summary>
+        public DirectoryType DirectoryType
+        {
+            get
+            {
+                if (directoryType == null)
+                    directoryType = directoryTypeService.Get(model.DirectoryTypeId);
+
+                return directoryType;
+            }
+        }
+
+        /// <summary>
+        /// Gets the icon image
+        /// </summary>
+        public BitmapImage IconImage
+        {
+            get
+            {
+                if (iconImage == null)
+                    iconImage = iconService.GetByNameAsImage(DirectoryType.IconName);
+
+                return iconImage;
             }
         }
     }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Simplic.FileStructure.Structure
+namespace Simplic.FileStructure
 {
     /// <summary>
     /// Directory type
@@ -28,6 +24,15 @@ namespace Simplic.FileStructure.Structure
             get;
             set;
         } = "directory_x16";
+
+        /// <summary>
+        /// Gets or sets the type name
+        /// </summary>
+        public string Name
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets whether drag/drop is enabled

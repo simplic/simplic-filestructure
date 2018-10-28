@@ -36,8 +36,12 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Simplic.CoreLib, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.0.18.619\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.14.418.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.14.418.1002\lib\net451\Simplic.CoreLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Data, Version=1.3.18.101, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.3.18.101\lib\net451\Simplic.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Simplic.Framework.Base">
@@ -61,6 +65,9 @@
     </Reference>
     <Reference Include="Simplic.Localization.UI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Localization.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Log">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Log.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Studio.UI, Version=1.0.18.926, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Studio.UI.1.0.18.926\lib\net451\Simplic.Studio.UI.dll</HintPath>

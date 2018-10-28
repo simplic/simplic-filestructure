@@ -1,4 +1,5 @@
 ﻿using Simplic.Framework.UI;
+using Simplic.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace Simplic.FileStructure.UI
     /// </summary>
     public partial class FileStructureWindow : DefaultRibbonWindow
     {
+        private readonly IFileStructureService fileStructureService;
+
         /// <summary>
         /// Initialize file structure window
         /// </summary>
@@ -28,6 +31,7 @@ namespace Simplic.FileStructure.UI
         {
             InitializeComponent();
 
+            fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             AllowPaging = false;
         }
 
@@ -42,18 +46,38 @@ namespace Simplic.FileStructure.UI
             viewModel.Initialize(fileStructure);
 
             DataContext = viewModel;
+
+            AddPagingObject(fileStructure);
+            WindowMode = WindowMode.Edit;
         }
 
         /// <summary>
-        /// Show sample window
+        /// Save changes
         /// </summary>
-        public static void ShowSample()
+        /// <param name="e"></param>
+        public override void OnSave(WindowSaveEventArg e)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                var d = new FileStructureWindow();
-                d.Initialize(new FileStructure());
-                d.Show();
-            }));
+            try
+            {
+                fileStructureService.Save(ViewModel.GetStructure());
+                e.IsSaved = true;
+            }
+            catch (Exception ex)
+            {
+                LogManagerInstance.Instance.Error("Could not save file structure", ex);
+            }
+            base.OnSave(e);
+        }
+
+        /// <summary>
+        /// Gets the current data context as <see cref="FileStructureViewModel"/>
+        /// </summary>
+        public FileStructureViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as FileStructureViewModel;
+            }
         }
     }
 }

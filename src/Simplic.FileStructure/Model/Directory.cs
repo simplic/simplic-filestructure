@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Simplic.FileStructure
+{
+    /// <summary>
+    /// Represents a directory in the file structure
+    /// </summary>
+    public class Directory : IEquatable<Directory>
+    {
+        /// <summary>
+        /// Gets or sets the directory name
+        /// </summary>
+        public Guid Id
+        {
+            get;
+            set;
+        } = Guid.NewGuid();
+
+        /// <summary>
+        /// Gets or sets the parent directories
+        /// </summary>
+        public Directory Parent
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the directory name
+        /// </summary>
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the directory type id
+        /// </summary>
+        public Guid DirectoryTypeId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Compares two directory instances
+        /// </summary>
+        /// <param name="other">Object to compare with</param>
+        /// <returns>True if the directories has the same guid</returns>
+        public bool Equals(Directory other)
+        {
+            return other.Equals(this);
+        }
+
+        /// <summary>
+        /// Compares an object with the directory instance
+        /// </summary>
+        /// <param name="obj">Object to compare with</param>
+        /// <returns>True if the directories has the same guid</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var other = obj as Directory;
+            if (other == null)
+                return false;
+
+            return other.Id == Id;
+        }
+
+        /// <summary>
+        /// Get the hash code of the directory
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+    }
+}

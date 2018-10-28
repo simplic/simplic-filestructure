@@ -68,14 +68,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Structure\Directory.cs" />
-    <Compile Include="Structure\DirectoryType.cs" />
-    <Compile Include="Structure\FileStructure.cs" />
-    <Compile Include="Structure\FileStructureDocumenPath.cs" />
-    <Compile Include="Structure\IFileStructureDocumentPathRepository.cs" />
-    <Compile Include="Structure\IFileStructureDocumentPathService.cs" />
-    <Compile Include="Structure\IFileStructureService.cs" />
-    <Compile Include="Structure\IFileStructureRepository.cs" />
+    <Compile Include="Interface\IDirectoryTypeRepository.cs" />
+    <Compile Include="Interface\IDirectoryTypeService.cs" />
+    <Compile Include="Model\Directory.cs" />
+    <Compile Include="Model\DirectoryType.cs" />
+    <Compile Include="Model\FileStructure.cs" />
+    <Compile Include="Model\FileStructureDocumenPath.cs" />
+    <Compile Include="Interface\IFileStructureDocumentPathRepository.cs" />
+    <Compile Include="Interface\IFileStructureDocumentPathService.cs" />
+    <Compile Include="Interface\IFileStructureService.cs" />
+    <Compile Include="Interface\IFileStructureRepository.cs" />
     <Compile Include="Sync\ChangeLocation.cs" />
     <Compile Include="Sync\ChangeType.cs" />
     <Compile Include="Sync\ISyncQueueRepository.cs" />
@@ -92,6 +94,9 @@
     <None Include="Simplic.FileStructure.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\..\simplic-appcollection\bin\" /F /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
