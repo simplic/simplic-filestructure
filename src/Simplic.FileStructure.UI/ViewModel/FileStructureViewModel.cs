@@ -65,7 +65,7 @@ namespace Simplic.FileStructure.UI
                 };
 
                 directoryTypeMenuItems.Add(menuItem);
-                menuItem.Click += MenuItem_Click;
+                menuItem.Click += AddDirectoryItemClick;
             }
 
             // Create remove directory command
@@ -81,6 +81,33 @@ namespace Simplic.FileStructure.UI
                 }
 
             }, (e) => { return selectedDirectory != null; });
+
+            // Archive from clipboard click
+            archiveFromClipboard = new RelayCommand((e) =>
+            {
+                var files = Clipboard.GetFileDropList();
+
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        var stackParameter = new Framework.Extension.DocCenterParameter("STACK_Document", Guid.Parse("12C9B95B-BD33-4FA0-9CA1-05E11122018C"));
+                        Framework.Extension.ArchivManager.Singleton.Archive(file, stackParameter);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Fehler beim Archivieren aus der Zwischenablage", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        Simplic.Log.LogManagerInstance.Instance.Error(@"Error when archiving from clipboard", ex);
+                    }
+                }
+            }, (e) => { return selectedDirectory != null; });
+
+            // Archive from scanner
+            archiveFromScanner = new RelayCommand((e) =>
+            {
+                Helper.ScanHelper.Scan(model, selectedDirectory.Model);
+            }, (e) => { return selectedDirectory != null; });            
         }
 
         /// <summary>
@@ -88,7 +115,7 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         /// <param name="sender">Menu instance</param>
         /// <param name="e">Argumetns</param>
-        private void MenuItem_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void AddDirectoryItemClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             var directoryType = ((sender as RadMenuItem).Tag as DirectoryType);
 

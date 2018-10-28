@@ -24,6 +24,12 @@ namespace Simplic.FileStructure.UI
             DependencyProperty.Register("DirectoryId", typeof(Guid), typeof(FileStructureDocumentGrid), new PropertyMetadata(Guid.Empty, DirectoryIdChangedCallback));
 
         /// <summary>
+        /// File structure id property
+        /// </summary>
+        public static readonly DependencyProperty FileStructureIdProperty =
+            DependencyProperty.Register("FileStructureId", typeof(Guid), typeof(FileStructureDocumentGrid), new PropertyMetadata(Guid.Empty));
+        
+        /// <summary>
         /// Directory id changed callback
         /// </summary>
         /// <param name="d"></param>
@@ -36,6 +42,7 @@ namespace Simplic.FileStructure.UI
                 if (grid.lastDirectoryId != (Guid)e.NewValue && (Guid)e.NewValue != Guid.Empty)
                 {
                     grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", e.NewValue.ToString());
+                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
                     grid.integratedGridView.RefreshData();
 
                     grid.lastDirectoryId = (Guid)e.NewValue;
@@ -67,6 +74,7 @@ namespace Simplic.FileStructure.UI
             {
                 lastDirectoryId = DirectoryId;
                 integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", DirectoryId.ToString());
+                integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
             };
 
             // Control loaded
@@ -86,6 +94,15 @@ namespace Simplic.FileStructure.UI
         {
             get { return (Guid)GetValue(DirectoryIdProperty); }
             set { SetValue(DirectoryIdProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the file structure id
+        /// </summary>
+        public Guid FileStructureId
+        {
+            get { return (Guid)GetValue(FileStructureIdProperty); }
+            set { SetValue(FileStructureIdProperty, value); }
         }
     }
 }

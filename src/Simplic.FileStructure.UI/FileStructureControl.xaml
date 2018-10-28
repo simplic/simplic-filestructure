@@ -76,14 +76,14 @@
                 </telerik:RadTreeView>
 
                 <GridSplitter Grid.Column="1" Grid.Row="2"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Stretch"
-              Background="LightBlue" 
-              ShowsPreview="True"
-              Width="4"
-              />
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Stretch"
+                              Background="LightBlue" 
+                              ShowsPreview="True"
+                              Width="4" />
 
-                <local:FileStructureDocumentGrid Margin="2" x:Name="documentGrid" Grid.Column="2" Grid.Row="2" DirectoryId="{Binding SelectedDirectory.Model.Id}" />
+                <local:FileStructureDocumentGrid FileStructureId="{Binding Model.Id}" Visibility="{Binding SettingVisibility}" Margin="2" x:Name="documentGrid" Grid.Column="2" Grid.Row="2" DirectoryId="{Binding SelectedDirectory.Model.Id}" />
+                <Label Grid.Column="2" Grid.Row="2" Visibility="{Binding TemplateGridVisibility}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Template no document" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="36" />
             </Grid>
         </TabItem>
         <TabItem Header="{simplic:Localization Key=filestructure_settings_tab}" Visibility="{Binding SettingVisibility}">
