@@ -68,6 +68,7 @@ namespace Simplic.FileStructure.UI
                 menuItem.Click += MenuItem_Click;
             }
 
+            // Create remove directory command
             removeDirectoryCommand = new RelayCommand((e) =>
             {
                 if (SelectedDirectory != null)
