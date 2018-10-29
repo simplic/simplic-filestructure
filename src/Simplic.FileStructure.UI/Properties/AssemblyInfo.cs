@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -18,6 +19,9 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+[assembly: XmlnsDefinition("http://schemas.simplic-systems.com/2016/xaml/presentation", "Simplic.FileStructure.UI")]
+[assembly: XmlnsDefinition("urn:simplic", "Simplic.FileStructure.UI")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c62af878-9e55-482c-9966-db1c8f12081d")]

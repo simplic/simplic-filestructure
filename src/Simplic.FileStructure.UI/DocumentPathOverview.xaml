@@ -13,7 +13,9 @@
             <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="add_file_structure" />
-                    <Button Margin="2,0,0,0" Content="{simplic:Icon Name=documentpath_add_16x}" Command="{Binding AddDocumentPathCommand}" />
+                    <Button Padding="0" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="2,0,0,0" Command="{Binding AddDocumentPathCommand}">
+                        <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_add_16x}" />
+                    </Button>
                 </StackPanel>
             </GroupBox.Header>
             <GroupBox.Content>
@@ -27,12 +29,20 @@
                                     <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    
-                                </StackPanel>
-                                
-                                <Button Grid.Column="1" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="{simplic:Icon Name=documentpath_change_16x}" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}" />
-                                <Button Grid.Column="2" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="{simplic:Icon Name=documentpath_remove_16x}" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}" />
+                                <ItemsControl Grid.Column="0" ItemsSource="{Binding VisualPathElements}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+
+                                <Button Grid.Column="1" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}">
+                                    <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_change_16x}" />
+                                </Button>
+                                <Button Grid.Column="2" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}">
+                                    <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_remove_16x}" />
+                                </Button>
                             </Grid>
                         </DataTemplate>
                     </telerik:RadListBox.ItemTemplate>

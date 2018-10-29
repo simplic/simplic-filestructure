@@ -68,7 +68,7 @@ namespace Simplic.FileStructure.Data.DB
         {
             get
             {
-                return "IT_Document_FileStructurePath";
+                return "FileStructure_DocumentPath";
             }
         }
     }
