@@ -46,7 +46,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>Structure instance of found</returns>
         public FileStructureDocumenPath Get(Guid id)
         {
-            return repository.repository.Get(id);
+            return repository.Get(id);
         }
 
         /// <summary>
