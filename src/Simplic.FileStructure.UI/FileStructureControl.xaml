@@ -48,7 +48,8 @@
                              IsDragDropEnabled="True" Margin="2"
 						     IsDropPreviewLineEnabled="False"
                              IsEditable="True"
-                             PreviewMouseDown="TreeViewMouseDown">
+                             PreviewMouseDown="TreeViewMouseDown"
+                             MouseDoubleClick="OnTreeViewMouseDoubleClick">
                     <telerik:RadContextMenu.ContextMenu>
                         <telerik:RadContextMenu>
                             <telerik:RadMenuItem Header="{simplic:Localization Key=filestructure_add_directory}" ItemsSource="{Binding DirectoryTypeMenuItems}">

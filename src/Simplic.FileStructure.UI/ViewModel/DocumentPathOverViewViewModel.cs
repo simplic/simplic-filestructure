@@ -27,6 +27,8 @@ namespace Simplic.FileStructure.UI
         private ICommand changeDocumentPathCommand;
         private ICommand removeDocumentPathCommand;
 
+        private IList<DocumentPathViewModel> removedPaths;
+
         /// <summary>
         /// Initialize viewmodel
         /// </summary>
@@ -41,6 +43,8 @@ namespace Simplic.FileStructure.UI
             documentPathService = ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             fileStructureService = ServiceLocator.Current.GetInstance<IFileStructureService>();
 
+            removedPaths = new List<DocumentPathViewModel>();
+
             paths = new ObservableCollection<DocumentPathViewModel>();
             foreach (var path in documentPathService.GetByDocumentId(document.Guid))
             {
@@ -52,45 +56,115 @@ namespace Simplic.FileStructure.UI
                 paths.Add(pathVM);
             }
 
+            // Add new document path
             addDocumentPathCommand = new RelayCommand((p) => 
             {
-                // Show stack selection
-                var selectStackItemBox = ItemBoxManager.GetItemBoxFromDB("IB_FileStructure_Stack");
-                selectStackItemBox.ShowDialog();
-
-                // Select instance-data
-                if (selectStackItemBox.SelectedItem != null)
+                var newDocumentPath = SelectPath();
+                var newDocumentPathVM = new DocumentPathViewModel(newDocumentPath)
                 {
-                    var selectDataItemBox = ItemBoxManager.GetItemBoxFromDB(selectStackItemBox.GetSelectedItemCell("StackDataItemBox").ToString());
-                    selectDataItemBox.ShowDialog();
+                    Parent = this
+                };
 
-                    if (selectDataItemBox.SelectedItem != null)
-                    {
-                        var fileStructure = fileStructureService.GetByInstanceDataGuid((Guid)selectDataItemBox.GetSelectedItemCell("Guid"));
-                        if (fileStructure == null)
-                        {
-                            MessageBox.Show(":(");
-                        }
-                        else
-                        {
-                            var selectPathWindow = new FileStructureWindow();
-                            selectPathWindow.Initialize(fileStructure);
-                            selectPathWindow.Show();
-                        }
-                    }
-                }
+                Paths.Add(newDocumentPathVM);
             });
 
+            // Change document path
             changeDocumentPathCommand = new RelayCommand((p) =>
             {
                 var selectedPath = p as DocumentPathViewModel;
+                var fileStructure = fileStructureService.Get(selectedPath.Model.FileStructureGuid);
+                
+
+                var selectPathWindow = new FileStructureWindow();
+                selectPathWindow.Initialize(fileStructure);
+                selectPathWindow.IsInSelectMode = true;
+                selectPathWindow.ShowDialog();
+
+                if (selectPathWindow.SelectedDirectory != null)
+                {
+                    selectedPath.Model.DirectoryGuid = selectPathWindow.SelectedDirectory.Id;
+                }
             });
 
+            // Remove document path
             removeDocumentPathCommand = new RelayCommand((p) =>
             {
-                var selectedPath = p as DocumentPathViewModel;
-                paths.Remove(selectedPath);
+                var messageBoxResult = MessageBox.Show("?", "?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    var selectedPath = p as DocumentPathViewModel;
+
+                    removedPaths.Add(selectedPath);
+                    paths.Remove(selectedPath);
+                }
             });
+        }
+
+        /// <summary>
+        /// Select document path
+        /// </summary>
+        /// <returns></returns>
+        private FileStructureDocumenPath SelectPath()
+        {
+            // Show stack selection
+            var selectStackItemBox = ItemBoxManager.GetItemBoxFromDB("IB_FileStructure_Stack");
+            selectStackItemBox.ShowDialog();
+
+            // Select instance-data
+            if (selectStackItemBox.SelectedItem != null)
+            {
+                var selectDataItemBox = ItemBoxManager.GetItemBoxFromDB(selectStackItemBox.GetSelectedItemCell("StackDataItemBox").ToString());
+                selectDataItemBox.ShowDialog();
+
+                if (selectDataItemBox.SelectedItem != null)
+                {
+                    var fileStructure = fileStructureService.GetByInstanceDataGuid((Guid)selectDataItemBox.GetSelectedItemCell("Guid"));
+                    if (fileStructure == null)
+                    {
+                        MessageBox.Show(":(");
+                    }
+                    else
+                    {
+                        var selectPathWindow = new FileStructureWindow();
+                        selectPathWindow.Initialize(fileStructure);
+                        selectPathWindow.IsInSelectMode = true;
+                        selectPathWindow.ShowDialog();
+
+                        if (selectPathWindow.SelectedDirectory != null)
+                        {
+                            var newDocumentPath = new FileStructureDocumenPath
+                            {
+                                Id = Guid.NewGuid(),
+                                DirectoryGuid = selectPathWindow.SelectedDirectory.Id,
+                                DocumentGuid = document.Guid,
+                                FileStructureGuid = fileStructure.Id
+                            };
+
+                            return newDocumentPath;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Save changes
+        /// </summary>
+        public void Save()
+        {
+            // Remove path
+            foreach (var path in removedPaths)
+                documentPathService.Delete(path.Model);
+
+            removedPaths.Clear();
+
+            foreach (var path in paths)
+                documentPathService.Save(path.Model);
+
+            IsDirty = false;
         }
 
         /// <summary>

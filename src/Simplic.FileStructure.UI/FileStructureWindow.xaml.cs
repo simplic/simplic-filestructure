@@ -36,6 +36,18 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
+        /// Tree view mouse double clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnTreeViewMouseDoubleClickHandler(object sender, MouseButtonEventArgs args)
+        {
+            SelectedDirectory = fileStructureControl.ViewModel.SelectedDirectory?.Model;
+            if (SelectedDirectory != null && IsInSelectMode)
+                this.Close();
+        }
+
+        /// <summary>
         /// Initialize file structure window
         /// </summary>
         /// <param name="fileStructure">File structure instance</param>
@@ -78,6 +90,24 @@ namespace Simplic.FileStructure.UI
             {
                 return DataContext as FileStructureViewModel;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the window in in select mode
+        /// </summary>
+        public bool IsInSelectMode
+        {
+            get;
+            set;
+        } = false;
+
+        /// <summary>
+        /// Gets or sets the selected directory
+        /// </summary>
+        public Directory SelectedDirectory
+        {
+            get;
+            set;
         }
     }
 }

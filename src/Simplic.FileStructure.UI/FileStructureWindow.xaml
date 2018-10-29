@@ -9,6 +9,6 @@
              xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <local:FileStructureControl x:Name="fileStructureControl" />
+        <local:FileStructureControl x:Name="fileStructureControl" TreeViewMouseDoubleClick="OnTreeViewMouseDoubleClickHandler" />
     </Grid>
 </simplic:DefaultRibbonWindow>

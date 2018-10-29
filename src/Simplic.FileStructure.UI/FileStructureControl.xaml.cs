@@ -11,6 +11,13 @@ using Telerik.Windows.DragDrop;
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
+    /// Mouse double clicked within the tree view
+    /// </summary>
+    /// <param name="sender">Sender object</param>
+    /// <param name="args">Arguments</param>
+    public delegate void TreeViewMouseDoubleClickEventHandler(object sender, MouseButtonEventArgs args);
+
+    /// <summary>
     /// Interaction logic for FileStructureEditor.xaml
     /// </summary>
     public partial class FileStructureControl : UserControl
@@ -47,6 +54,21 @@ namespace Simplic.FileStructure.UI
                 treeViewitem.IsExpanded = true;
                 e.Handled = true;
             }
+        }
+
+        /// <summary>
+        /// Tree view mouse double clicked
+        /// </summary>
+        public event TreeViewMouseDoubleClickEventHandler TreeViewMouseDoubleClick;
+
+        /// <summary>
+        /// Mouse double clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTreeViewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewMouseDoubleClick?.Invoke(sender, e);
         }
 
         /// <summary>

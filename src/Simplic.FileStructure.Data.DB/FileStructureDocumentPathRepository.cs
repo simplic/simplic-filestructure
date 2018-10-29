@@ -57,7 +57,7 @@ namespace Simplic.FileStructure.Data.DB
         {
             get
             {
-                return "Guid";
+                return "Id";
             }
         }
 

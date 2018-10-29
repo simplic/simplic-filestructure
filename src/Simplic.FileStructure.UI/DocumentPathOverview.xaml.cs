@@ -57,12 +57,31 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
+        /// Save changes
+        /// </summary>
+        public void Save()
+        {
+            ViewModel?.Save();
+        }
+
+        /// <summary>
         /// Gets or sets the document id
         /// </summary>
         public Guid DocumentId
         {
             get { return (Guid)GetValue(DocumentIdProperty); }
             set { SetValue(DocumentIdProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the path overview viewmodel
+        /// </summary>
+        public DocumentPathOverViewViewModel ViewModel
+        {
+            get
+            {
+                return rootGrid.DataContext as DocumentPathOverViewViewModel;
+            }
         }
     }
 }

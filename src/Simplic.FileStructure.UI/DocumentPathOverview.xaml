@@ -37,11 +37,11 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
 
-                                <Button Grid.Column="1" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}">
-                                    <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_change_16x}" />
+                                <Button Grid.Column="1" Width="22" Height="22" Padding="0" Margin="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}">
+                                    <Image Width="16" Height="16" Source="{simplic:Icon Name=filestructure_change_document_path}" />
                                 </Button>
-                                <Button Grid.Column="2" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}">
-                                    <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_remove_16x}" />
+                                <Button Grid.Column="2" Width="22" Height="22" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}">
+                                    <Image Width="16" Height="16" Margin="2" Source="{simplic:Icon Name=filestructure_remove_document_path}" />
                                 </Button>
                             </Grid>
                         </DataTemplate>
