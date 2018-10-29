@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Simplic.FileStructure.Service
 {
@@ -9,14 +10,17 @@ namespace Simplic.FileStructure.Service
     public class FileStructureDocumentPathService : IFileStructureDocumentPathService
     {
         private readonly IFileStructureDocumentPathRepository repository;
-        
+        private readonly IFileStructureService structureService;
+
         /// <summary>
         /// Initialize service
         /// </summary>
-        /// <param name="repository"></param>
-        public FileStructureDocumentPathService(IFileStructureDocumentPathRepository repository)
+        /// <param name="repository">Repository instance</param>
+        /// <param name="structureService">File structure service</param>
+        public FileStructureDocumentPathService(IFileStructureDocumentPathRepository repository, IFileStructureService structureService)
         {
             this.repository = repository;
+            this.structureService = structureService;
         }
 
         /// <summary>
@@ -65,6 +69,28 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Save(FileStructureDocumenPath obj)
         {
+            var fileStructure = structureService.Get(obj.FileStructureGuid);
+            obj.Path = "";
+
+            if (fileStructure != null)
+            {
+                var currentItem = fileStructure.Directories.FirstOrDefault(x => x.Id == obj.DirectoryGuid);
+                while (currentItem != null)
+                {
+                    obj.Path = obj.Path.Insert(0, $"/{currentItem.Name}");
+
+                    if (currentItem.Parent != null)
+                    {
+                        currentItem = currentItem.Parent;
+                    }
+                    else
+                    {
+                        currentItem = null;
+                        break;
+                    }
+                }
+            }
+
             return repository.Save(obj);
         }
 

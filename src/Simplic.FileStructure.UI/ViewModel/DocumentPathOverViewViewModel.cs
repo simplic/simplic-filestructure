@@ -1,5 +1,8 @@
 ﻿using CommonServiceLocator;
+using Simplic.DataStack;
 using Simplic.Framework.DBUI;
+using Simplic.Icon;
+using Simplic.Localization;
 using Simplic.UI.MVC;
 using System;
 using System.Collections.Generic;
@@ -22,6 +25,10 @@ namespace Simplic.FileStructure.UI
 
         private readonly IFileStructureDocumentPathService documentPathService;
         private readonly IFileStructureService fileStructureService;
+        private readonly IDirectoryTypeService directoryTypeService;
+        private readonly IIconService iconService;
+        private readonly ILocalizationService localizationService;
+        private readonly IStackService stackService;
 
         private ICommand addDocumentPathCommand;
         private ICommand changeDocumentPathCommand;
@@ -42,13 +49,17 @@ namespace Simplic.FileStructure.UI
 
             documentPathService = ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             fileStructureService = ServiceLocator.Current.GetInstance<IFileStructureService>();
+            directoryTypeService = ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
+            iconService = ServiceLocator.Current.GetInstance<IIconService>();
+            localizationService = ServiceLocator.Current.GetInstance<ILocalizationService>();
+            stackService = ServiceLocator.Current.GetInstance<IStackService>();
 
             removedPaths = new List<DocumentPathViewModel>();
 
             paths = new ObservableCollection<DocumentPathViewModel>();
             foreach (var path in documentPathService.GetByDocumentId(document.Guid))
             {
-                var pathVM = new DocumentPathViewModel(path)
+                var pathVM = new DocumentPathViewModel(path, fileStructureService, directoryTypeService, iconService, stackService)
                 {
                     Parent = this
                 };
@@ -57,15 +68,25 @@ namespace Simplic.FileStructure.UI
             }
 
             // Add new document path
-            addDocumentPathCommand = new RelayCommand((p) => 
+            addDocumentPathCommand = new RelayCommand((p) =>
             {
                 var newDocumentPath = SelectPath();
-                var newDocumentPathVM = new DocumentPathViewModel(newDocumentPath)
-                {
-                    Parent = this
-                };
 
-                Paths.Add(newDocumentPathVM);
+                if (newDocumentPath != null)
+                {
+                    if (CheckPathExists(newDocumentPath.Id, newDocumentPath.DirectoryGuid, newDocumentPath.FileStructureGuid))
+                    {
+                        MessageBox.Show(localizationService.Translate("filestructure_path_exists"), localizationService.Translate("filestructure_path_exists_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
+                    var newDocumentPathVM = new DocumentPathViewModel(newDocumentPath, fileStructureService, directoryTypeService, iconService, stackService)
+                    {
+                        Parent = this
+                    };
+
+                    Paths.Add(newDocumentPathVM);
+                }
             });
 
             // Change document path
@@ -73,23 +94,36 @@ namespace Simplic.FileStructure.UI
             {
                 var selectedPath = p as DocumentPathViewModel;
                 var fileStructure = fileStructureService.Get(selectedPath.Model.FileStructureGuid);
-                
+
 
                 var selectPathWindow = new FileStructureWindow();
                 selectPathWindow.Initialize(fileStructure);
                 selectPathWindow.IsInSelectMode = true;
+
+                selectPathWindow.Loaded += (s, e) =>
+                {
+                    selectPathWindow.ViewModel.SelectedDirectory = selectPathWindow.ViewModel.RawDirectories.FirstOrDefault(x => x.Model.Id == selectedPath.Model.DirectoryGuid);
+                };
+
                 selectPathWindow.ShowDialog();
 
                 if (selectPathWindow.SelectedDirectory != null)
                 {
+                    if (CheckPathExists(selectedPath.Model.Id, selectPathWindow.SelectedDirectory.Id, fileStructure.Id))
+                    {
+                        MessageBox.Show(localizationService.Translate("filestructure_path_exists"), localizationService.Translate("filestructure_path_exists_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
                     selectedPath.Model.DirectoryGuid = selectPathWindow.SelectedDirectory.Id;
+                    selectedPath.RefreshPath();
                 }
             });
 
             // Remove document path
             removeDocumentPathCommand = new RelayCommand((p) =>
             {
-                var messageBoxResult = MessageBox.Show("?", "?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var messageBoxResult = MessageBox.Show(localizationService.Translate("filestructure_remove_path"), localizationService.Translate("filestructure_remove_path_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
@@ -99,6 +133,18 @@ namespace Simplic.FileStructure.UI
                     paths.Remove(selectedPath);
                 }
             });
+        }
+
+        /// <summary>
+        /// Check whether a path is already exists
+        /// </summary>
+        /// <param name="pathId">Unique path id</param>
+        /// <param name="directoryId">Directory id</param>
+        /// <param name="fileStructureId">File structure id</param>
+        /// <returns>True if the path is already existing</returns>
+        private bool CheckPathExists(Guid pathId, Guid directoryId, Guid fileStructureId)
+        {
+            return paths.Any(x => x.Model.Id != pathId && x.Model.DirectoryGuid == directoryId && x.Model.FileStructureGuid == fileStructureId);
         }
 
         /// <summary>
@@ -122,13 +168,14 @@ namespace Simplic.FileStructure.UI
                     var fileStructure = fileStructureService.GetByInstanceDataGuid((Guid)selectDataItemBox.GetSelectedItemCell("Guid"));
                     if (fileStructure == null)
                     {
-                        MessageBox.Show(":(");
+                        MessageBox.Show(localizationService.Translate("filestructure_path_no_selection"), localizationService.Translate("filestructure_path_no_selection_title"), MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
                         var selectPathWindow = new FileStructureWindow();
                         selectPathWindow.Initialize(fileStructure);
                         selectPathWindow.IsInSelectMode = true;
+
                         selectPathWindow.ShowDialog();
 
                         if (selectPathWindow.SelectedDirectory != null)

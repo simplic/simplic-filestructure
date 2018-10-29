@@ -157,11 +157,12 @@ namespace Simplic.FileStructure.UI.Helper
 
             // TODO: Maybe change to foreach....
             var instanceDataGuid = parameter.GetSelectedRowsAsDataRow().Select(x => (Guid)x["Guid"]).FirstOrDefault();
+            var stackGuid = parameter.GetSelectedRowsAsDataRow().Select(x => (Guid)x["StackGuid"]).FirstOrDefault();
 
             var fileStructure = fileStructureService.GetByInstanceDataGuid(instanceDataGuid);
             if (fileStructure == null)
             {
-                var selectFromTemplateResult = MessageBox.Show("filestructure_select_template_msg", "filestructure_select_template_title", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (selectFromTemplateResult == MessageBoxResult.No)
                 {
@@ -169,6 +170,7 @@ namespace Simplic.FileStructure.UI.Helper
                     fileStructure = new FileStructure
                     {
                         InstanceDataGuid = instanceDataGuid,
+                        StackGuid = stackGuid,
                         IsTemplate = false
                     };
                 }
@@ -186,6 +188,7 @@ namespace Simplic.FileStructure.UI.Helper
                         fileStructure = template.Copy();
                         fileStructure.IsTemplate = false;
                         fileStructure.InstanceDataGuid = instanceDataGuid;
+                        fileStructure.StackGuid = stackGuid;
                     }
                 }
 

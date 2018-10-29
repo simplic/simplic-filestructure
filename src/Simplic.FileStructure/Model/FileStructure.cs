@@ -82,6 +82,15 @@ namespace Simplic.FileStructure
         } = new List<Directory>();
 
         /// <summary>
+        /// Gets or sets the current stack guid
+        /// </summary>
+        public Guid? StackGuid
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
         [JsonIgnore]

@@ -12,7 +12,7 @@
         <GroupBox>
             <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="add_file_structure" />
+                    <TextBlock Text="{simplic:Localization Key=add_file_structure}" />
                     <Button Padding="0" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="2,0,0,0" Command="{Binding AddDocumentPathCommand}">
                         <Image Width="16" Height="16" Source="{simplic:Icon Name=documentpath_add_16x}" />
                     </Button>
@@ -27,6 +27,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <ItemsControl Grid.Column="0" ItemsSource="{Binding VisualPathElements}">
@@ -37,10 +38,12 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
 
-                                <Button Grid.Column="1" Width="22" Height="22" Padding="0" Margin="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}">
+                                <CheckBox VerticalAlignment="Center" Grid.Column="1" Margin="5,0,5,0" Content="Primärablagepfad" IsChecked="{Binding IsPrimary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <Button Grid.Column="2" Width="22" Height="22" Padding="0" Margin="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_change_document_path}" Command="{Binding Parent.ChangeDocumentPathCommand}" CommandParameter="{Binding}">
                                     <Image Width="16" Height="16" Source="{simplic:Icon Name=filestructure_change_document_path}" />
                                 </Button>
-                                <Button Grid.Column="2" Width="22" Height="22" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}">
+                                <Button Grid.Column="3" Width="22" Height="22" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{simplic:Localization Key=filestructure_remove_document_path}" Command="{Binding Parent.RemoveDocumentPathCommand}" CommandParameter="{Binding}">
                                     <Image Width="16" Height="16" Margin="2" Source="{simplic:Icon Name=filestructure_remove_document_path}" />
                                 </Button>
                             </Grid>
