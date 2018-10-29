@@ -182,7 +182,7 @@ namespace Simplic.FileStructure.UI
             get
             {
                 if (iconImage == null)
-                    iconImage = iconService.GetByNameAsImage(DirectoryType.IconName);
+                    iconImage = iconService.GetByIdAsImage(DirectoryType.IconId);
 
                 return iconImage;
             }

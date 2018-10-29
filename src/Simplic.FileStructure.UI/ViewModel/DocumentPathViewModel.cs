@@ -71,7 +71,7 @@ namespace Simplic.FileStructure.UI
                     image.Height = 16;
                     image.VerticalAlignment = VerticalAlignment.Center;
                     image.HorizontalAlignment = HorizontalAlignment.Center;
-                    image.Source = iconService.GetByNameAsImage(type.IconName);
+                    image.Source = iconService.GetByIdAsImage(type.IconId);
 
                     VisualPathElements.Insert(0, image);
 

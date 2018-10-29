@@ -145,17 +145,23 @@
       <DependentUpon>FileStructureControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\FileStructureDocumentGrid.cs" />
+    <Compile Include="DirectoryTypeEditor.xaml.cs">
+      <DependentUpon>DirectoryTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileStructureWindow.xaml.cs">
       <DependentUpon>FileStructureWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\ApplicationHelper.cs" />
     <Compile Include="Helper\ArchiveHelper.cs" />
+    <Compile Include="Helper\DocumentTypeApplicationHelper.cs" />
+    <Compile Include="Interface\IDirectoryTypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\DocumentPathOverViewViewModel.cs" />
     <Compile Include="ViewModel\DocumentPathViewModel.cs" />
+    <Compile Include="ViewModel\DirectoryTypeEditorViewModel.cs" />
     <Compile Include="ViewModel\FileStructureViewModel.cs" />
-    <Compile Include="ViewModel\IDirectoryBaseViewModel.cs" />
+    <Compile Include="Interface\IDirectoryBaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DocumentPathOverview.xaml">
@@ -165,6 +171,10 @@
     <Page Include="FileStructureControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DirectoryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="FileStructureWindow.xaml">
       <SubType>Designer</SubType>

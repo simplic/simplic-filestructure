@@ -1,5 +1,7 @@
 ﻿using Simplic.Framework.DBUI;
+using Simplic.Framework.Extension;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,7 +26,7 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         public static readonly DependencyProperty FileStructureIdProperty =
             DependencyProperty.Register("FileStructureId", typeof(Guid), typeof(FileStructureDocumentGrid), new PropertyMetadata(Guid.Empty));
-        
+
         /// <summary>
         /// Directory id changed callback
         /// </summary>
@@ -71,6 +73,17 @@ namespace Simplic.FileStructure.UI
                 lastDirectoryId = DirectoryId;
                 integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", DirectoryId.ToString());
                 integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
+
+                integratedGridView.EmbeddedGridView.SelectionChanged += (sender, args) =>
+                {
+                    if (args.AddedItems.Count > 0)
+                    {
+                        byte[] blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
+
+                        if (blob != null)
+                            Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary);
+                    }
+                };
             };
 
             // Control loaded

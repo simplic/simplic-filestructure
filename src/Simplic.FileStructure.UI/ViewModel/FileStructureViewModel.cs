@@ -54,7 +54,7 @@ namespace Simplic.FileStructure.UI
                     Header = localizationService.Translate(type.Name),
                     Icon = new Image
                     {
-                        Source = iconService.GetByNameAsImage(type.IconName),
+                        Source = iconService.GetByIdAsImage(type.IconId),
                         Width = 16,
                         Height = 16
                     },

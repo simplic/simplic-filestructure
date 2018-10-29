@@ -20,7 +20,7 @@ namespace Simplic.FileStructure.UI
     /// </summary>
     public class DocumentPathOverViewViewModel : ViewModelBase
     {
-        private Document.Document document;
+        private Guid documentId;
         private ObservableCollection<DocumentPathViewModel> paths;
 
         private readonly IFileStructureDocumentPathService documentPathService;
@@ -39,14 +39,11 @@ namespace Simplic.FileStructure.UI
         /// <summary>
         /// Initialize viewmodel
         /// </summary>
-        /// <param name="document">Document</param>
-        public DocumentPathOverViewViewModel(Document.Document document)
+        /// <param name="documentId">Document id</param>
+        public DocumentPathOverViewViewModel(Guid documentId)
         {
-            this.document = document;
-
-            if (document == null)
-                throw new ArgumentNullException(nameof(document), $"Document must not be null in {nameof(DocumentPathOverViewViewModel)}.");
-
+            this.documentId = documentId;
+            
             documentPathService = ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             fileStructureService = ServiceLocator.Current.GetInstance<IFileStructureService>();
             directoryTypeService = ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
@@ -57,7 +54,7 @@ namespace Simplic.FileStructure.UI
             removedPaths = new List<DocumentPathViewModel>();
 
             paths = new ObservableCollection<DocumentPathViewModel>();
-            foreach (var path in documentPathService.GetByDocumentId(document.Guid))
+            foreach (var path in documentPathService.GetByDocumentId(documentId))
             {
                 var pathVM = new DocumentPathViewModel(path, fileStructureService, directoryTypeService, iconService, stackService)
                 {
@@ -184,7 +181,7 @@ namespace Simplic.FileStructure.UI
                             {
                                 Id = Guid.NewGuid(),
                                 DirectoryGuid = selectPathWindow.SelectedDirectory.Id,
-                                DocumentGuid = document.Guid,
+                                DocumentGuid = documentId,
                                 FileStructureGuid = fileStructure.Id
                             };
 

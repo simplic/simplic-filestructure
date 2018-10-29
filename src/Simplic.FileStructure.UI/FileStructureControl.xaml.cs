@@ -95,8 +95,8 @@ namespace Simplic.FileStructure.UI
                 {
                     childDirectoryList = targetItem.Directories;
                 }
-
-                if (targetItem == draggedDirectory || childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
+                
+                if (!draggedDirectory.DirectoryType.EnableDrag || !targetItem.DirectoryType.EnableDrop || targetItem == draggedDirectory || childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
                 {
                     options.DropAction = DropAction.None;
                     e.Effects = DragDropEffects.None;

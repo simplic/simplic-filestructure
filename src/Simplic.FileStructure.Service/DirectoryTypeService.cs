@@ -65,7 +65,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Save(DirectoryType obj)
         {
-            return Save(obj);
+            return repository.Save(obj);
         }
     }
 }

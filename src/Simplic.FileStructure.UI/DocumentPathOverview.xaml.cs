@@ -37,14 +37,8 @@ namespace Simplic.FileStructure.UI
             var control = d as DocumentPathOverview;
             if (control != null)
             {
-                var documentService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentService>();
-                var document = documentService.GetById((Guid)e.NewValue);
-
-                if (document != null)
-                {
-                    var viewModel = new DocumentPathOverViewViewModel(document);
-                    control.rootGrid.DataContext = viewModel;
-                }
+                var viewModel = new DocumentPathOverViewViewModel((Guid)e.NewValue);
+                control.rootGrid.DataContext = viewModel;
             }
         }
 

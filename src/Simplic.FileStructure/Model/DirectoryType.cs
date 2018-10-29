@@ -7,6 +7,8 @@ namespace Simplic.FileStructure
     /// </summary>
     public class DirectoryType
     {
+        private static Guid defaultIconGuid = Guid.Parse("CF70E2CA-32D2-4E5C-9C11-CDF740AC03DA");
+
         /// <summary>
         /// Gets or sets the type id
         /// </summary>
@@ -19,11 +21,11 @@ namespace Simplic.FileStructure
         /// <summary>
         /// Gets or sets the icon name
         /// </summary>
-        public string IconName
+        public Guid IconId
         {
             get;
             set;
-        } = "directory_x16";
+        } = defaultIconGuid;
 
         /// <summary>
         /// Gets or sets the type name
