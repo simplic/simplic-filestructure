@@ -34,6 +34,10 @@
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Simplic.Base">
@@ -43,8 +47,16 @@
       <HintPath>..\packages\Simplic.CoreLib.6.14.418.1002\lib\net451\Simplic.CoreLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Simplic.Data, Version=1.3.18.101, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.3.18.101\lib\net451\Simplic.Data.dll</HintPath>
+    <Reference Include="Simplic.Data, Version=1.5.18.1029, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.5.18.1029\lib\net451\Simplic.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.DataStack, Version=6.6.518.1021, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.DataStack.6.6.518.1021\lib\net451\Simplic.DataStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Document, Version=2.5.18.817, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Document.2.5.18.817\lib\net451\Simplic.Document.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Simplic.Framework.Base">
@@ -78,9 +90,9 @@
     <Reference Include="Simplic.Log">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Log.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Studio.UI, Version=1.0.18.926, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Studio.UI.1.0.18.926\lib\net451\Simplic.Studio.UI.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Simplic.Studio.UI, Version=1.1.18.1028, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Studio.UI.1.1.18.1028\lib\net451\Simplic.Studio.UI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Simplic.UI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>
@@ -137,9 +149,11 @@
       <DependentUpon>FileStructureWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\ApplicationHelper.cs" />
-    <Compile Include="Helper\ScanHelper.cs" />
+    <Compile Include="Helper\ArchiveHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
+    <Compile Include="ViewModel\DocumentPathOverViewViewModel.cs" />
+    <Compile Include="ViewModel\DocumentPathViewModel.cs" />
     <Compile Include="ViewModel\FileStructureViewModel.cs" />
     <Compile Include="ViewModel\IDirectoryBaseViewModel.cs" />
   </ItemGroup>
@@ -165,6 +179,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="package.bat" />
     <None Include="packages.config" />
     <None Include="Simplic.FileStructure.UI.nuspec" />

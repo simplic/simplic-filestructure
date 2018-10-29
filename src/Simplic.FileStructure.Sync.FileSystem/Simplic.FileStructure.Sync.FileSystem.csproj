@@ -30,12 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.CoreLib, Version=6.14.318.906, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.14.318.906\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.14.418.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.14.418.1002\lib\net451\Simplic.CoreLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Simplic.Data, Version=1.3.18.101, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.3.18.101\lib\net451\Simplic.Data.dll</HintPath>
+    <Reference Include="Simplic.Data, Version=1.5.18.1029, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.5.18.1029\lib\net451\Simplic.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

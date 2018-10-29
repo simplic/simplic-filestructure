@@ -26,7 +26,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successull</returns>
         public bool Delete(Guid id)
         {
-            return Delete(id);
+            return repository.Delete(id);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Delete(FileStructureDocumenPath obj)
         {
-            return Delete(obj);
+            return repository.Delete(obj);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>Structure instance of found</returns>
         public FileStructureDocumenPath Get(Guid id)
         {
-            return repository.Get(id);
+            return repository.repository.Get(id);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Simplic.FileStructure.Service
         /// <returns>Structure instance</returns>
         public IEnumerable<FileStructureDocumenPath> GetAll()
         {
-            return GetAll();
+            return repository.GetAll();
         }
 
         /// <summary>
@@ -65,7 +65,17 @@ namespace Simplic.FileStructure.Service
         /// <returns>True if successfull</returns>
         public bool Save(FileStructureDocumenPath obj)
         {
-            return Save(obj);
+            return repository.Save(obj);
+        }
+
+        /// <summary>
+        /// Get all by document id
+        /// </summary>
+        /// <param name="documentId">Document id</param>
+        /// <returns>Enumerable of paths</returns>
+        public IEnumerable<FileStructureDocumenPath> GetByDocumentId(Guid documentId)
+        {
+            return repository.GetByDocumentId(documentId);
         }
     }
 }

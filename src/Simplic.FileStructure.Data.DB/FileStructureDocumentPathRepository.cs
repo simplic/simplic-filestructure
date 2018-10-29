@@ -3,6 +3,7 @@ using System;
 using Simplic.Cache;
 using Simplic.Sql;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Simplic.FileStructure.Data.DB
 {
@@ -27,7 +28,18 @@ namespace Simplic.FileStructure.Data.DB
                 TypeNameHandling = TypeNameHandling.Auto
             };
         }
-        
+
+
+        /// <summary>
+        /// Get all by document id
+        /// </summary>
+        /// <param name="documentId">Document id</param>
+        /// <returns>Enumerable of paths</returns>
+        public IEnumerable<FileStructureDocumenPath> GetByDocumentId(Guid documentId)
+        {
+            return GetAllByColumn<Guid>("DocumentGuid", documentId);
+        }
+
         /// <summary>
         /// Gets or sets the object id
         /// </summary>

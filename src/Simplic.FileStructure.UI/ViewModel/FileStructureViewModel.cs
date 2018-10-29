@@ -82,28 +82,13 @@ namespace Simplic.FileStructure.UI
             // Archive from clipboard click
             archiveFromClipboard = new RelayCommand((e) =>
             {
-                var files = Clipboard.GetFileDropList();
-
-                foreach (var file in files)
-                {
-                    try
-                    {
-                        var stackParameter = new Framework.Extension.DocCenterParameter("STACK_Document", Guid.Parse("12C9B95B-BD33-4FA0-9CA1-05E11122018C"));
-                        Framework.Extension.ArchivManager.Singleton.Archive(file, stackParameter);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Fehler beim Archivieren aus der Zwischenablage", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                        Simplic.Log.LogManagerInstance.Instance.Error(@"Error when archiving from clipboard", ex);
-                    }
-                }
+                Helper.ArchiveHelper.ArchiveFromClipboard(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });
 
             // Archive from scanner
             archiveFromScanner = new RelayCommand((e) =>
             {
-                Helper.ScanHelper.Scan(model, selectedDirectory.Model);
+                Helper.ArchiveHelper.ArchiveFromScanClient(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });            
         }
 
