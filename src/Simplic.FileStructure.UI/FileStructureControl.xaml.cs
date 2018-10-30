@@ -26,7 +26,6 @@ namespace Simplic.FileStructure.UI
     {
         private static ILocalizationService localizationService;
         private static IStackService stackService;
-        private bool tabLoaded;
 
         /// <summary>
         /// Initialize control
