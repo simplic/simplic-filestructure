@@ -39,12 +39,7 @@ namespace Simplic.FileStructure.UI.Helper
                 System.IO.File.WriteAllBytes(path, pdf);
 
                 // Show document
-                var win = DynamicUIManager.Singleton.GetNew("Win_Document");
-                win.NewFile(path, stackService.GetStackId("STACK_Document"), 1, 1, 1);
-
-                // win.add_document_path(fileStructure, directory);
-
-                win.Show();
+                ArchiveFile(fileStructure, directory, path);
             }
         }
 
@@ -56,43 +51,55 @@ namespace Simplic.FileStructure.UI.Helper
         public static void ArchiveFromClipboard(FileStructure fileStructure, Directory directory)
         {
             var files = Clipboard.GetFileDropList();
+
+            foreach (var file in files)
+            {
+                ArchiveFile(fileStructure, directory, file);
+            }
+        }
+
+        /// <summary>
+        /// Scan and connect
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        /// <param name="directory">Directory instance</param>
+        /// <param name="filePath">Path to the file to archvie</param>
+        public static void ArchiveFile(FileStructure fileStructure, Directory directory, string filePath)
+        {
             var documentService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentService>();
             var stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             var fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             var directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             var iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
 
-            foreach (var file in files)
+            // Show document
+            var win = DynamicUIManager.Singleton.GetNew("Win_Document");
+            win.NewFile(filePath, stackService.GetStackId("STACK_Document"), 1, 1, 1);
+
+            var documentWin = win as StackBasedWindow;
+            Console.WriteLine($"Window instance: {documentWin.Title}");
+
+            documentWin.Loaded += (s, e) =>
             {
-                // Show document
-                var win = DynamicUIManager.Singleton.GetNew("Win_Document");
-                win.NewFile(file, stackService.GetStackId("STACK_Document"), 1, 1, 1);
-
-                var documentWin = win as StackBasedWindow;
-                Console.WriteLine($"Window instance: {documentWin.Title}");
-
-                documentWin.Loaded += (s, e) =>
+                var newPath = new FileStructureDocumenPath
                 {
-                    var newPath = new FileStructureDocumenPath
-                    {
-                        DirectoryGuid = directory.Id,
-                        FileStructureGuid = fileStructure.Id,
-                        DocumentGuid = documentWin.GetInstanceDataGuid()
-                    };
-
-                    Console.WriteLine("Path created");
-
-                    var overViewControl = WPFVisualTreeHelper.FindChild<DocumentPathOverview>(documentWin);
-                    Console.WriteLine($"Control: {overViewControl?.ToString() ?? "NULL"}");
-
-                    overViewControl.ViewModel.Paths.Add(new DocumentPathViewModel(newPath, fileStructureService, directoryTypeService, iconService, stackService)
-                    {
-                        Parent = overViewControl.ViewModel
-                    });
+                    DirectoryGuid = directory.Id,
+                    FileStructureGuid = fileStructure.Id,
+                    DocumentGuid = documentWin.GetInstanceDataGuid()
                 };
 
-                win.Show();
-            }
+                Console.WriteLine("Path created");
+
+                var overViewControl = WPFVisualTreeHelper.FindChild<DocumentPathOverview>(documentWin);
+                Console.WriteLine($"Control: {overViewControl?.ToString() ?? "NULL"}");
+
+                overViewControl.ViewModel.Paths.Add(new DocumentPathViewModel(newPath, fileStructureService, directoryTypeService, iconService, stackService)
+                {
+                    Parent = overViewControl.ViewModel
+                });
+            };
+
+            win.Show();
         }
     }
 }

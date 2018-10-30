@@ -162,7 +162,10 @@ namespace Simplic.FileStructure.UI.Helper
             var fileStructure = fileStructureService.GetByInstanceDataGuid(instanceDataGuid);
             if (fileStructure == null)
             {
-                var selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                if (selectFromTemplateResult == MessageBoxResult.Cancel)
+                    return new GridInvokeMethodResult { RefreshGrid = false };
 
                 if (selectFromTemplateResult == MessageBoxResult.No)
                 {

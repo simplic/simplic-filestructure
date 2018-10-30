@@ -1,4 +1,5 @@
-﻿using Simplic.Framework.UI;
+﻿using Simplic.DataStack;
+using Simplic.Framework.UI;
 using Simplic.Icon;
 using Simplic.Localization;
 using Simplic.UI.MVC;
@@ -26,6 +27,7 @@ namespace Simplic.FileStructure.UI
         private FileStructure model;
         private RadTreeView directoryTreeView;
         private string selectedPath;
+        private string rootPath;
 
         private ICommand removeDirectoryCommand;
         private ICommand archiveFromClipboard;
@@ -34,6 +36,7 @@ namespace Simplic.FileStructure.UI
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
+        private readonly IStackService stackService;
 
         /// <summary>
         /// Create view model
@@ -45,6 +48,9 @@ namespace Simplic.FileStructure.UI
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
             directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+            stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+
+            rootPath = "";
 
             directoryTypeMenuItems = new ObservableCollection<RadMenuItem>();
             foreach (var type in directoryTypeService.GetAll())
@@ -89,7 +95,7 @@ namespace Simplic.FileStructure.UI
             archiveFromScanner = new RelayCommand((e) =>
             {
                 Helper.ArchiveHelper.ArchiveFromScanClient(model, selectedDirectory.Model);
-            }, (e) => { return selectedDirectory != null; });            
+            }, (e) => { return selectedDirectory != null; });
         }
 
         /// <summary>
@@ -178,6 +184,9 @@ namespace Simplic.FileStructure.UI
             // Add template validator
             if (model.IsTemplate)
                 AddValidator(nameof(Name), new StringPropertyNoWhiteSpace());
+
+            if (model.StackGuid != null && model.InstanceDataGuid != null)
+                rootPath = stackService.GetInstanceDataContent(model.StackGuid.Value, model.InstanceDataGuid.Value);
 
             IsDirty = false;
         }
@@ -394,7 +403,7 @@ namespace Simplic.FileStructure.UI
             {
                 if (SelectedDirectory == null)
                 {
-                    selectedPath = "/";
+                    selectedPath = $"/{rootPath}/";
                     return selectedPath;
                 }
 
@@ -406,6 +415,8 @@ namespace Simplic.FileStructure.UI
                     selectedPath = $"/{parent.Name}" + selectedPath;
                     parent = parent.Parent as DirectoryViewModel;
                 }
+
+                selectedPath = $"/{rootPath}{selectedPath}";
 
                 return selectedPath;
             }

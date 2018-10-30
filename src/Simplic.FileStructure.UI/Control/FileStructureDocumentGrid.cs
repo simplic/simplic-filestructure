@@ -65,6 +65,9 @@ namespace Simplic.FileStructure.UI
             integratedGridView = new IntegratedGridView();
             Content = integratedGridView;
 
+            // Handle additional script parameter
+            integratedGridView.MenuHandler.RequestScriptParameter += OnRequestScriptParameter;
+
             integratedGridView.LoadConfiguration("Grid_Document_FileStructure");
 
             // Profile changed
@@ -78,7 +81,7 @@ namespace Simplic.FileStructure.UI
                 {
                     if (args.AddedItems.Count > 0)
                     {
-                        byte[] blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
+                        var blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
 
                         if (blob != null)
                             Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary);
@@ -95,6 +98,25 @@ namespace Simplic.FileStructure.UI
                 }
             };
         }
+
+        #region [Additional stack parameter]
+        /// <summary>
+        /// Generate dynamic doccenter/stack parameter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRequestScriptParameter(object sender, RequestScriptParameterEventArgs e)
+        {
+            var documentStackGuid = Guid.Parse("12C9B95B-BD33-4FA0-9CA1-05E11122018C");
+            var parameter = new DocCenterParameter("STACK_Document", documentStackGuid);
+                        
+            e.AdditionalParameter = new object[] 
+            {
+                parameter
+            };
+            return;
+        }
+        #endregion
 
         /// <summary>
         /// Gets or sets the binded directory id

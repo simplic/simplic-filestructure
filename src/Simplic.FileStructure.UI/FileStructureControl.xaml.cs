@@ -1,4 +1,6 @@
-﻿using Simplic.Localization;
+﻿using Simplic.DataStack;
+using Simplic.Localization;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -23,19 +25,57 @@ namespace Simplic.FileStructure.UI
     public partial class FileStructureControl : UserControl
     {
         private static ILocalizationService localizationService;
+        private static IStackService stackService;
+        private bool tabLoaded;
 
+        /// <summary>
+        /// Initialize control
+        /// </summary>
         public FileStructureControl()
         {
             InitializeComponent();
 
+            stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
             DragDropManager.AddDragOverHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnDragOver), true);
+            DragDropManager.AddDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnDrop), true);
 
             EventManager.RegisterClassHandler(typeof(RadTreeViewItem), Mouse.MouseDownEvent, new MouseButtonEventHandler(OnTreeViewItemMouseDown), false);
 
             if (localizationService == null)
                 localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
+        }
+
+        /// <summary>
+        /// Initialize control and fill data
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        public FileStructureViewModel Initialize(FileStructure fileStructure)
+        {
+            var viewModel = new FileStructureViewModel(directoryTreeView);
+            viewModel.Initialize(fileStructure);
+
+            DataContext = viewModel;
+
+            if (!fileStructure.IsTemplate)
+            {
+                // Initialize grid
+                var stackId = stackService.GetStackId("STACK_Document");
+
+                searchOverviewGrid.FillOnProfileChanged = false;
+                searchOverviewGrid.SetBlobSettings(true, true);
+                searchOverviewGrid.SetConfig("Grid_Document_FileStructure_Overview", "Search_Documents", stackId, Guid.Empty, new Guid[] { });
+                
+                // Set file-structure variable
+                searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) => 
+                {
+                    searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                };
+            }
+
+            return viewModel;
         }
 
         /// <summary>
@@ -72,6 +112,33 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
+        /// Drop event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void OnDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
+        {
+            // Find RadTreeViewItem
+            var item = e.OriginalSource as RadTreeViewItem;
+            if (e.OriginalSource != null && e.OriginalSource is DependencyObject)
+            {
+                var dependencySource = (DependencyObject)e.OriginalSource;
+                item = Framework.UI.WPFVisualTreeHelper.FindParent<RadTreeViewItem>(dependencySource);
+            }
+               
+            DataObject dataObject = (e.Data as DataObject);
+            if (dataObject != null && dataObject.ContainsFileDropList())
+            {
+                foreach (var file in dataObject.GetFileDropList())
+                {
+                    var viewModel = item.DataContext as DirectoryViewModel;
+
+                    Helper.ArchiveHelper.ArchiveFile(viewModel.StructureViewModel.Model, viewModel.Model, file);
+                }
+            }
+        }
+
+        /// <summary>
         /// Drag over handler
         /// </summary>
         /// <param name="sender"></param>
@@ -95,7 +162,7 @@ namespace Simplic.FileStructure.UI
                 {
                     childDirectoryList = targetItem.Directories;
                 }
-                
+
                 if (!draggedDirectory.DirectoryType.EnableDrag || !targetItem.DirectoryType.EnableDrop || targetItem == draggedDirectory || childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
                 {
                     options.DropAction = DropAction.None;
@@ -176,17 +243,6 @@ namespace Simplic.FileStructure.UI
             get
             {
                 return DataContext as FileStructureViewModel;
-            }
-        }
-
-        /// <summary>
-        /// Gets the directory tree view
-        /// </summary>
-        public RadTreeView DirectoryTreeView
-        {
-            get
-            {
-                return directoryTreeView;
             }
         }
     }

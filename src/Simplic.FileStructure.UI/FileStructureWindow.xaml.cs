@@ -1,4 +1,5 @@
-﻿using Simplic.Framework.UI;
+﻿using Simplic.DataStack;
+using Simplic.Framework.UI;
 using Simplic.Log;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Simplic.FileStructure.UI
     public partial class FileStructureWindow : DefaultRibbonWindow
     {
         private readonly IFileStructureService fileStructureService;
+        private readonly IStackService stackService;
 
         /// <summary>
         /// Initialize file structure window
@@ -32,6 +34,8 @@ namespace Simplic.FileStructure.UI
             InitializeComponent();
 
             fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
+            stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+
             AllowPaging = false;
         }
 
@@ -53,11 +57,12 @@ namespace Simplic.FileStructure.UI
         /// <param name="fileStructure">File structure instance</param>
         public void Initialize(FileStructure fileStructure)
         {
-            var viewModel = new FileStructureViewModel(fileStructureControl.DirectoryTreeView);
+            if (fileStructure.StackGuid != null && fileStructure.InstanceDataGuid != null)
+            {
+                Title = $"{Title} - {stackService.GetInstanceDataContent(fileStructure.StackGuid.Value, fileStructure.InstanceDataGuid.Value)}";
+            }
 
-            viewModel.Initialize(fileStructure);
-
-            DataContext = viewModel;
+            DataContext = fileStructureControl.Initialize(fileStructure);
 
             AddPagingObject(fileStructure);
             WindowMode = WindowMode.Edit;
