@@ -138,6 +138,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converter\GridDocumentPathConverter.cs" />
     <Compile Include="DocumentPathOverview.xaml.cs">
       <DependentUpon>DocumentPathOverview.xaml</DependentUpon>
     </Compile>

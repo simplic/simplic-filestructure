@@ -26,7 +26,7 @@ namespace Simplic.FileStructure.UI
         private DirectoryViewModel selectedDirectory;
         private FileStructure model;
         private RadTreeView directoryTreeView;
-        private string selectedPath;
+        private ObservableCollection<FrameworkElement> visualPathElements;
         private string rootPath;
 
         private ICommand removeDirectoryCommand;
@@ -37,6 +37,7 @@ namespace Simplic.FileStructure.UI
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IStackService stackService;
+        private readonly IFileStructureService fielStructureService;
 
         /// <summary>
         /// Create view model
@@ -49,8 +50,10 @@ namespace Simplic.FileStructure.UI
             directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+            fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
 
             rootPath = "";
+            VisualPathElements = new ObservableCollection<FrameworkElement>();
 
             directoryTypeMenuItems = new ObservableCollection<RadMenuItem>();
             foreach (var type in directoryTypeService.GetAll())
@@ -88,14 +91,119 @@ namespace Simplic.FileStructure.UI
             // Archive from clipboard click
             archiveFromClipboard = new RelayCommand((e) =>
             {
+                // Save before archive
+                if (IsDirty)
+                    Save();
+
                 Helper.ArchiveHelper.ArchiveFromClipboard(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });
 
             // Archive from scanner
             archiveFromScanner = new RelayCommand((e) =>
             {
+                // Save before archive
+                if (IsDirty)
+                    Save();
+
                 Helper.ArchiveHelper.ArchiveFromScanClient(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });
+        }
+
+        /// <summary>
+        /// Save changes
+        /// </summary>
+        public void Save()
+        {
+            fielStructureService.Save(GetStructure());
+            IsDirty = false;
+        }
+
+        /// <summary>
+        /// Refresh path information
+        /// </summary>
+        internal void RefreshPath()
+        {
+            VisualPathElements.Clear();
+
+            // Get structure object
+            var fileStructure = GetStructure();
+
+            var currentItem = fileStructure.Directories.FirstOrDefault(x => x.Id == SelectedDirectory?.Model.Id);
+            while (currentItem != null)
+            {
+                var type = directoryTypeService.Get(currentItem.DirectoryTypeId);
+
+                var label = new System.Windows.Controls.Label();
+                label.Content = currentItem.Name;
+                label.VerticalAlignment = VerticalAlignment.Center;
+                label.HorizontalAlignment = HorizontalAlignment.Center;
+
+                VisualPathElements.Insert(0, label);
+
+                var image = new Image();
+                image.Width = 16;
+                image.Height = 16;
+                image.VerticalAlignment = VerticalAlignment.Center;
+                image.HorizontalAlignment = HorizontalAlignment.Center;
+                image.Source = iconService.GetByIdAsImage(type.IconId);
+
+                VisualPathElements.Insert(0, image);
+
+                if (currentItem.Parent != null)
+                {
+                    currentItem = currentItem.Parent;
+
+                    // If a parent exists, we need an arrow in the left side
+                    var arrow = new Image();
+                    arrow.Width = 16;
+                    arrow.Height = 16;
+                    arrow.VerticalAlignment = VerticalAlignment.Center;
+                    arrow.HorizontalAlignment = HorizontalAlignment.Center;
+                    arrow.Margin = new Thickness(3, 0, 3, 0);
+                    arrow.Source = iconService.GetByNameAsImage("filestructure_separator_16x");
+
+                    VisualPathElements.Insert(0, arrow);
+                }
+                else
+                {
+                    currentItem = null;
+                    break;
+                }
+            }
+
+            if (fileStructure.StackGuid != null && fileStructure.InstanceDataGuid != null)
+            {
+                var displayContent = stackService.GetInstanceDataContent((Guid)fileStructure.StackGuid, (Guid)fileStructure.InstanceDataGuid);
+
+                if (VisualPathElements.Any())
+                {
+                    var arrow = new Image();
+                    arrow.Width = 16;
+                    arrow.Height = 16;
+                    arrow.VerticalAlignment = VerticalAlignment.Center;
+                    arrow.HorizontalAlignment = HorizontalAlignment.Center;
+                    arrow.Margin = new Thickness(3, 0, 3, 0);
+                    arrow.Source = iconService.GetByNameAsImage("filestructure_separator_16x");
+
+                    VisualPathElements.Insert(0, arrow);
+                }
+
+                var label = new System.Windows.Controls.Label();
+                label.Content = displayContent;
+                label.VerticalAlignment = VerticalAlignment.Center;
+                label.HorizontalAlignment = HorizontalAlignment.Center;
+
+                VisualPathElements.Insert(0, label);
+
+                var image = new Image();
+                image.Width = 16;
+                image.Height = 16;
+                image.VerticalAlignment = VerticalAlignment.Center;
+                image.HorizontalAlignment = HorizontalAlignment.Center;
+                image.Source = iconService.GetByNameAsImage("filestructure_root_16x");
+
+                VisualPathElements.Insert(0, image);
+            }
         }
 
         /// <summary>
@@ -189,6 +297,7 @@ namespace Simplic.FileStructure.UI
                 rootPath = stackService.GetInstanceDataContent(model.StackGuid.Value, model.InstanceDataGuid.Value);
 
             IsDirty = false;
+            RefreshPath();
         }
 
         /// <summary>
@@ -315,7 +424,8 @@ namespace Simplic.FileStructure.UI
             {
                 selectedDirectory = value;
                 RaisePropertyChanged(nameof(SelectedDirectory));
-                RaisePropertyChanged(nameof(SelectedPath));
+
+                RefreshPath();
             }
         }
 
@@ -395,39 +505,6 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the selected path
-        /// </summary>
-        public string SelectedPath
-        {
-            get
-            {
-                if (SelectedDirectory == null)
-                {
-                    selectedPath = $"/{rootPath}/";
-                    return selectedPath;
-                }
-
-                var parent = SelectedDirectory?.Parent as DirectoryViewModel;
-                selectedPath = $"/{SelectedDirectory.Name}";
-
-                while (parent != null)
-                {
-                    selectedPath = $"/{parent.Name}" + selectedPath;
-                    parent = parent.Parent as DirectoryViewModel;
-                }
-
-                selectedPath = $"/{rootPath}{selectedPath}";
-
-                return selectedPath;
-            }
-
-            set
-            {
-                selectedPath = value;
-            }
-        }
-
-        /// <summary>
         /// Gets a visibility falg based on <see cref="IsTemplate"/>
         /// </summary>
         public Visibility SettingVisibility
@@ -458,6 +535,19 @@ namespace Simplic.FileStructure.UI
             set
             {
                 directoryTypeMenuItems = value;
+            }
+        }
+
+        public ObservableCollection<FrameworkElement> VisualPathElements
+        {
+            get
+            {
+                return visualPathElements;
+            }
+
+            set
+            {
+                visualPathElements = value;
             }
         }
     }

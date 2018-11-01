@@ -81,7 +81,9 @@ namespace Simplic.FileStructure.UI
                 {
                     if (args.AddedItems.Count > 0)
                     {
+#pragma warning disable CS0618 // Type or member is obsolete
                         var blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
+#pragma warning restore CS0618 // Type or member is obsolete
 
                         if (blob != null)
                             Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary);

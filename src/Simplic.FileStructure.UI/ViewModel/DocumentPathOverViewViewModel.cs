@@ -90,6 +90,13 @@ namespace Simplic.FileStructure.UI
             changeDocumentPathCommand = new RelayCommand((p) =>
             {
                 var selectedPath = p as DocumentPathViewModel;
+
+                if (selectedPath.IsProtectedPath)
+                {
+                    MessageBox.Show(localizationService.Translate("filestructure_path_protected"), localizationService.Translate("filestructure_path_protected_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 var fileStructure = fileStructureService.Get(selectedPath.Model.FileStructureGuid);
 
 
@@ -120,12 +127,18 @@ namespace Simplic.FileStructure.UI
             // Remove document path
             removeDocumentPathCommand = new RelayCommand((p) =>
             {
+                var selectedPath = p as DocumentPathViewModel;
+
+                if (selectedPath.IsProtectedPath)
+                {
+                    MessageBox.Show(localizationService.Translate("filestructure_path_protected"), localizationService.Translate("filestructure_path_protected_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 var messageBoxResult = MessageBox.Show(localizationService.Translate("filestructure_remove_path"), localizationService.Translate("filestructure_remove_path_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    var selectedPath = p as DocumentPathViewModel;
-
                     removedPaths.Add(selectedPath);
                     paths.Remove(selectedPath);
                 }

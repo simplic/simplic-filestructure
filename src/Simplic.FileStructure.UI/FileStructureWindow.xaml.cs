@@ -76,7 +76,8 @@ namespace Simplic.FileStructure.UI
         {
             try
             {
-                fileStructureService.Save(ViewModel.GetStructure());
+                ViewModel.Save();
+                
                 e.IsSaved = true;
             }
             catch (Exception ex)

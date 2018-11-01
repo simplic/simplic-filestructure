@@ -65,7 +65,7 @@ namespace Simplic.FileStructure
         /// Gets or sets whether this document path is the main/primary document path.
         /// Between a document and a file structure only one primary path possible
         /// </summary>
-        public bool IsPrimaryPath
+        public bool IsProtectedPath
         {
             get;
             set;

@@ -202,10 +202,7 @@ namespace Simplic.FileStructure.UI.Helper
 
             // Initialize window
             fileStructureWindow.Initialize(fileStructure);
-
-            // Force save
-            fileStructureWindow.ViewModel.IsDirty = true;
-
+            
             fileStructureWindow.Show();
 
             // Refresh grid after closed

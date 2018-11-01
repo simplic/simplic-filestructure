@@ -77,5 +77,29 @@ namespace Simplic.FileStructure.Service
         {
             return repository.Save(obj);
         }
+
+        /// <summary>
+        /// Remove directory
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        /// <param name="directory">Directory instance</param>
+        /// <returns>True if successfull</returns>
+        public bool RemoveDirectory(FileStructure fileStructure, Directory directory)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Move directory
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        /// <param name="directory">Moved directory</param>
+        /// <param name="oldParent">Old parent directory</param>
+        /// <param name="newParent">New parent directory</param>
+        /// <returns></returns>
+        public bool MoveDirectory(FileStructure fileStructure, Directory directory, Directory oldParent, Directory newParent)
+        {
+            return true;
+        }
     }
 }

@@ -43,8 +43,6 @@ namespace FileSystemWatcherTest
                 watcher.Collect();
                 Thread.Sleep(100);
             }
-
-            Console.ReadLine();
         }
     }
 }

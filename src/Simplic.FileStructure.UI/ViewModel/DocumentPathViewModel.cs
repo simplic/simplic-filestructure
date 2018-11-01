@@ -160,31 +160,16 @@ namespace Simplic.FileStructure.UI
         /// <summary>
         /// Gets or sets whether this is the primary file structure path
         /// </summary>
-        public bool IsPrimary
+        public bool IsProtectedPath
         {
             get
             {
-                return Model.IsPrimaryPath;
+                return Model.IsProtectedPath;
             }
 
             set
             {
-                if (value == true)
-                {
-                    var parent = Parent as DocumentPathOverViewViewModel;
-                    foreach (var path in parent.Paths)
-                    {
-                        if (path != this)
-                        {
-                            // Use model here!
-                            path.Model.IsPrimaryPath = false;
-                            path.RaisePropertyChanged(nameof(IsPrimary));
-                        }
-                    }
-
-                    Model.IsPrimaryPath = value;
-                    RaisePropertyChanged(nameof(IsPrimary));
-                }
+                Model.IsProtectedPath = value;
             }
         }
     }

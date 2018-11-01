@@ -1,5 +1,7 @@
 ﻿using Simplic.DataStack;
+using Simplic.Framework.DBUI;
 using Simplic.Localization;
+using Simplic.UI.GridView;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -66,13 +68,16 @@ namespace Simplic.FileStructure.UI
                 searchOverviewGrid.FillOnProfileChanged = false;
                 searchOverviewGrid.SetBlobSettings(true, true);
                 searchOverviewGrid.SetConfig("Grid_Document_FileStructure_Overview", "Search_Documents", stackId, Guid.Empty, new Guid[] { });
-                
+
                 // Set file-structure variable
-                searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) => 
+                searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
             }
+
+            // Reset dirty status
+            viewModel.IsDirty = false;
 
             return viewModel;
         }
@@ -124,16 +129,61 @@ namespace Simplic.FileStructure.UI
                 var dependencySource = (DependencyObject)e.OriginalSource;
                 item = Framework.UI.WPFVisualTreeHelper.FindParent<RadTreeViewItem>(dependencySource);
             }
-               
+
+            var targetDirectory = item?.DataContext as DirectoryViewModel;
+
+            // Save target filestructure before drop action
+            if (targetDirectory.StructureViewModel.IsDirty)
+                targetDirectory.StructureViewModel.Save();
+
+            // File drag & drop
             DataObject dataObject = (e.Data as DataObject);
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
                 foreach (var file in dataObject.GetFileDropList())
                 {
-                    var viewModel = item.DataContext as DirectoryViewModel;
-
-                    Helper.ArchiveHelper.ArchiveFile(viewModel.StructureViewModel.Model, viewModel.Model, file);
+                    Helper.ArchiveHelper.ArchiveFile(targetDirectory.StructureViewModel.Model, targetDirectory.Model, file);
                 }
+            }
+            else if (dataObject != null && dataObject.GetData(typeof(GridViewPayload)) != null)
+            {
+                var service = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
+                var localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
+                var payload = dataObject.GetData(typeof(GridViewPayload)) as GridViewPayload;
+                
+                foreach (var path in payload.DataObjects.OfType<FileStructureDocumenPath>())
+                {
+                    var copyMode = Keyboard.Modifiers == ModifierKeys.Shift;
+
+                    if (copyMode)
+                    {
+                        var newPath = new FileStructureDocumenPath
+                        {
+                            DirectoryGuid = targetDirectory.Model.Id,
+                            FileStructureGuid = targetDirectory.StructureViewModel.Model.Id,
+                            DocumentGuid = path.DocumentGuid
+                        };
+
+                        service.Save(newPath);
+                    }
+                    else
+                    {
+                        if (path.IsProtectedPath)
+                        {
+                            MessageBox.Show(localizationService.Translate("filestructure_path_protected"), localizationService.Translate("filestructure_path_protected_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                            continue;
+                        }
+
+                        path.DirectoryGuid = targetDirectory.Model.Id;
+                        path.FileStructureGuid = targetDirectory.StructureViewModel.Model.Id;
+
+                        service.Save(path);
+                    }
+                }
+
+                // Refresh grid
+                if (payload.Grid is CursorGridViewControl)
+                    (payload.Grid as CursorGridViewControl).RefreshData();
             }
         }
 

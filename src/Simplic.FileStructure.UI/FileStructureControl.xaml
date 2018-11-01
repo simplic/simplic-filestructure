@@ -41,7 +41,13 @@
                     <simplic:TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
-                <simplic:TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding SelectedPath}" IsReadOnly="True" />
+                <ItemsControl Height="28" BorderBrush="LightGray" BorderThickness="1" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding VisualPathElements}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
                 <telerik:RadTreeView ItemTemplate="{StaticResource ExplorerItem}" x:Name="directoryTreeView" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Directories}"
                              SelectionMode="Single" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"						
