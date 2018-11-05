@@ -84,6 +84,8 @@ namespace Simplic.FileStructure.UI
                     SelectedDirectory = null;
 
                     IsDirty = true;
+
+                    RefreshPath();
                 }
 
             }, (e) => { return selectedDirectory != null; });
@@ -263,6 +265,8 @@ namespace Simplic.FileStructure.UI
                 container.IsExpanded = true;
 
             IsDirty = true;
+
+            RefreshPath();
         }
 
         /// <summary>
