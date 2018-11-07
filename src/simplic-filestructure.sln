@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure", "Simplic.FileStructure\Simplic.FileStructure.csproj", "{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemWatcherTest", "Test\FileSystemWatcherTest\FileSystemWatcherTest.csproj", "{35A66716-838F-4E4E-BB18-CC68630D783D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStructureDirectoryDemo", "Test\FileStructureDirectoryDemo\FileStructureDirectoryDemo.csproj", "{41007946-A846-4934-A84F-5C96B9888716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Rendering.Service", "Simplic.FileStructure.Rendering.Service\Simplic.FileStructure.Rendering.Service.csproj", "{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{41007946-A846-4934-A84F-5C96B9888716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41007946-A846-4934-A84F-5C96B9888716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41007946-A846-4934-A84F-5C96B9888716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +66,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{35A66716-838F-4E4E-BB18-CC68630D783D} = {F24F14EE-BEF4-4269-98C8-423CA80CF25B}
 		{41007946-A846-4934-A84F-5C96B9888716} = {F24F14EE-BEF4-4269-98C8-423CA80CF25B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F8FAA4D-0936-4017-B844-9EC69940FB05}
 	EndGlobalSection
 EndGlobal

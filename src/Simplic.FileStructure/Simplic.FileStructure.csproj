@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Interface\IDirectoryTypeRepository.cs" />
     <Compile Include="Interface\IDirectoryTypeService.cs" />
+    <Compile Include="Interface\IRenderingService.cs" />
     <Compile Include="Model\Directory.cs" />
     <Compile Include="Model\DirectoryType.cs" />
     <Compile Include="Model\FileStructure.cs" />
