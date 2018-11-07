@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Simplic.FileStructure.Service;
+using Simplic.Icon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +10,21 @@ namespace Simplic.FileStructure.Rendering.Service
 {
     public class RenderingService : IRenderingService
     {
+        private readonly IDirectoryTypeService directoryTypeService;
+        private readonly IIconService iconService;
+
         // HTML template to render. must contain {iconClasses}, {content}
         private string htmlTemplate = "<!DOCTYPE html><html><head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <style>{iconClasses} ul, #myUL{list-style-type: none;}#myUL{margin: 0; padding: 0;}.caret{cursor: pointer; -webkit-user-select: none; /* Safari 3.1+ */ -moz-user-select: none; /* Firefox 2+ */ -ms-user-select: none; /* IE 10+ */ user-select: none;}.caret::before{content: \"\\25B6\"; color: black; display: inline-block; margin-right: 6px;}.caret-down::before{-ms-transform: rotate(90deg); /* IE 9 */ -webkit-transform: rotate(90deg); /* Safari */' transform: rotate(90deg);}.nested{display: none;}.active{display: block;}</style></head><body>{content}<script>var toggler=document.getElementsByClassName(\"caret\"); var i; for (i=0; i < toggler.length; i++){toggler[i].addEventListener(\"click\", function(){this.parentElement.querySelector(\".nested\").classList.toggle(\"active\"); this.classList.toggle(\"caret-down\");});}</script></body></html>";
         private IDictionary<string, string> icons = new Dictionary<string, string>();
 
-        public string Render(FileStructure fileStructure)
+        public RenderingService()
         {
+            directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
+            iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+        }
+
+        public string Render(FileStructure fileStructure)
+        {                        
             var sb = new StringBuilder();
 
             sb.Append("<ul id=\"myUL\">");
@@ -29,13 +40,25 @@ namespace Simplic.FileStructure.Rendering.Service
         private string GetIconClasses()
         {
             var sb = new StringBuilder();
-            foreach (var item in icons)
+
+            var directoryTypes = directoryTypeService.GetAll().ToList();
+            foreach (var item in directoryTypes)
             {
-                sb.Append($".{item.Key}");
-                sb.Append("{ cursor: pointer;-webkit-user-select: none; /* Safari 3.1+ */-moz-user-select: none; /* Firefox 2+ */-ms-user-select: none; /* IE 10+ */user-select: none;}");
-                sb.Append($".{item.Key}::before");
-                sb.Append("{ content: \"" + item.Value + "\";color: black;display: inline - block;margin - right: 6px;}");
-            }
+                var sbIcon = new StringBuilder();
+                var icon = iconService.GetById(item.IconId);
+                if (icon == null) continue;
+                var base64 = Convert.ToBase64String(icon);
+                var name = item.Name.ToLower();
+
+                sbIcon.Append($".{name}");
+                sbIcon.Append("{ cursor: pointer;-webkit-user-select: none; /* Safari 3.1+ */-moz-user-select: none; /* Firefox 2+ */-ms-user-select: none; /* IE 10+ */user-select: none;}");
+
+                sbIcon.Append($".{name}::before");
+                sbIcon.Append("{ content: url('data:image/png;base64," + base64 + "');color: black;display: inline - block;margin - right: 6px;}");               
+                sb.Append(sbIcon.ToString());
+
+                icons.Add(item.Id.ToString(), name);
+            }                        
 
             return sb.ToString();
         }
@@ -45,7 +68,7 @@ namespace Simplic.FileStructure.Rendering.Service
             var sb = new StringBuilder();
 
             foreach (var item in directories)
-            {
+            {                
                 var iconClass = GetIcon(item.DirectoryTypeId);
 
                 sb.Append("<li>");
@@ -86,15 +109,12 @@ namespace Simplic.FileStructure.Rendering.Service
         /// <returns></returns>
         private string GetIcon(Guid directoryTypeId)
         {
-            // TODO: get the icon, convert it to base 64 and add it to the icons list
-            //if (!icons.ContainsKey("caret"))
-            //{             
-            //    icons.Add("caret", "\\25B6");
-            //}
-
-            //return "caret";
-
-            return "";
+            if (icons.ContainsKey(directoryTypeId.ToString()))
+            {
+                return icons[directoryTypeId.ToString()];
+            }
+            else
+                return "";
         }
 
         private bool HasChildren(IList<Directory> directories, Guid id)
