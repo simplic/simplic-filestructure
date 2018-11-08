@@ -83,7 +83,7 @@ namespace Simplic.FileStructure.Rendering.Service
 
                 if (HasChildren(fileStructure.Directories, item.Id))
                 {
-                    sb.Append($"<span class=\"caret\">{iconImg} {item.Name}</span>");                    
+                    sb.Append($"<span class=\"caret\">{iconImg} {System.Web.HttpUtility.HtmlEncode(item.Name)}</span>");                    
                     sb.Append("<ul class=\"nested\">");
 
                     var children = WalkItems(fileStructure, fileStructure.Directories.Where(x => x.Parent?.Id == item.Id).ToList());
