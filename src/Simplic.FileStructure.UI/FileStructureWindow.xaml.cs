@@ -1,6 +1,7 @@
 ﻿using Simplic.DataStack;
 using Simplic.Framework.UI;
 using Simplic.Log;
+using Simplic.Studio.UI.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Simplic.FileStructure.UI
     {
         private readonly IFileStructureService fileStructureService;
         private readonly IStackService stackService;
+        private readonly IRenderingService reportService;
 
         /// <summary>
         /// Initialize file structure window
@@ -35,6 +37,26 @@ namespace Simplic.FileStructure.UI
 
             fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+            reportService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IRenderingService>();
+
+            var showReportButton = new RibbonButton();
+            showReportButton.LargeIconName = "filestructure_report_32x";
+            showReportButton.SmallIconName = "filestructure_report_32x";
+            showReportButton.TextLocalizationKey = "filestructure_show_report";
+            showReportButton.TooltipLocalizationKey = "filestructure_show_report_tooltip";
+
+            showReportButton.Click += (s, e) => 
+            {
+                var html = reportService.Render(ViewModel.GetStructure());
+
+                var now = DateTime.Now;
+                var htmlFilePath = $"{Base.GlobalSettings.AppDataPath}\\Temp\\FileStructure_{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.html";
+
+                System.IO.File.WriteAllText(htmlFilePath, html);
+                System.Diagnostics.Process.Start(htmlFilePath);
+            };
+
+            RadRibbonDataGroup.Items.Add(showReportButton);
 
             AllowPaging = false;
         }

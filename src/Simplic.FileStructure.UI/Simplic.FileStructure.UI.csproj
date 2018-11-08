@@ -94,6 +94,10 @@
       <HintPath>..\packages\Simplic.Studio.UI.1.1.18.1028\lib\net451\Simplic.Studio.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Simplic.Studio.UI.Navigation, Version=1.2.18.1018, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Studio.UI.Navigation.1.2.18.1018\lib\net451\Simplic.Studio.UI.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Simplic.UI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>
       <Private>False</Private>

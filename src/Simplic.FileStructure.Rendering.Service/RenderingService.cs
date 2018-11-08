@@ -8,30 +8,46 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Rendering.Service
 {
+    /// <summary>
+    /// Simplic html rendering service
+    /// </summary>
     public class RenderingService : IRenderingService
     {
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IIconService iconService;
 
         // HTML template to render. must contain {iconClasses}, {content}
-        private string htmlTemplate = "<!DOCTYPE html><html><head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <style>{iconClasses} ul, #myUL{list-style-type: none;}#myUL{margin: 0; padding: 0;}.caret{cursor: pointer; -webkit-user-select: none; /* Safari 3.1+ */ -moz-user-select: none; /* Firefox 2+ */ -ms-user-select: none; /* IE 10+ */ user-select: none;}.caret::before{content: \"\\25B6\"; color: black; display: inline-block; margin-right: 6px;}.caret-down::before{-ms-transform: rotate(90deg); /* IE 9 */ -webkit-transform: rotate(90deg); /* Safari */' transform: rotate(90deg);}.nested{display: none;}.active{display: block;}</style></head><body>{content}<script>var toggler=document.getElementsByClassName(\"caret\"); var i; for (i=0; i < toggler.length; i++){toggler[i].addEventListener(\"click\", function(){this.parentElement.querySelector(\".nested\").classList.toggle(\"active\"); this.classList.toggle(\"caret-down\");});}</script></body></html>";
-        private IDictionary<string, string> icons = new Dictionary<string, string>();
+        private string htmlTemplate = "<!DOCTYPE html><html><head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <style>{iconClasses} ul, #myUL{list-style-type: none;}#myUL{margin: 0; padding: 0;}.caret{cursor: pointer; -webkit-user-select: none; /* Safari 3.1+ */ -moz-user-select: none; /* Firefox 2+ */ -ms-user-select: none; /* IE 10+ */ user-select: none;}.caret::before{content: \"\\25B6\"; color: black; display: inline-block; margin-right: 6px;}.caret-down::before{-ms-transform: rotate(90deg); /* IE 9 */ -webkit-transform: rotate(90deg); /* Safari */ transform: rotate(90deg);}.nested{display: none;}.active{display: block;}</style></head><body>{content}<script>var toggler=document.getElementsByClassName(\"caret\"); var i; for (i=0; i < toggler.length; i++){toggler[i].addEventListener(\"click\", function(){this.parentElement.querySelector(\".nested\").classList.toggle(\"active\"); this.classList.toggle(\"caret-down\");});}</script></body></html>";
+        private IDictionary<Guid, string> icons;
 
-        public RenderingService()
+        /// <summary>
+        /// Initialize service
+        /// </summary>
+        public RenderingService(IDirectoryTypeService directoryTypeService, IIconService iconService)
         {
-            directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
-            iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+            this.directoryTypeService = directoryTypeService;
+            this.iconService = iconService;
+
+            icons = new Dictionary<Guid, string>();
         }
 
+        /// <summary>
+        /// Render file structure to html
+        /// </summary>
+        /// <param name="fileStructure">Filestructure instance</param>
+        /// <returns>Html result</returns>
         public string Render(FileStructure fileStructure)
-        {                        
+        {
+            icons = new Dictionary<Guid, string>();
+
             var sb = new StringBuilder();
+            var iconClasses = GetIconClasses();
 
             sb.Append("<ul id=\"myUL\">");
-            sb.Append(WalkItems(fileStructure.Directories));
+            sb.Append(WalkItems(fileStructure, fileStructure.Directories.Where(x => x.Parent == null).ToList()));
             sb.Append("</ul>");
 
-            htmlTemplate.Replace("{iconClasses}", GetIconClasses());
+            htmlTemplate = htmlTemplate.Replace("{iconClasses}", iconClasses);
             var html = htmlTemplate.Replace("{content}", sb.ToString());
 
             return htmlTemplate.Replace("{content}", sb.ToString());
@@ -54,34 +70,34 @@ namespace Simplic.FileStructure.Rendering.Service
                 sbIcon.Append("{ cursor: pointer;-webkit-user-select: none; /* Safari 3.1+ */-moz-user-select: none; /* Firefox 2+ */-ms-user-select: none; /* IE 10+ */user-select: none;}");
 
                 sbIcon.Append($".{name}::before");
-                sbIcon.Append("{ content: url('data:image/png;base64," + base64 + "');color: black;display: inline - block;margin - right: 6px;}");               
+                sbIcon.Append("{ content: url(data:image/png;base64," + base64 + ");color: black;display: inline-block;margin-right: 6px; width:16px; height:16px;}");
                 sb.Append(sbIcon.ToString());
 
-                icons.Add(item.Id.ToString(), name);
-            }                        
+                icons.Add(item.Id, name);
+            }
 
             return sb.ToString();
         }
 
-        private string WalkItems(IList<Directory> directories)
+        private string WalkItems(FileStructure fileStructure, IList<Directory> directories)
         {
             var sb = new StringBuilder();
 
             foreach (var item in directories)
-            {                
+            {
                 var iconClass = GetIcon(item.DirectoryTypeId);
 
                 sb.Append("<li>");
 
-                if (HasChildren(directories, item.Id))
+                if (HasChildren(fileStructure.Directories, item.Id))
                 {
-                    sb.Append($"<span class=\"caret {iconClass}\">");
+                    sb.Append($"<span class=\"caret\"><span class=\"{iconClass}\"></span>");
                     sb.Append(item.Name);
                     sb.Append("</span>");
 
                     sb.Append("<ul class=\"nested\">");
 
-                    var children = WalkItems(directories.Where(x => x.Parent.Id == item.Id).ToList());
+                    var children = WalkItems(fileStructure, fileStructure.Directories.Where(x => x.Parent?.Id == item.Id).ToList());
                     if (children.Length > 0)
                     {
                         sb.Append(children.ToString());
@@ -94,7 +110,7 @@ namespace Simplic.FileStructure.Rendering.Service
                     sb.Append($"<span class=\"{iconClass}\">");
                     sb.Append(item.Name);
                     sb.Append("</span>");
-                }                    
+                }
 
                 sb.Append("</li>");
             }
@@ -109,17 +125,17 @@ namespace Simplic.FileStructure.Rendering.Service
         /// <returns></returns>
         private string GetIcon(Guid directoryTypeId)
         {
-            if (icons.ContainsKey(directoryTypeId.ToString()))
+            if (icons.ContainsKey(directoryTypeId))
             {
-                return icons[directoryTypeId.ToString()];
+                return icons[directoryTypeId];
             }
-            else
-                return "";
+
+            return "";
         }
 
         private bool HasChildren(IList<Directory> directories, Guid id)
         {
-            return directories.Any(x => x.Parent.Id == id);
+            return directories.Any(x => x.Parent?.Id == id);
         }
     }
 }
