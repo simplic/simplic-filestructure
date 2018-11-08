@@ -40,6 +40,10 @@ namespace Simplic.FileStructure.Rendering.Service
         public string Render(FileStructure fileStructure)
         {                        
             var sb = new StringBuilder();
+            sb.Append($"<h1>{System.Web.HttpUtility.HtmlEncode(fileStructure.Name)}</h1>");
+            sb.Append($"<br />");
+            sb.Append($"<br />");
+
             sb.Append("<ul id=\"myUL\">");
             sb.Append(WalkItems(fileStructure, fileStructure.Directories.Where(x => x.Parent == null).ToList()));
             sb.Append("</ul>");

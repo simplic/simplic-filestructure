@@ -39,13 +39,16 @@ namespace Simplic.FileStructure.UI
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             reportService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IRenderingService>();
 
-            var showReportButton = new RibbonButton();
-            showReportButton.LargeIconName = "filestructure_report_32x";
-            showReportButton.SmallIconName = "filestructure_report_32x";
-            showReportButton.TextLocalizationKey = "filestructure_show_report";
-            showReportButton.TooltipLocalizationKey = "filestructure_show_report_tooltip";
+            var showReportButton = new RibbonButton
+            {
+                LargeIconName = "filestructure_report_32x",
+                SmallIconName = "filestructure_report_32x",
+                TextLocalizationKey = "filestructure_show_report",
+                TooltipLocalizationKey = "filestructure_show_report_tooltip",
+                Size = Telerik.Windows.Controls.RibbonView.ButtonSize.Large
+            };
 
-            showReportButton.Click += (s, e) => 
+            showReportButton.Click += (s, e) =>
             {
                 var html = reportService.Render(ViewModel.GetStructure());
 
@@ -99,7 +102,7 @@ namespace Simplic.FileStructure.UI
             try
             {
                 ViewModel.Save();
-                
+
                 e.IsSaved = true;
             }
             catch (Exception ex)
