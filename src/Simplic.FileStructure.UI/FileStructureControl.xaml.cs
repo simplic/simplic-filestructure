@@ -6,6 +6,7 @@ using Simplic.Localization;
 using Simplic.UI.GridView;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -267,7 +268,10 @@ namespace Simplic.FileStructure.UI
                     childDirectoryList = targetItem.Directories;
                 }
 
-                if (!draggedDirectory.DirectoryType.EnableDrag || !targetItem.DirectoryType.EnableDrop || targetItem == draggedDirectory || childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
+                if (!draggedDirectory.DirectoryType.EnableDrag || 
+                    !targetItem.DirectoryType.EnableDrop || 
+                    targetItem == draggedDirectory || 
+                    childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
                 {
                     options.DropAction = DropAction.None;
                     e.Effects = DragDropEffects.None;
@@ -310,7 +314,27 @@ namespace Simplic.FileStructure.UI
                 else
                 {
                     targetItem.Directories.Add(droppedDirectory);
-                    droppedDirectory.Parent = targetItem;
+
+                    // Drag and drop was in the same directory hierarchy
+                    if (IsInSamePath(droppedDirectory.StructureViewModel.Model, targetItem.Model, droppedDirectory.Model))
+                    {
+                        // Switch child/parent of target item
+                        var oldParent = targetItem.Parent;
+                        targetItem.Parent = droppedDirectory.Parent;
+                        targetItem.Model.Parent = droppedDirectory.Model.Parent;
+
+                        var directoryBase = targetItem.Parent as IDirectoryBaseViewModel;
+
+                        if (directoryBase != null)
+                            directoryBase.Directories.Add(targetItem);
+
+                        var oldDirectoryBase = oldParent as IDirectoryBaseViewModel;
+                        if (oldDirectoryBase != null)
+                            oldDirectoryBase.Directories.Remove(targetItem);
+                    }
+
+                    droppedDirectory.Parent = targetItem;                    
+                    droppedDirectory.Model.Parent = targetItem.Model;
 
                     // Expand target item
                     options.DropTargetItem.IsExpanded = true;
@@ -324,6 +348,28 @@ namespace Simplic.FileStructure.UI
                 options.DropAction = DropAction.None;
                 e.Effects = DragDropEffects.None;
             }
+        }
+
+        private static bool IsInSamePath(FileStructure fileStructure, Directory startDirectory, Directory directoryToCheck)
+        {
+            var currentItem = fileStructure.Directories.FirstOrDefault(x => x.Id == startDirectory.Id);
+            while (currentItem != null)
+            {
+                if (currentItem == directoryToCheck)
+                    return true;
+
+                if (currentItem.Parent != null)
+                {
+                    currentItem = currentItem.Parent;
+                }
+                else
+                {
+                    currentItem = null;
+                    break;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
