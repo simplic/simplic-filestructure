@@ -1,9 +1,12 @@
-﻿using Simplic.DataStack;
+﻿using Simplic.Base;
+using Simplic.DataStack;
 using Simplic.Framework.DBUI;
+using Simplic.Framework.DocumentProcessing.Outlook;
 using Simplic.Localization;
 using Simplic.UI.GridView;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -71,6 +74,11 @@ namespace Simplic.FileStructure.UI
 
                 // Set file-structure variable
                 searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) =>
+                {
+                    searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                };
+
+                searchOverviewGrid.GridView.Loaded += (s, e) => 
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
@@ -145,12 +153,60 @@ namespace Simplic.FileStructure.UI
                     Helper.ArchiveHelper.ArchiveFile(targetDirectory.StructureViewModel.Model, targetDirectory.Model, file);
                 }
             }
+            else if (dataObject != null && dataObject.GetData("FileGroupDescriptorW") != null)
+            {
+                var outlookDataObject = new OutlookDataObject(dataObject);
+
+                string[] filenames = (string[])outlookDataObject.GetData("FileGroupDescriptorW");
+                var fileStreams = (MemoryStream[])outlookDataObject.GetData("FileContents");
+
+                string directory = GlobalSettings.AppDataPath + "\\Temp\\Blobs\\";
+                if (!System.IO.Directory.Exists(directory))
+                {
+                    System.IO.Directory.CreateDirectory(directory);
+                }
+
+                for (int fileIndex = 0; fileIndex < filenames.Length; fileIndex++)
+                {
+                    //use the fileindex to get the name and data stream
+                    string filename = filenames[fileIndex];
+                    MemoryStream filestream = fileStreams[fileIndex];
+
+                    //save the file stream using its name to the application path
+                    FileStream outputStream = File.Create(directory + filename);
+                    filestream.WriteTo(outputStream);
+                    outputStream.Close();
+
+                    if (filename.ToLower().EndsWith(".msg"))
+                    {
+                        try
+                        {
+                            OutlookStorage.Message msg = new OutlookStorage.Message(directory + filename);
+                            DateTime receiveDateTime = msg.ReceivedDate;
+                            msg.Dispose();
+
+                            File.SetLastWriteTime(directory + filename, receiveDateTime);
+                        }
+                        catch (Exception ex)
+                        {
+                            //ExceptionHandling.Write("E-Mail-Format nicht erkannt", Framework.Foundation.ExceptionLevel.Error, "Das E-mail-Format wurde nicht erkannt: " + filename);
+                            Simplic.Log.LogManagerInstance.Instance.Error(string.Format(@"E-Mail-Format nicht erkannt, Datei: {0}", filename), ex);
+                        }
+                    }
+                    else
+                    {
+                        File.SetLastWriteTime(directory + filename, DateTime.Now);
+                    }
+
+                    Helper.ArchiveHelper.ArchiveFile(targetDirectory.StructureViewModel.Model, targetDirectory.Model, directory + filename);
+                }
+            }
             else if (dataObject != null && dataObject.GetData(typeof(GridViewPayload)) != null)
             {
                 var service = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
                 var localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
                 var payload = dataObject.GetData(typeof(GridViewPayload)) as GridViewPayload;
-                
+
                 foreach (var path in payload.DataObjects.OfType<FileStructureDocumenPath>())
                 {
                     var copyMode = Keyboard.Modifiers == ModifierKeys.Shift;
