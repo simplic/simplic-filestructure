@@ -79,6 +79,12 @@ namespace Simplic.FileStructure.UI
             {
                 if (SelectedDirectory != null)
                 {
+                    if (fielStructureService.GetDocuments(model, selectedDirectory.Model, true).Any())
+                    {
+                        MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
                     SelectedDirectory.RemoveDirectory();
 
                     SelectedDirectory = null;

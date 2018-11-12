@@ -1,4 +1,7 @@
-﻿namespace Simplic.FileStructure
+﻿using System;
+using System.Collections.Generic;
+
+namespace Simplic.FileStructure
 {
     /// <summary>
     /// File system structure service interface

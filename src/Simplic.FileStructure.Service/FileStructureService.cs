@@ -20,6 +20,18 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
+        /// Returns an enumerable of documents for a given directory and file structure
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        /// <param name="directory">Directory instance</param>
+        /// <param name="includeSubdirectories">True if subdirectories should be included</param>
+        /// <returns>Enumerable of document guids</returns>
+        public IEnumerable<Guid> GetDocuments(FileStructure fileStructure, Directory directory, bool includeSubdirectories)
+        {
+            return repository.GetDocuments(fileStructure, directory, includeSubdirectories);
+        }
+
+        /// <summary>
         /// Get file structure by instance data guid
         /// </summary>
         /// <param name="id">Unique instance data guid</param>

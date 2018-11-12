@@ -5,6 +5,8 @@ using Simplic.Sql;
 using Newtonsoft.Json;
 using System.Text;
 using System.Collections.Generic;
+using Dapper;
+using System.Linq;
 
 namespace Simplic.FileStructure.Data.DB
 {
@@ -14,6 +16,7 @@ namespace Simplic.FileStructure.Data.DB
     public class FileStructureRepository : SqlRepositoryBase<Guid, FileStructure>, IFileStructureRepository
     {
         private JsonSerializerSettings jsonSettings;
+        private ISqlService sqlService;
 
         /// <summary>
         /// Initialize repository
@@ -23,10 +26,53 @@ namespace Simplic.FileStructure.Data.DB
         /// <param name="cacheService"></param>
         public FileStructureRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
         {
+            this.sqlService = sqlService;
+
             jsonSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             };
+        }
+
+        /// <summary>
+        /// Returns an enumerable of documents for a given directory and file structure
+        /// </summary>
+        /// <param name="fileStructure">File structure instance</param>
+        /// <param name="directory">Directory instance</param>
+        /// <param name="includeSubdirectories">True if subdirectories should be included</param>
+        /// <returns>Enumerable of document guids</returns>
+        public IEnumerable<Guid> GetDocuments(FileStructure fileStructure, Directory directory, bool includeSubdirectories)
+        {
+            if (fileStructure != null)
+            {
+                var path = "";
+                var currentItem = fileStructure.Directories.FirstOrDefault(x => x.Id == directory.Id);
+                while (currentItem != null)
+                {
+                    path = path.Insert(0, $"/{currentItem.Name}");
+
+                    if (currentItem.Parent != null)
+                    {
+                        currentItem = currentItem.Parent;
+                    }
+                    else
+                    {
+                        currentItem = null;
+                        break;
+                    }
+                }
+
+                if (includeSubdirectories)
+                    path = $"{path}%";
+
+                return sqlService.OpenConnection((connection) =>
+                {
+                    return connection.Query<Guid>("SELECT DocumentGuid FROM FileStructure_DocumentPath WHERE FileStructureGuid = :fileStructureGuid AND Path LIKE :path",
+                        new { fileStructureGuid = fileStructure.Id, path = path });
+                });
+            }
+
+            return new List<Guid> { };
         }
 
         /// <summary>

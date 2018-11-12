@@ -32,6 +32,7 @@ namespace Simplic.FileStructure.UI
     {
         private static ILocalizationService localizationService;
         private static IStackService stackService;
+        private static IFileStructureService fielStructureService;
 
         /// <summary>
         /// Initialize control
@@ -41,11 +42,13 @@ namespace Simplic.FileStructure.UI
             InitializeComponent();
 
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
+            fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
 
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
             DragDropManager.AddDragOverHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnDragOver), true);
             DragDropManager.AddDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnDrop), true);
+            DragDropManager.AddDragInitializeHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragInitializeEventHandler(OnDraginitialize), true);
 
             EventManager.RegisterClassHandler(typeof(RadTreeViewItem), Mouse.MouseDownEvent, new MouseButtonEventHandler(OnTreeViewItemMouseDown), false);
 
@@ -122,6 +125,28 @@ namespace Simplic.FileStructure.UI
         private void OnTreeViewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewMouseDoubleClick?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Initialize directory dragging
+        /// </summary>
+        /// <param name="sener"></param>
+        /// <param name="e"></param>
+        private static void OnDraginitialize(object sener, Telerik.Windows.DragDrop.DragInitializeEventArgs e)
+        {
+            var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            if (options != null)
+            {
+                var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+                if (fielStructureService.GetDocuments(draggedDirectory.StructureViewModel.Model, draggedDirectory.Model, true).Any())
+                {
+                    MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    e.Data = null;
+                    e.DragVisual = null;
+                    e.Handled = true;
+                }
+            }
         }
 
         /// <summary>
