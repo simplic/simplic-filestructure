@@ -189,8 +189,7 @@ namespace Simplic.FileStructure.UI
                         }
                         catch (Exception ex)
                         {
-                            //ExceptionHandling.Write("E-Mail-Format nicht erkannt", Framework.Foundation.ExceptionLevel.Error, "Das E-mail-Format wurde nicht erkannt: " + filename);
-                            Simplic.Log.LogManagerInstance.Instance.Error(string.Format(@"E-Mail-Format nicht erkannt, Datei: {0}", filename), ex);
+                            Log.LogManagerInstance.Instance.Error(string.Format(@"Invalid mail format: {0}", filename), ex);
                         }
                     }
                     else
