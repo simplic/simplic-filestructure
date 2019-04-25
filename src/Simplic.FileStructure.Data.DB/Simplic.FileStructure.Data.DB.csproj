@@ -75,6 +75,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectoryFieldRepository.cs" />
+    <Compile Include="DirectoryTypeFieldRepository.cs" />
+    <Compile Include="FieldTypeRepository.cs" />
     <Compile Include="DirectoryTypeRepository.cs" />
     <Compile Include="FileStructureDocumentPathRepository.cs" />
     <Compile Include="SyncQueueRepository.cs" />

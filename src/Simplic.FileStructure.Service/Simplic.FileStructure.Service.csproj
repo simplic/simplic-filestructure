@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectoryFieldService.cs" />
+    <Compile Include="DirectoryTypeFieldService.cs" />
+    <Compile Include="FieldTypeService.cs" />
     <Compile Include="DirectoryTypeService.cs" />
     <Compile Include="FileStructureDocumentPathService.cs" />
     <Compile Include="SyncQueueService.cs" />

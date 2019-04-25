@@ -13,6 +13,7 @@ namespace Simplic.FileStructure.Rendering.Service
     /// </summary>
     public class RenderingService : IRenderingService
     {
+        private readonly IFieldTypeService FieldTypeService;
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IIconService iconService;
 

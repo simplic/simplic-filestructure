@@ -68,6 +68,16 @@
                                     <Image Height="16" Width="16" Source="{simplic:Icon Name=directory_remove_x16}" />
                                 </telerik:RadMenuItem.Icon>
                             </telerik:RadMenuItem>
+                            <telerik:RadMenuItem Header="{simplic:Localization Key=filestructure_edit_metadata}" Command="{Binding EditMetaDataCommand}">
+                                <telerik:RadMenuItem.Icon>
+                                    <Image Height="16" Width="16" Source="{simplic:Icon Name=directory_edit_x16}" />
+                                </telerik:RadMenuItem.Icon>
+                            </telerik:RadMenuItem>
+                            <telerik:RadMenuItem Header="{simplic:Localization Key=filestructure_debug_metadata}" Command="{Binding DebugMetaDataCommand}">
+                                <telerik:RadMenuItem.Icon>
+                                    <Image Height="16" Width="16" Source="{simplic:Icon Name=directory_edit_x32}" />
+                                </telerik:RadMenuItem.Icon>
+                            </telerik:RadMenuItem>
                             <telerik:RadMenuItem Header="{simplic:Localization Key=fs_archive_from_clipboard}" Command="{Binding ArchiveFromClipboard}">
                                 <telerik:RadMenuItem.Icon>
                                     <Image Height="16" Width="16" Source="{simplic:Icon Name=clipboard_paste_x16}" />

@@ -32,12 +32,17 @@ namespace Simplic.FileStructure.UI
         private ICommand removeDirectoryCommand;
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
+        private ICommand editMetaDataCommand;
+        private ICommand debugMetaDataCommand;
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IStackService stackService;
         private readonly IFileStructureService fielStructureService;
+
+        private readonly IDirectoryFieldService directoryFieldService;
+        private readonly IDirectoryTypeFieldService directoryTypeFieldService;
 
         /// <summary>
         /// Create view model
@@ -51,6 +56,9 @@ namespace Simplic.FileStructure.UI
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
+
+            directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();
+            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeFieldService>();
 
             rootPath = "";
             VisualPathElements = new ObservableCollection<FrameworkElement>();
@@ -92,6 +100,46 @@ namespace Simplic.FileStructure.UI
                     IsDirty = true;
 
                     RefreshPath();
+                }
+
+            }, (e) => { return selectedDirectory != null; });
+
+            // Create edit metadata command
+            editMetaDataCommand = new RelayCommand((e) =>
+            {
+                if (SelectedDirectory != null)
+                {
+                    var directoryFieldWindow = new DirectoryFieldWindow();
+
+                    directoryFieldWindow.Initialize(SelectedDirectory.Model);
+                    directoryFieldWindow.WindowMode = Framework.UI.WindowMode.Edit;
+                    directoryFieldWindow.Show();
+                    return;
+                }
+
+            }, (e) => { return selectedDirectory != null; });
+
+            // Create edit metadata command
+            debugMetaDataCommand = new RelayCommand((e) =>
+            {
+                if (SelectedDirectory != null)
+                {
+                    var aFields = directoryTypeFieldService.GetByDirectoryTypeId(SelectedDirectory.Model.DirectoryTypeId.ToString());
+                    var field = aFields.First();
+
+                    var dirField = new DirectoryField()
+                    {
+                        FieldTypeId = field.FieldTypeId,
+                        DirectoryId = SelectedDirectory.Model.Id,
+                        Value = new Random().Next(100).ToString()
+                    };
+
+                    var all = directoryFieldService.GetAll();
+                    foreach (var a in all)
+                        directoryFieldService.Delete(a);
+                    directoryFieldService.Save(dirField);
+
+                    return;
                 }
 
             }, (e) => { return selectedDirectory != null; });
@@ -452,6 +500,38 @@ namespace Simplic.FileStructure.UI
             set
             {
                 removeDirectoryCommand = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the remove directory command
+        /// </summary>
+        public ICommand EditMetaDataCommand
+        {
+            get
+            {
+                return editMetaDataCommand;
+            }
+
+            set
+            {
+                editMetaDataCommand = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the remove directory command
+        /// </summary>
+        public ICommand DebugMetaDataCommand
+        {
+            get
+            {
+                return debugMetaDataCommand;
+            }
+
+            set
+            {
+                debugMetaDataCommand = value;
             }
         }
 

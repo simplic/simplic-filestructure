@@ -14,6 +14,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -29,5 +31,30 @@
         <simplic:CheckBox Grid.Row="2" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drag}" IsChecked="{Binding EnableDrag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <simplic:CheckBox Grid.Row="3" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drop}" IsChecked="{Binding EnableDrop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="4" Grid.ColumnSpan="2" Content="{simplic:Localization Key=filestructure_dirfields}" />
+        <Grid Grid.Row="5" Grid.ColumnSpan="2" MinWidth="300">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+
+            <ListView x:Name="LvAvailableFields" Grid.Column="0" ItemsSource="{Binding AvailableFieldTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
+            </ListView>
+
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="BtnMoveTo" Grid.Row="1" Content="&gt;&gt;" Click="BtnMoveToPool_Click"></Button>
+                <Button x:Name="BtnDeleteFrom" Grid.Row="2" Content="&lt;&lt;" Click="BtnDeleteFromPool_Click"></Button>
+            </Grid>
+
+            <ListView Grid.Column="2" x:Name="LvDirectoryTypeFields" ItemsSource="{Binding ChosenFieldTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
+            </ListView>
+        </Grid>
     </Grid>
 </local:BaseDirectoryTypeEditor>
