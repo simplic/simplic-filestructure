@@ -9,11 +9,22 @@
              xmlns:local="clr-namespace:Simplic.FileStructure.UI"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView x:Name="lvFields" Background="Gray">
+        <ListView x:Name="lvFields">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                    <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}"></GridViewColumn>
+                    <GridViewColumn Header="Content">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <simplic:TextBox x:Name="TxtContent" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" Visibility="{Binding TextVisible}"></simplic:TextBox>
+                                    <simplic:DatePicker x:Name="DpContent" SelectedValue="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" Visibility="{Binding DateVisible}"></simplic:DatePicker>
+                                    <simplic:NumericUpDown x:Name="NumContent" Value="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" Visibility="{Binding NumberVisible}"></simplic:NumericUpDown>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="IsInherited" DisplayMemberBinding="{Binding IsInherited}"></GridViewColumn>
                     <GridViewColumn Header="Found" DisplayMemberBinding="{Binding Found}"></GridViewColumn>
                 </GridView>

@@ -37,7 +37,47 @@ namespace Simplic.FileStructure.UI
 
         public void Save()
         {
+            foreach (var entry in GridEntries)
+            {
+                if(entry.Found && entry.IsInherited && entry.Content != OriginalGridEntries.First(o => o.Name == entry.Name).Content)
+                {
+                    var dirField = new DirectoryField()
+                    {
+                        DirectoryId = directory.Id,
+                        FieldTypeId = entry.FieldTypeId,
+                        Value = entry.Content
+                    };
 
+                    directoryFieldService.Save(dirField);
+                }
+                else if(entry.Found && !entry.IsInherited && entry.Content != OriginalGridEntries.First(o => o.Name == entry.Name).Content)
+                {
+                    var dirField = new DirectoryField()
+                    {
+                        Id = entry.EntryId.Value,
+                        DirectoryId = directory.Id,
+                        FieldTypeId = entry.FieldTypeId,
+                        Value = entry.Content
+                    };
+
+
+                    if (String.IsNullOrEmpty(entry.Content))
+                        directoryFieldService.Delete(dirField);
+                    else
+                        directoryFieldService.Save(dirField);
+                }
+                else if(!entry.Found && !String.IsNullOrEmpty(entry.Content))
+                {
+                    var dirField = new DirectoryField()
+                    {
+                        DirectoryId = directory.Id,
+                        FieldTypeId = entry.FieldTypeId,
+                        Value = entry.Content
+                    };
+
+                    directoryFieldService.Save(dirField);
+                }
+            }
         }
 
 
@@ -48,23 +88,19 @@ namespace Simplic.FileStructure.UI
         public void Initialize(Directory dir)
         {
             this.directory = dir;
-            GridEntries = new List<Test>();
+            GridEntries = new List<GridEntry>();
 
             foreach (var field in AvailableFieldTypes)
             {
-                var gridEntry = new Test();
-                gridEntry.Name = field.Name;
-                gridEntry.Content = SearchForValues(directory, field, out gridEntry.IsInherited, out gridEntry.Found);
-                MessageBox.Show(
-                    "Name: " + gridEntry.Name + Environment.NewLine + 
-                    "Content: " + gridEntry.Content + Environment.NewLine + 
-                    "IsInherited: " + gridEntry.IsInherited + Environment.NewLine + 
-                    "IsFound: " + gridEntry.Found);
+                var gridEntry = new GridEntry();
+                gridEntry = CreateEntry(directory, field, gridEntry);
                 GridEntries.Add(gridEntry);
             }
+
+            OriginalGridEntries = new List<GridEntry>(GridEntries.Select(g => (GridEntry) g.Clone()).ToList());
         }
 
-        private string SearchForValues(Directory directory, FieldType field, out bool isInherited, out bool found)
+        private GridEntry CreateEntry(Directory directory, FieldType field, GridEntry gridEntry)
         {
             DirectoryField dirField;
             Directory original = directory;
@@ -79,23 +115,37 @@ namespace Simplic.FileStructure.UI
 
             if (directory != null && original.Id == directory.Id)
             {
-                isInherited = false;
-                found = true;
+                gridEntry.IsInherited = false;
+                gridEntry.Found = true;
             }
             else
             {
                 if (dirField == null)
-                    found = false;
+                    gridEntry.Found = false;
                 else
-                    found = true;
+                    gridEntry.Found = true;
 
-                isInherited = true;
+                gridEntry.IsInherited = true;
             }
 
-            return dirField?.Value;
+            gridEntry.Content = dirField?.Value;
+            gridEntry.EntryId = dirField?.Id;
+            gridEntry.Name = field.Name;
+            gridEntry.FieldTypeId = field.Id;
+            gridEntry.DateVisible = field.Datatype == "DateTime" ? Visibility.Visible : Visibility.Collapsed;
+            gridEntry.TextVisible = field.Datatype == "string" ? Visibility.Visible : Visibility.Collapsed;
+            gridEntry.NumberVisible = field.Datatype == "int" ? Visibility.Visible : Visibility.Collapsed;
+
+            return gridEntry;
         }
 
-        public List<Test> GridEntries
+        public List<GridEntry> GridEntries
+        {
+            get;
+            set;
+        }
+
+        public List<GridEntry> OriginalGridEntries
         {
             get;
             set;
@@ -118,12 +168,33 @@ namespace Simplic.FileStructure.UI
             }
         }
 
-        public class Test
+        public class GridEntry : ICloneable
         {
-            public string Name;
-            public bool IsInherited;
-            public bool Found;
-            public string Content;
+            public Guid? EntryId { get; set; }
+            public Guid FieldTypeId { get; set; }
+            public string Name { get; set; }
+            public string Content { get; set; }
+            public bool Found { get; set; }
+            public bool IsInherited { get; set; }
+
+            public Visibility DateVisible { get; set; }
+            public Visibility TextVisible { get; set; }
+            public Visibility NumberVisible { get; set; }
+
+            public object Clone()
+            {
+                var entry = new GridEntry()
+                {
+                    Content = Content,
+                    EntryId = EntryId,
+                    FieldTypeId = FieldTypeId,
+                    Found = Found,
+                    IsInherited = IsInherited,
+                    Name = Name
+                };
+
+                return entry;
+            }
         }
     }
 }

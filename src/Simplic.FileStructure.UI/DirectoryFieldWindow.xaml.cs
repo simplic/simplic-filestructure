@@ -60,7 +60,7 @@ namespace Simplic.FileStructure.UI
             }
             catch (Exception ex)
             {
-                LogManagerInstance.Instance.Error("Could not save file structure", ex);
+                LogManagerInstance.Instance.Error("Could not save directory metadata", ex);
             }
             base.OnSave(e);
         }
