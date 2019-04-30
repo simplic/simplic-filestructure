@@ -45,7 +45,7 @@ namespace Simplic.FileStructure.UI
             var viewModel = new DirectoryFieldViewModel();
             viewModel.Initialize(directory);
 
-            lvFields.ItemsSource = viewModel.GridEntries;
+            // lvFields.ItemsSource = viewModel.GridEntries;
 
             DataContext = viewModel;
 
