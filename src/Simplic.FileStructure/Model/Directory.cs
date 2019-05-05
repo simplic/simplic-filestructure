@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Simplic.FileStructure
 {
@@ -38,6 +39,12 @@ namespace Simplic.FileStructure
         /// Gets or sets the directory type id
         /// </summary>
         public Guid DirectoryTypeId
+        {
+            get;
+            set;
+        }
+
+        public IList<DirectoryField> DirectoryFields
         {
             get;
             set;

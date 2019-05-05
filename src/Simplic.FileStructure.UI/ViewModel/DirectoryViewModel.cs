@@ -21,6 +21,7 @@ namespace Simplic.FileStructure.UI
         private DirectoryType directoryType;
         private BitmapImage iconImage;
 
+
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
@@ -34,7 +35,8 @@ namespace Simplic.FileStructure.UI
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
             directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
-            
+
+
             directories = new ObservableCollection<DirectoryViewModel>();
 
             this.structureViewModel = structureViewModel;

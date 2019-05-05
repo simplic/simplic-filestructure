@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Simplic.FileStructure.UI.DirectoryFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:Simplic.FileStructure.UI"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True">
+            <ItemsControl ItemsSource="{Binding GridEntries}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" SharedSizeGroup="A_NameColumn" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Name}" Grid.Column="0" VerticalAlignment="Center" />
+
+                            <simplic:TextBox Margin="2" Height="28" Grid.Column="1" x:Name="TxtContent" VerticalAlignment="Center" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding TextVisible}"></simplic:TextBox>
+                            <simplic:DatePicker Margin="2" Height="28" Grid.Column="1" x:Name="DpContent" VerticalAlignment="Center" SelectedValue="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding DateVisible}"></simplic:DatePicker>
+                            <simplic:NumericUpDown Margin="2" Height="28" Grid.Column="1" x:Name="NumContent" VerticalAlignment="Center" Value="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding NumberVisible}"></simplic:NumericUpDown>
+                            <simplic:CheckBox Content="{Binding Name}" IsChecked="{Binding Content}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>                
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
