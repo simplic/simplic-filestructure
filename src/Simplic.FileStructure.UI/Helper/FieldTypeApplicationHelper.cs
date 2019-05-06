@@ -4,7 +4,7 @@ using System;
 namespace Simplic.FileStructure.UI.Helper
 {
     /// <summary>
-    /// Application helper
+    /// Field Type Application helper
     /// </summary>
     public class FieldTypeApplicationHelper : GridWindowApplicationHelper<Guid, FieldType, FieldTypeEditorViewModel>
     {

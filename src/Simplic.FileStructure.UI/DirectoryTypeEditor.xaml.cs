@@ -33,11 +33,11 @@ namespace Simplic.FileStructure.UI
     }
 
     /// <summary>
-    /// Interaction logic for FileStructureWindow.xaml
+    /// Interaction logic for DirectoryTypeEditor.xaml
     /// </summary>
     public partial class DirectoryTypeEditor : BaseDirectoryTypeEditor, IDirectoryTypeEditor
     {
-        private readonly IDirectoryTypeFieldService directoryTypeFieldService;
+        private readonly IDirectoryTypeClassificationService directoryTypeClassificationService;
 
         /// <summary>
         /// Initialize editor
@@ -45,52 +45,71 @@ namespace Simplic.FileStructure.UI
         /// <param name="service">Service instance</param>
         public DirectoryTypeEditor(IDirectoryTypeService service) : base(service)
         {
-            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeFieldService>();
+            directoryTypeClassificationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeClassificationService>();
             
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Moves an entry from the list of chosen classifications back to the pool of available classifications
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMoveToPool_Click(object sender, RoutedEventArgs e)
         {
             var fields = LvAvailableFields.SelectedItems;
 
             foreach(var field in fields)
             {
-                var type = (FieldType) field;
+                var type = (DirectoryClassification) field;
 
-                this.ViewModel.AvailableFieldTypes.Remove(type);
-                this.ViewModel.ChosenFieldTypes.Add(type);
+                this.ViewModel.AvailableDirectoryClassifications.Remove(type);
+                this.ViewModel.ChosenDirectoryClassifications.Add(type);
             }
 
             LvAvailableFields.Items.Refresh();
-            LvDirectoryTypeFields.Items.Refresh();
+            LDirectoryClassifications.Items.Refresh();
         }
 
+
+        /// <summary>
+        /// Moves a entry from the pool of available classifications to the list of chosen classifications
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDeleteFromPool_Click(object sender, RoutedEventArgs e)
         {
-            var fields = LvDirectoryTypeFields.SelectedItems;
+            var fields = LDirectoryClassifications.SelectedItems;
 
             foreach (var field in fields)
             {
-                var type = (FieldType) field;
+                var type = (DirectoryClassification) field;
 
-                this.ViewModel.ChosenFieldTypes.Remove(type);
-                this.ViewModel.AvailableFieldTypes.Add(type);
+                this.ViewModel.ChosenDirectoryClassifications.Remove(type);
+                this.ViewModel.AvailableDirectoryClassifications.Add(type);
             }
 
             LvAvailableFields.Items.Refresh();
-            LvDirectoryTypeFields.Items.Refresh();
+            LDirectoryClassifications.Items.Refresh();
         }
 
+        /// <summary>
+        /// Saves chosen classifications to database
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnSave(WindowSaveEventArg e)
         {
-            directoryTypeFieldService.SaveFieldTypes(this.ViewModel.ChosenFieldTypes, this.ViewModel.AvailableFieldTypes, this.ViewModel.Model);
+            directoryTypeClassificationService.SaveFieldTypes(this.ViewModel.ChosenDirectoryClassifications, this.ViewModel.AvailableDirectoryClassifications, this.ViewModel.Model);
             base.OnSave(e);
         }
 
+        /// <summary>
+        /// Deletes all directory type classifications
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnDelete(WindowDeleteEventArg e)
         {
-            directoryTypeFieldService.DeleteAll(this.ViewModel.Model);
+            directoryTypeClassificationService.DeleteAll(this.ViewModel.Model);
             base.OnDelete(e);
         }
     }

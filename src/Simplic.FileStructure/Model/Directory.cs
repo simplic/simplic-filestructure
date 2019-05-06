@@ -44,7 +44,10 @@ namespace Simplic.FileStructure
             set;
         }
 
-        public IList<DirectoryField> DirectoryFields
+        /// <summary>
+        /// Gets or sets the directory classification
+        /// </summary>
+        public DirectoryClassification DirectoryClassification
         {
             get;
             set;

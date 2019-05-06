@@ -75,8 +75,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectoryTypeClassificationRepository.cs" />
     <Compile Include="DirectoryFieldRepository.cs" />
-    <Compile Include="DirectoryTypeFieldRepository.cs" />
+    <Compile Include="DirectoryClassificationFieldRepository.cs" />
+    <Compile Include="DirectoryClassificationRepository.cs" />
     <Compile Include="FieldTypeRepository.cs" />
     <Compile Include="DirectoryTypeRepository.cs" />
     <Compile Include="FileStructureDocumentPathRepository.cs" />

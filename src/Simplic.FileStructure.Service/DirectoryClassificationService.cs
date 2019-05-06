@@ -4,25 +4,25 @@ using System.Collections.Generic;
 namespace Simplic.FileStructure.Service
 {
     /// <summary>
-    /// Field type service implementation
+    /// Directory classification service implementation
     /// </summary>
-    public class FieldTypeService : IFieldTypeService
+    public class DirectoryClassificationService : IDirectoryClassificationService
     {
-        private readonly IFieldTypeRepository repository;
+        private readonly IDirectoryClassificationRepository repository;
 
         /// <summary>
         /// Initialize service
         /// </summary>
         /// <param name="repository">Repository instance</param>
-        public FieldTypeService(IFieldTypeRepository repository)
+        public DirectoryClassificationService(IDirectoryClassificationRepository repository)
         {
             this.repository = repository;
         }
 
         /// <summary>
-        /// Delete field type
+        /// Delete directory classification
         /// </summary>
-        /// <param name="id">Field type id</param>
+        /// <param name="id">Directory classification id</param>
         /// <returns>True if successful</returns>
         public bool Delete(Guid id)
         {
@@ -30,40 +30,40 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
-        /// Delete field type
+        /// Delete Directory classification
         /// </summary>
-        /// <param name="obj">Type instance</param>
+        /// <param name="obj">Classification instance</param>
         /// <returns>True if successfull</returns>
-        public bool Delete(FieldType obj)
+        public bool Delete(DirectoryClassification obj)
         {
             return repository.Delete(obj);
         }
 
         /// <summary>
-        /// Get field type by id
+        /// Get directory classification by id
         /// </summary>
         /// <param name="id">Unique id</param>
-        /// <returns>Field type instance</returns>
-        public FieldType Get(Guid id)
+        /// <returns>Directory classification instance</returns>
+        public DirectoryClassification Get(Guid id)
         {
             return repository.Get(id);
         }
 
         /// <summary>
-        /// Get all field types
+        /// Get all directory classifications
         /// </summary>
         /// <returns>Enumerable of type instance</returns>
-        public IEnumerable<FieldType> GetAll()
+        public IEnumerable<DirectoryClassification> GetAll()
         {
             return repository.GetAll();
         }
 
         /// <summary>
-        /// Save the field type
+        /// Save the Directory classification
         /// </summary>
-        /// <param name="obj">Field type instance</param>
+        /// <param name="obj">Directory classification instance</param>
         /// <returns>True if successfull</returns>
-        public bool Save(FieldType obj)
+        public bool Save(DirectoryClassification obj)
         {
             return repository.Save(obj);
         }

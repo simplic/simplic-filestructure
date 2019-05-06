@@ -27,6 +27,7 @@
             <ComboBoxItem Content="Text" Tag="string" IsSelected="True"/>
             <ComboBoxItem Content="Nummer" Tag="int" />
             <ComboBoxItem Content="Datum" Tag="DateTime" />
+            <ComboBoxItem Content="Boolean" Tag="bool" />
         </ComboBox>
         
     </Grid>

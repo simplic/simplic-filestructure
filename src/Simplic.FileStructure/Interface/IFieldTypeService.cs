@@ -3,7 +3,7 @@
 namespace Simplic.FileStructure
 {
     /// <summary>
-    /// Directory type service
+    /// field type service
     /// </summary>
     public interface IFieldTypeService : IFieldTypeRepository
     {

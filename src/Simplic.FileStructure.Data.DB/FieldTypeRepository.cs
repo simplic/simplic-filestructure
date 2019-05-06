@@ -8,7 +8,7 @@ using Dapper;
 namespace Simplic.FileStructure.Data.DB
 {
     /// <summary>
-    /// Directory type repository implementation
+    /// Field type repository implementation
     /// </summary>
     public class FieldTypeRepository : SqlRepositoryBase<Guid, FieldType>, IFieldTypeRepository
     {

@@ -19,7 +19,7 @@ using Telerik.Windows.DragDrop;
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
-    /// Interaction logic for FileStructureEditor.xaml
+    /// Interaction logic for DirectoryFieldControl.xaml
     /// </summary>
     public partial class DirectoryFieldControl : UserControl
     {
@@ -39,13 +39,12 @@ namespace Simplic.FileStructure.UI
         /// <summary>
         /// Initialize control and fill data
         /// </summary>
+        /// <param name="directory">directory instance</param>
         /// <param name="fileStructure">File structure instance</param>
-        public DirectoryFieldViewModel Initialize(Directory directory)
+        public DirectoryFieldViewModel Initialize(Directory directory, FileStructure fileStructure)
         {
             var viewModel = new DirectoryFieldViewModel();
-            viewModel.Initialize(directory);
-
-            // lvFields.ItemsSource = viewModel.GridEntries;
+            viewModel.Initialize(directory, fileStructure);
 
             DataContext = viewModel;
 

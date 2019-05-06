@@ -7,11 +7,23 @@
              xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:local="clr-namespace:Simplic.FileStructure.UI"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Grid.IsSharedSizeScope="True">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" SharedSizeGroup="A_NameColumn" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True">
-            <ItemsControl ItemsSource="{Binding GridEntries}">
+        <TextBlock Text="Klassifikation" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+        <simplic:ComboBox Grid.Row="0" Grid.Column="1" x:Name="CbAvailableClassifications" ItemsSource="{Binding AvailableDirectoryClassifications}" SelectedItem="{Binding DirectoryClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" />
+
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+
+            <ItemsControl x:Name="ICGridEntries" ItemsSource="{Binding GridEntries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -20,15 +32,15 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding Name}" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Name}" Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding NameVisible}" />
 
-                            <simplic:TextBox Margin="2" Height="28" Grid.Column="1" x:Name="TxtContent" VerticalAlignment="Center" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding TextVisible}"></simplic:TextBox>
-                            <simplic:DatePicker Margin="2" Height="28" Grid.Column="1" x:Name="DpContent" VerticalAlignment="Center" SelectedValue="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding DateVisible}"></simplic:DatePicker>
-                            <simplic:NumericUpDown Margin="2" Height="28" Grid.Column="1" x:Name="NumContent" VerticalAlignment="Center" Value="{Binding Content, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding NumberVisible}"></simplic:NumericUpDown>
-                            <simplic:CheckBox Content="{Binding Name}" IsChecked="{Binding Content}" />
+                            <simplic:TextBox Margin="2" Height="28" Grid.Column="1" VerticalAlignment="Center" Text="{Binding StringContent, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding TextVisible}"></simplic:TextBox>
+                            <simplic:DatePicker Margin="2" Height="28" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding DateContent, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding DateVisible}"></simplic:DatePicker>
+                            <simplic:NumericUpDown Margin="2" Height="28" Grid.Column="1" VerticalAlignment="Center" Value="{Binding NumericContent, UpdateSourceTrigger=PropertyChanged}" MinWidth="200" HorizontalAlignment="Left" Visibility="{Binding NumberVisible}"></simplic:NumericUpDown>
+                            <simplic:CheckBox Margin="2" Height="28" Grid.Column="1" VerticalAlignment="Center" Content="{Binding Name}" IsChecked="{Binding BooleanContent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding BooleanVisible}" />
                         </Grid>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>                
+                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
     </Grid>

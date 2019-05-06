@@ -2,52 +2,51 @@
 using System;
 using Simplic.Cache;
 using Simplic.Sql;
-using System.Collections.Generic;
 using Dapper;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Simplic.FileStructure.Data.DB
 {
     /// <summary>
-    /// Directory to field repository implementation
+    /// Directory type to directory classification repository implementation
     /// </summary>
-    public class DirectoryFieldRepository : SqlRepositoryBase<Guid, DirectoryField>, IDirectoryFieldRepository
+    public class DirectoryTypeClassificationRepository : SqlRepositoryBase<Guid, DirectoryTypeClassification>, IDirectoryTypeClassificationRepository
     {
         private readonly ISqlService sqlService;
+
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="sqlService">Sql service</param>
         /// <param name="sqlColumnService">Sql column</param>
         /// <param name="cacheService">Cache service</param>
-        public DirectoryFieldRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
+        public DirectoryTypeClassificationRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
         {
             UseCache = true;
             this.sqlService = sqlService;
         }
 
         /// <summary>
-        /// Gets the object id of <see cref="DirectoryField"/>
+        /// Gets the object id of <see cref="DirectoryTypeClassification"/>
         /// </summary>
         /// <param name="obj">Object instance</param>
         /// <returns>Object id</returns>
-        public override Guid GetId(DirectoryField obj)
+        public override Guid GetId(DirectoryTypeClassification obj)
         {
             return obj.Id;
         }
 
         /// <summary>
-        /// Get the value of a field by directoryId and fieldTypeId
+        /// Get all by DirectoryTypeId
         /// </summary>
-        /// <param name="directoryId">Id of a directory</param>
-        /// <param name="fieldTypeId">Id of a field type</param>
-        /// <returns><see cref="DirectoryField"/></returns>
-        public DirectoryField Get(Guid directoryId, Guid fieldTypeId)
+        /// <param name="guid"></param>
+        /// <returns>A IEnumrable of <see cref="DirectoryTypeClassification"/></returns>
+        public IEnumerable<DirectoryTypeClassification> GetByDirectoryTypeId(Guid guid)
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<DirectoryField>($"SELECT * FROM {TableName} WHERE FieldTypeId = :fieldTypeId AND DirectoryId = :directoryId",
-                    new { fieldTypeId, directoryId }).FirstOrDefault();
+                return connection.Query<DirectoryTypeClassification>($"SELECT * FROM {TableName} WHERE DirectoryTypeId = :guid",
+                    new { guid });
             });
         }
 
@@ -63,13 +62,13 @@ namespace Simplic.FileStructure.Data.DB
         }
 
         /// <summary>
-        /// Gets the table name (`FileStructure_DirectoryField`)
+        /// Gets the table name (`FileStructure_DirectoryTypeClassification`)
         /// </summary>
         public override string TableName
         {
             get
             {
-                return "FileStructure_DirectoryField";
+                return "FileStructure_DirectoryTypeClassification";
             }
         }
     }

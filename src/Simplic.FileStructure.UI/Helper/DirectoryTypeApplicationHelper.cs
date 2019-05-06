@@ -4,7 +4,7 @@ using System;
 namespace Simplic.FileStructure.UI.Helper
 {
     /// <summary>
-    /// Application helper
+    /// Directory Type Application helper
     /// </summary>
     public class DirectoryTypeApplicationHelper : GridWindowApplicationHelper<Guid, DirectoryType, DirectoryTypeEditorViewModel>
     {
