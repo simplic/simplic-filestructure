@@ -3,12 +3,12 @@
 namespace Simplic.FileStructure
 {
     /// <summary>
-    /// represents a field type 
+    /// represents the different directory classifications a directory type can have
     /// </summary>
-    public class FieldType
+    public class DirectoryTypeClassification
     {
         /// <summary>
-        /// Gets or sets the GUID
+        /// Gets or the sets the GUID
         /// </summary>
         public Guid Id
         {
@@ -17,18 +17,18 @@ namespace Simplic.FileStructure
         } = Guid.NewGuid();
 
         /// <summary>
-        /// Gets or sets the field name
+        /// Gets or sets the Directory classification Id
         /// </summary>
-        public string Name
+        public Guid DirectoryClassificationId
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets or sets the field datatype
+        /// Gets or sets the Directory type Id
         /// </summary>
-        public string Datatype
+        public Guid DirectoryTypeId
         {
             get;
             set;

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.UI
 {
-    public interface IDirectoryTypeFieldEditor
+    /// <summary>
+    /// Directory Classification Editor base
+    /// </summary>
+    public interface IDirectoryClassificationEditor
     {
     }
 }

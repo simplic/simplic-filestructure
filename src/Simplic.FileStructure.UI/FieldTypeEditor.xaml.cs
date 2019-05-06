@@ -33,7 +33,7 @@ namespace Simplic.FileStructure.UI
     }
 
     /// <summary>
-    /// Interaction logic for FileStructureWindow.xaml
+    /// Interaction logic for FieldTypeEditor.xaml
     /// </summary>
     public partial class FieldTypeEditor : BaseFieldTypeEditor, IFieldTypeEditor
     {

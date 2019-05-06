@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
-    /// Directory type editor viewmodel
+    /// Field type editor viewmodel
     /// </summary>
     public class FieldTypeEditorViewModel : ExtendableViewModel, IWindowViewModel<FieldType>
     {
@@ -44,7 +44,7 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the type name
+        /// Gets or sets the field name
         /// </summary>
         public string Name
         {
@@ -59,7 +59,7 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the type name
+        /// Gets or sets the datatype
         /// </summary>
         public string Datatype
         {

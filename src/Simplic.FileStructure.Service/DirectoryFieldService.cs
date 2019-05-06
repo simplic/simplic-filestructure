@@ -5,7 +5,7 @@ using System.Linq;
 namespace Simplic.FileStructure.Service
 {
     /// <summary>
-    /// Directory type service implementation
+    /// Directory to Field service implementation
     /// </summary>
     public class DirectoryFieldService : IDirectoryFieldService
     {
@@ -21,9 +21,9 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
-        /// Delete directory type
+        /// Delete directory field
         /// </summary>
-        /// <param name="id">Directory type id</param>
+        /// <param name="id">Directory field id</param>
         /// <returns>True if successful</returns>
         public bool Delete(Guid id)
         {
@@ -31,9 +31,9 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
-        /// Delete directory type
+        /// Delete directory field
         /// </summary>
-        /// <param name="obj">Type instance</param>
+        /// <param name="obj">Directory field instance</param>
         /// <returns>True if successfull</returns>
         public bool Delete(DirectoryField obj)
         {
@@ -41,7 +41,7 @@ namespace Simplic.FileStructure.Service
         }
 
         /// <summary>
-        /// Get directory type by id
+        /// Get directory field by id
         /// </summary>
         /// <param name="id">Unique id</param>
         /// <returns>Directory type instance</returns>
@@ -50,24 +50,30 @@ namespace Simplic.FileStructure.Service
             return repository.Get(id);
         }
 
+        /// <summary>
+        /// Get the value of a field by directoryId and fieldTypeId
+        /// </summary>
+        /// <param name="directoryId">Id of a directory</param>
+        /// <param name="fieldTypeId">Id of a field type</param>
+        /// <returns><see cref="DirectoryField"/></returns>
         public DirectoryField Get(Guid directoryId, Guid fieldTypeId)
         {
             return repository.Get(directoryId, fieldTypeId);
         }
 
         /// <summary>
-        /// Get all directory types
+        /// Get all directory fields
         /// </summary>
-        /// <returns>Enumerable of type instance</returns>
+        /// <returns>Enumerable of DirectoryField instance</returns>
         public IEnumerable<DirectoryField> GetAll()
         {
             return repository.GetAll();
         }
 
         /// <summary>
-        /// Save the directory type
+        /// Save the directory field
         /// </summary>
-        /// <param name="obj">Directory type instance</param>
+        /// <param name="obj">Directory field instance</param>
         /// <returns>True if successfull</returns>
         public bool Save(DirectoryField obj)
         {

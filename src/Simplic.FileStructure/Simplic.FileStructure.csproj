@@ -68,18 +68,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IDirectoryTypeClassificationRepository.cs" />
+    <Compile Include="Interface\IDirectoryTypeClassificationService.cs" />
     <Compile Include="Interface\IDirectoryFieldRepository.cs" />
-    <Compile Include="Interface\IDirectoryTypeFieldRepository.cs" />
+    <Compile Include="Interface\IDirectoryClassificationFieldRepository.cs" />
     <Compile Include="Interface\IDirectoryFieldService.cs" />
+    <Compile Include="Interface\IDirectoryClassificationRepository.cs" />
     <Compile Include="Interface\IFieldTypeRepository.cs" />
     <Compile Include="Interface\IDirectoryTypeRepository.cs" />
-    <Compile Include="Interface\IDirectoryTypeFieldService.cs" />
+    <Compile Include="Interface\IDirectoryClassificationFieldService.cs" />
+    <Compile Include="Interface\IDirectoryClassificationService.cs" />
     <Compile Include="Interface\IFieldTypeService.cs" />
     <Compile Include="Interface\IDirectoryTypeService.cs" />
     <Compile Include="Interface\IRenderingService.cs" />
     <Compile Include="Model\Directory.cs" />
+    <Compile Include="Model\DirectoryClassification.cs" />
+    <Compile Include="Model\DirectoryTypeClassification.cs" />
     <Compile Include="Model\DirectoryField.cs" />
-    <Compile Include="Model\DirectoryTypeField.cs" />
+    <Compile Include="Model\DirectoryClassificationField.cs" />
     <Compile Include="Model\FieldType.cs" />
     <Compile Include="Model\DirectoryType.cs" />
     <Compile Include="Model\FileStructure.cs" />

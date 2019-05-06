@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="50*" />
             </Grid.ColumnDefinitions>
 
-            <ListView x:Name="LvAvailableFields" Grid.Column="0" ItemsSource="{Binding AvailableFieldTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
+            <ListView x:Name="LvAvailableFields" Grid.Column="0" ItemsSource="{Binding AvailableDirectoryClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
             </ListView>
 
             <Grid Grid.Column="1" VerticalAlignment="Center">
@@ -53,7 +53,7 @@
                 <Button x:Name="BtnDeleteFrom" Grid.Row="2" Content="&lt;&lt;" Click="BtnDeleteFromPool_Click"></Button>
             </Grid>
 
-            <ListView Grid.Column="2" x:Name="LvDirectoryTypeFields" ItemsSource="{Binding ChosenFieldTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
+            <ListView Grid.Column="2" x:Name="LDirectoryClassifications" ItemsSource="{Binding ChosenDirectoryClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name">
             </ListView>
         </Grid>
     </Grid>

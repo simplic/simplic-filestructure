@@ -5,9 +5,9 @@ using System.Collections.Generic;
 namespace Simplic.FileStructure
 {
     /// <summary>
-    /// field type repository base
+    /// Directory Classification repository base
     /// </summary>
-    public interface IFieldTypeRepository : IRepositoryBase<Guid, FieldType>
+    public interface IDirectoryClassificationRepository : IRepositoryBase<Guid, DirectoryClassification>
     {
     }
 }

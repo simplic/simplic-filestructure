@@ -4,9 +4,9 @@ using System;
 namespace Simplic.FileStructure.UI.Helper
 {
     /// <summary>
-    /// Application helper
+    /// Directory Classification Application helper
     /// </summary>
-    public class DirectoryTypeFieldApplicationHelper : GridWindowApplicationHelper<Guid, DirectoryTypeField, DirectoryTypeFieldEditorViewModel>
+    public class DirectoryClassificationApplicationHelper : GridWindowApplicationHelper<Guid, DirectoryClassification, DirectoryClassificationEditorViewModel>
     {
         /// <summary>
         /// Gets the priamry column (Id)
@@ -26,7 +26,7 @@ namespace Simplic.FileStructure.UI.Helper
         {
             get
             {
-                return typeof(IDirectoryTypeFieldEditor);
+                return typeof(IDirectoryClassificationEditor);
             }
         }
     }

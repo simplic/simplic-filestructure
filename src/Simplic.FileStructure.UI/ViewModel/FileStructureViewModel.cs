@@ -33,7 +33,6 @@ namespace Simplic.FileStructure.UI
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
         private ICommand editMetaDataCommand;
-        private ICommand debugMetaDataCommand;
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
@@ -42,7 +41,7 @@ namespace Simplic.FileStructure.UI
         private readonly IFileStructureService fielStructureService;
 
         private readonly IDirectoryFieldService directoryFieldService;
-        private readonly IDirectoryTypeFieldService directoryTypeFieldService;
+        private readonly IDirectoryClassificationFieldService directoryTypeFieldService;
 
         /// <summary>
         /// Create view model
@@ -58,7 +57,7 @@ namespace Simplic.FileStructure.UI
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
 
             directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();
-            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeFieldService>();
+            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryClassificationFieldService>();
 
             rootPath = "";
             VisualPathElements = new ObservableCollection<FrameworkElement>();
@@ -111,34 +110,9 @@ namespace Simplic.FileStructure.UI
                 {
                     var directoryFieldWindow = new DirectoryFieldWindow();
 
-                    directoryFieldWindow.Initialize(SelectedDirectory.Model);
+                    directoryFieldWindow.Initialize(SelectedDirectory.Model, GetStructure());
                     directoryFieldWindow.WindowMode = Framework.UI.WindowMode.Edit;
-                    directoryFieldWindow.Show();
-                    return;
-                }
-
-            }, (e) => { return selectedDirectory != null; });
-
-            // Create edit metadata command
-            debugMetaDataCommand = new RelayCommand((e) =>
-            {
-                if (SelectedDirectory != null)
-                {
-                    var aFields = directoryTypeFieldService.GetByDirectoryTypeId(SelectedDirectory.Model.DirectoryTypeId.ToString());
-                    var field = aFields.First();
-
-                    var dirField = new DirectoryField()
-                    {
-                        FieldTypeId = field.FieldTypeId,
-                        DirectoryId = SelectedDirectory.Model.Id,
-                        Value = new Random().Next(100).ToString()
-                    };
-
-                    var all = directoryFieldService.GetAll();
-                    foreach (var a in all)
-                        directoryFieldService.Delete(a);
-                    directoryFieldService.Save(dirField);
-
+                    directoryFieldWindow.ShowDialog();
                     return;
                 }
 
@@ -516,22 +490,6 @@ namespace Simplic.FileStructure.UI
             set
             {
                 editMetaDataCommand = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the remove directory command
-        /// </summary>
-        public ICommand DebugMetaDataCommand
-        {
-            get
-            {
-                return debugMetaDataCommand;
-            }
-
-            set
-            {
-                debugMetaDataCommand = value;
             }
         }
 

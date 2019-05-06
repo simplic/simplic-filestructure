@@ -14,19 +14,19 @@ namespace Simplic.FileStructure.UI
     public class DirectoryTypeEditorViewModel : ExtendableViewModel, IWindowViewModel<DirectoryType>
     {
         private DirectoryType model;
-        private List<FieldType> availableFieldTypes;
-        private List<FieldType> chosenFieldTypes;
-        private List<DirectoryTypeField> directoryTypeFields;
-        private readonly IFieldTypeService fieldTypeService;
-        private readonly IDirectoryTypeFieldService directoryTypeFieldService;
+        private List<DirectoryClassification> availableDirectoryClassifications;
+        private List<DirectoryClassification> chosenFieldTypes;
+        private List<DirectoryTypeClassification> directoryTypeClassifications;
+        private readonly IDirectoryClassificationService directoryClassificationService;
+        private readonly IDirectoryTypeClassificationService directoryTypeClassificationService;
 
         /// <summary>
         /// Initialize viewmodel
         /// </summary>
         public DirectoryTypeEditorViewModel()
         {
-            fieldTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFieldTypeService>();
-            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeFieldService>();
+            directoryClassificationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryClassificationService>();
+            directoryTypeClassificationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeClassificationService>();
         }
 
         /// <summary>
@@ -109,31 +109,36 @@ namespace Simplic.FileStructure.UI
             }
         }
 
-        public List<FieldType> AvailableFieldTypes
+        /// <summary>
+        /// Gets or sets the available directory classification pool
+        /// </summary>
+        public List<DirectoryClassification> AvailableDirectoryClassifications
         {
             get
             {
-                if (availableFieldTypes == null)
-                    availableFieldTypes = fieldTypeService.GetAll().Where(f => !ChosenFieldTypes.Any(c => c.Id == f.Id)).ToList();
+                if (availableDirectoryClassifications == null)
+                    availableDirectoryClassifications = directoryClassificationService.GetAll().Where(f => !ChosenDirectoryClassifications.Any(c => c.Id == f.Id)).ToList();
 
-                return availableFieldTypes;
+                return availableDirectoryClassifications;
             }
             set
             {
-                PropertySetter(value, (newValue) => { availableFieldTypes = newValue; });
-                RaisePropertyChanged("AvailableFieldTypes");
+                PropertySetter(value, (newValue) => { availableDirectoryClassifications = newValue; });
+                RaisePropertyChanged("AvailableDirectoryClassifications");
             }
         }
-
-        public List<FieldType> ChosenFieldTypes
+        /// <summary>
+        /// Gets or sets the chosen directory classifications
+        /// </summary>
+        public List<DirectoryClassification> ChosenDirectoryClassifications
         {
             get
             {
                 if (chosenFieldTypes == null)
                 {
-                    chosenFieldTypes = new List<FieldType>();
-                    foreach (var field in DirectoryTypeFields)
-                        chosenFieldTypes.Add(fieldTypeService.Get(field.FieldTypeId));
+                    chosenFieldTypes = new List<DirectoryClassification>();
+                    foreach (var field in DirectoryTypeClassifications)
+                        chosenFieldTypes.Add(directoryClassificationService.Get(field.DirectoryClassificationId));
                 }
 
                 return chosenFieldTypes;
@@ -145,18 +150,21 @@ namespace Simplic.FileStructure.UI
             }
         }
 
-        public List<DirectoryTypeField> DirectoryTypeFields
+        /// <summary>
+        /// Gets the directory type classifications from Database
+        /// </summary>
+        public List<DirectoryTypeClassification> DirectoryTypeClassifications
         {
             get
             {
-                if (directoryTypeFields == null)
-                    directoryTypeFields = directoryTypeFieldService.GetByDirectoryTypeId(Model.Id.ToString()).ToList();
+                if (directoryTypeClassifications == null)
+                    directoryTypeClassifications = directoryTypeClassificationService.GetByDirectoryTypeId(Model.Id).ToList();
 
-                return directoryTypeFields;
+                return directoryTypeClassifications;
             }
             set
             {
-                PropertySetter(value, (newValue) => { directoryTypeFields = newValue; });
+                PropertySetter(value, (newValue) => { directoryTypeClassifications = newValue; });
             }
         }
 
