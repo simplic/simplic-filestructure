@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectoryTypeClassificationService.cs" />
     <Compile Include="DirectoryFieldService.cs" />
-    <Compile Include="DirectoryTypeFieldService.cs" />
+    <Compile Include="DirectoryClassificationFieldService.cs" />
+    <Compile Include="DirectoryClassificationService.cs" />
     <Compile Include="FieldTypeService.cs" />
     <Compile Include="DirectoryTypeService.cs" />
     <Compile Include="FileStructureDocumentPathService.cs" />

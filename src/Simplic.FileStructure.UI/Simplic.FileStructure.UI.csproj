@@ -143,6 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\GridDocumentPathConverter.cs" />
+    <Compile Include="DirectoryClassificationEditor.xaml.cs">
+      <DependentUpon>DirectoryClassificationEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FieldTypeEditor.xaml.cs">
       <DependentUpon>FieldTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -167,14 +170,14 @@
     </Compile>
     <Compile Include="Helper\ApplicationHelper.cs" />
     <Compile Include="Helper\ArchiveHelper.cs" />
-    <Compile Include="Helper\DirectoryTypeFieldApplicationHelper.cs" />
+    <Compile Include="Helper\DirectoryClassificationApplicationHelper.cs" />
     <Compile Include="Helper\FieldTypeApplicationHelper.cs" />
     <Compile Include="Helper\DirectoryTypeApplicationHelper.cs" />
-    <Compile Include="Interface\IDirectoryTypeFieldEditor.cs" />
+    <Compile Include="Interface\IDirectoryClassificationEditor.cs" />
     <Compile Include="Interface\IFieldTypeEditor.cs" />
     <Compile Include="Interface\IDirectoryTypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\DirectoryTypeFieldEditorViewModel.cs" />
+    <Compile Include="ViewModel\DirectoryClassificationEditorViewModel.cs" />
     <Compile Include="ViewModel\FieldTypeEditorViewModel.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\DocumentPathOverViewViewModel.cs" />
@@ -185,6 +188,10 @@
     <Compile Include="Interface\IDirectoryBaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DirectoryClassificationEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FieldTypeEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 namespace Simplic.FileStructure.UI
 {
     /// <summary>
-    /// Interaction logic for FileStructureWindow.xaml
+    /// Interaction logic for DirectoryFieldWindow.xaml
     /// </summary>
     public partial class DirectoryFieldWindow : DefaultRibbonWindow
     {
@@ -35,12 +35,14 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Initialize file structure window
+        /// Initialize directory field window
         /// </summary>
+        /// <param name="directory">directory instance</param>
         /// <param name="fileStructure">File structure instance</param>
-        public void Initialize(Directory directory)
+        public void Initialize(Directory directory, FileStructure fileStructure)
         {
-            DataContext = directoryFieldControl.Initialize(directory);
+            DataContext = directoryFieldControl.Initialize(directory, fileStructure);
+            
 
             //AddPagingObject(directory);
             WindowMode = WindowMode.Edit;
