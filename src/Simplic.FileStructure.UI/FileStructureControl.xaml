@@ -73,6 +73,11 @@
                                     <Image Height="16" Width="16" Source="{simplic:Icon Name=Edit_32x32}" />
                                 </telerik:RadMenuItem.Icon>
                             </telerik:RadMenuItem>
+                            <telerik:RadMenuItem Header="{simplic:Localization Key=filestructure_rename_directory}" Command="{Binding RenameDirectoryCommand}">
+                                <telerik:RadMenuItem.Icon>
+                                    <Image Height="16" Width="16" Source="{simplic:Icon Name=Rename_6779}" />
+                                </telerik:RadMenuItem.Icon>
+                            </telerik:RadMenuItem>
                             <telerik:RadMenuItem Header="{simplic:Localization Key=fs_archive_from_clipboard}" Command="{Binding ArchiveFromClipboard}">
                                 <telerik:RadMenuItem.Icon>
                                     <Image Height="16" Width="16" Source="{simplic:Icon Name=clipboard_paste_x16}" />
