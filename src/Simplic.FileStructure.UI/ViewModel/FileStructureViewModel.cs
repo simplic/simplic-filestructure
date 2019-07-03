@@ -33,6 +33,7 @@ namespace Simplic.FileStructure.UI
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
         private ICommand editMetaDataCommand;
+        private ICommand renameDirectoryCommand;
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
@@ -116,6 +117,15 @@ namespace Simplic.FileStructure.UI
                     return;
                 }
 
+            }, (e) => { return selectedDirectory != null; });
+
+            renameDirectoryCommand = new RelayCommand((e) =>
+            {
+                if(SelectedDirectory != null)
+                {
+                    directoryTreeView.ContainerFromItemRecursive(directoryTreeView.SelectedItem).BeginEdit();
+                    return;
+                }
             }, (e) => { return selectedDirectory != null; });
 
             // Archive from clipboard click
@@ -478,7 +488,7 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Gets or sets the remove directory command
+        /// Gets or sets the edit metadata directory command
         /// </summary>
         public ICommand EditMetaDataCommand
         {
@@ -490,6 +500,22 @@ namespace Simplic.FileStructure.UI
             set
             {
                 editMetaDataCommand = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the rename directory command
+        /// </summary>
+        public ICommand RenameDirectoryCommand
+        {
+            get
+            {
+                return renameDirectoryCommand;
+            }
+            
+            set
+            {
+                renameDirectoryCommand = value;
             }
         }
 
