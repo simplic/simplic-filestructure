@@ -57,7 +57,7 @@
                              PreviewMouseDown="TreeViewMouseDown"
                              MouseDoubleClick="OnTreeViewMouseDoubleClick">
                     <telerik:RadContextMenu.ContextMenu>
-                        <telerik:RadContextMenu x:Name="treeViewContextMenu">
+                        <telerik:RadContextMenu>
                             <telerik:RadMenuGroupItem x:Name="contextMenuAddDirectories" ItemsSource="{Binding DirectoryCategoryMenuItems}">
                             </telerik:RadMenuGroupItem>
                             <telerik:RadMenuItem Header="{simplic:Localization Key=filestructure_remove_directory}" Command="{Binding RemoveDirectoryCommand}">
