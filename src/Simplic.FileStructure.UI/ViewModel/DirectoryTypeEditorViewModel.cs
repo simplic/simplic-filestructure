@@ -80,6 +80,21 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
+        /// Gets or sets the type category
+        /// </summary>
+        public string Category
+        {
+            get
+            {
+                return model.Category;
+            }
+            set
+            {
+                PropertySetter(value, (newValue) => { model.Category = newValue; });
+            }
+        }
+
+        /// <summary>
         /// Gets or sets whether drag/drop is enabled
         /// </summary>
         public bool EnableDrag

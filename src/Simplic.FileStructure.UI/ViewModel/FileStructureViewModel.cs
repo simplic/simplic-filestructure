@@ -20,7 +20,7 @@ namespace Simplic.FileStructure.UI
     public class FileStructureViewModel : ExtendableViewModel, Studio.UI.IWindowViewModel<FileStructure>, IDirectoryBaseViewModel
     {
         private ObservableCollection<DirectoryViewModel> directories;
-        private ObservableCollection<RadMenuItem> directoryTypeMenuItems;
+        private ObservableCollection<RadMenuItem> directoryCategoryMenuItems;
         private IList<DirectoryViewModel> rawDirectories;
 
         private DirectoryViewModel selectedDirectory;
@@ -63,23 +63,40 @@ namespace Simplic.FileStructure.UI
             rootPath = "";
             VisualPathElements = new ObservableCollection<FrameworkElement>();
 
-            directoryTypeMenuItems = new ObservableCollection<RadMenuItem>();
-            foreach (var type in directoryTypeService.GetAll())
+            directoryCategoryMenuItems = new ObservableCollection<RadMenuItem>();
+
+            foreach (var category in directoryTypeService.GetAll().OrderBy(d => d.Category).GroupBy(d => d.Category))
             {
-                var menuItem = new RadMenuItem
+                var categoryItem = new RadMenuItem
                 {
-                    Header = localizationService.Translate(type.Name),
+                    Header = category.Key,
+                    Tag = category.Key,
                     Icon = new Image
                     {
-                        Source = iconService.GetByIdAsImage(type.IconId),
+                        Source = iconService.GetByNameAsImage("directory_add_x16"),
                         Width = 16,
                         Height = 16
-                    },
-                    Tag = type
+                    }
                 };
 
-                directoryTypeMenuItems.Add(menuItem);
-                menuItem.Click += AddDirectoryItemClick;
+                foreach (var type in category)
+                {
+                    var menuItem = new RadMenuItem
+                    {
+                        Header = localizationService.Translate(type.Name),
+                        Icon = new Image
+                        {
+                            Source = iconService.GetByIdAsImage(type.IconId),
+                            Width = 16,
+                            Height = 16
+                        },
+                        Tag = type
+                    };
+                    menuItem.Click += AddDirectoryItemClick;
+                    categoryItem.Items.Add(menuItem);
+                }
+
+                directoryCategoryMenuItems.Add(categoryItem);
             }
 
             // Create remove directory command
@@ -599,16 +616,16 @@ namespace Simplic.FileStructure.UI
             }
         }
 
-        public ObservableCollection<RadMenuItem> DirectoryTypeMenuItems
+        public ObservableCollection<RadMenuItem> DirectoryCategoryMenuItems
         {
             get
             {
-                return directoryTypeMenuItems;
+                return directoryCategoryMenuItems;
             }
 
             set
             {
-                directoryTypeMenuItems = value;
+                directoryCategoryMenuItems = value;
             }
         }
 

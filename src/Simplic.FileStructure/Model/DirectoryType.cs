@@ -38,6 +38,15 @@ namespace Simplic.FileStructure
         }
 
         /// <summary>
+        /// Gets or sets the type category
+        /// </summary>
+        public string Category
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets whether drag/drop is enabled
         /// </summary>
         public bool EnableDrag

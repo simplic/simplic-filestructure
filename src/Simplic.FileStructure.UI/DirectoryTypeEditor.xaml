@@ -15,6 +15,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -28,12 +29,15 @@
         <Label Grid.Row="1" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirtype_icon}" />
         <simplic:IconLookupTextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedIcon="{Binding IconId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
-        <simplic:CheckBox Grid.Row="2" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drag}" IsChecked="{Binding EnableDrag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirtype_category}" />
+        <simplic:TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <simplic:CheckBox Grid.Row="3" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drag}" IsChecked="{Binding EnableDrag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <simplic:CheckBox Grid.Row="3" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drop}" IsChecked="{Binding EnableDrop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <simplic:CheckBox Grid.Row="4" Grid.Column="1" Content="{simplic:Localization Key=filestructure_dirtype_drop}" IsChecked="{Binding EnableDrop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <Label Grid.Row="4" Grid.ColumnSpan="2" Content="{simplic:Localization Key=filestructure_dirfields}" />
-        <Grid Grid.Row="5" Grid.ColumnSpan="2" MinWidth="300">
+        <Label Grid.Row="5" Grid.ColumnSpan="2" Content="{simplic:Localization Key=filestructure_dirfields}" />
+        <Grid Grid.Row="6" Grid.ColumnSpan="2" MinWidth="300">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*" />
                 <ColumnDefinition Width="75"/>
