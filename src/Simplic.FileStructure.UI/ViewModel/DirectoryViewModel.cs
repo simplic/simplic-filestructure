@@ -20,11 +20,16 @@ namespace Simplic.FileStructure.UI
         private FileStructureViewModel structureViewModel;
         private DirectoryType directoryType;
         private BitmapImage iconImage;
+        private String tooltip;
 
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
+
+        private readonly IDirectoryClassificationFieldService directoryTypeFieldService;
+        private readonly IDirectoryFieldService directoryFieldService;
+        private readonly IFieldTypeService fieldTypeService;
 
         /// <summary>
         /// Initialize viewmodel
@@ -35,6 +40,10 @@ namespace Simplic.FileStructure.UI
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
             directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+
+            directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryClassificationFieldService>();
+            directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();
+            fieldTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFieldTypeService>();
 
 
             directories = new ObservableCollection<DirectoryViewModel>();
@@ -187,6 +196,49 @@ namespace Simplic.FileStructure.UI
                         iconImage = iconService.GetByIdAsImage(DirectoryType.IconId);
 
                 return iconImage;
+            }
+        }
+
+        public String Tooltip
+        {
+            get
+            {
+                try
+                {
+
+                    if (model.DirectoryClassification == null)
+                        return "Keine Klassifikation gesetzt";
+
+                    tooltip = "Type: " + model.DirectoryClassification.Name + Environment.NewLine + Environment.NewLine;
+
+                    var dirFieldTypes = directoryTypeFieldService.GetByDirectoryClassificationId(model.DirectoryClassification.Id);
+
+                    foreach (var dirFieldType in dirFieldTypes)
+                    {
+                        var fieldType = fieldTypeService.Get(dirFieldType.FieldTypeId);
+                        var dirField = directoryFieldService.Get(model.Id, dirFieldType.FieldTypeId);
+
+                        tooltip += $"{fieldType.Name}: ";
+
+                        switch (fieldType.Datatype)
+                        {
+                            case "DateTime":
+                                tooltip += dirField.DateValue + Environment.NewLine;
+                                break;
+                            case "string":
+                                tooltip += dirField.StringValue + Environment.NewLine;
+                                break;
+                            case "int":
+                                tooltip += dirField.NumericValue + Environment.NewLine;
+                                break;
+                            case "bool":
+                                tooltip += dirField.BooleanValue + Environment.NewLine;
+                                break;
+                        }
+                    }
+                    return tooltip;
+                }
+                catch { return "Error loading Tooltip"; }
             }
         }
     }
