@@ -205,7 +205,6 @@ namespace Simplic.FileStructure.UI
             {
                 try
                 {
-
                     if (model.DirectoryClassification == null)
                         return "Keine Klassifikation gesetzt";
 
@@ -216,9 +215,22 @@ namespace Simplic.FileStructure.UI
                     foreach (var dirFieldType in dirFieldTypes)
                     {
                         var fieldType = fieldTypeService.Get(dirFieldType.FieldTypeId);
-                        var dirField = directoryFieldService.Get(model.Id, dirFieldType.FieldTypeId);
+                        DirectoryField dirField = null;
+                        Directory directory = model;
+
+                        do
+                        {
+                            dirField = directoryFieldService.Get(directory.Id, dirFieldType.FieldTypeId);
+
+                            if (dirField == null)
+                                directory = directory.Parent;
+
+                        } while (directory != null && dirField == null);
 
                         tooltip += $"{fieldType.Name}: ";
+
+                        if (dirField == null)
+                            continue;
 
                         switch (fieldType.Datatype)
                         {
