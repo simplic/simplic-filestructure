@@ -13,6 +13,11 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -22,13 +27,19 @@
         <Label Grid.Row="0" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirfieldtype_name}" />
         <simplic:TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <Label Grid.Row="1" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirfieldtype_datatype}" />
-        <ComboBox Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Datatype, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+        <Label Grid.Row="1" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirfieldtype_internalname}" />
+        <simplic:TextBox Grid.Row="1" Grid.Column="1" Text="{Binding InternalName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="2" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirfieldtype_datatype}" />
+        <ComboBox Grid.Row="2" Grid.Column="2" SelectedValue="{Binding Datatype, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
             <ComboBoxItem Content="Text" Tag="string" IsSelected="True"/>
             <ComboBoxItem Content="Nummer" Tag="int" />
             <ComboBoxItem Content="Datum" Tag="DateTime" />
             <ComboBoxItem Content="Boolean" Tag="bool" />
         </ComboBox>
-        
+
+        <Label Grid.Row="4" Grid.Column="0" Content="{simplic:Localization Key=filestructure_dirfieldtype_description}" />
+        <TextBox Grid.Row="5" Grid.RowSpan="3" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="51" />
+
     </Grid>
 </local:BaseFieldTypeEditor>
