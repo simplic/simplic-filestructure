@@ -41,10 +41,13 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         /// <param name="directory">directory instance</param>
         /// <param name="fileStructure">File structure instance</param>
-        public DirectoryFieldViewModel Initialize(Directory directory, FileStructure fileStructure)
+        public DirectoryFieldViewModel Initialize(Directory directory, FileStructure fileStructure, Boolean ExpanderMode = false)
         {
             var viewModel = new DirectoryFieldViewModel();
             viewModel.Initialize(directory, fileStructure);
+
+            if (ExpanderMode)
+                viewModel.EnableExpanderMode();
 
             DataContext = viewModel;
 

@@ -23,9 +23,12 @@ namespace Simplic.FileStructure.UI
         private ObservableCollection<RadMenuItem> directoryTypeMenuItems;
         private IList<DirectoryViewModel> rawDirectories;
 
+        private Boolean expanderIsExpanded;
+
         private DirectoryViewModel selectedDirectory;
         private FileStructure model;
         private RadTreeView directoryTreeView;
+        private Expander expander;
         private ObservableCollection<FrameworkElement> visualPathElements;
         private string rootPath;
 
@@ -47,9 +50,10 @@ namespace Simplic.FileStructure.UI
         /// <summary>
         /// Create view model
         /// </summary>
-        public FileStructureViewModel(RadTreeView directoryTreeView)
+        public FileStructureViewModel(RadTreeView directoryTreeView, Expander expander)
         {
             this.directoryTreeView = directoryTreeView;
+            this.expander = expander;
 
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
             directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
@@ -244,6 +248,13 @@ namespace Simplic.FileStructure.UI
 
                 VisualPathElements.Insert(0, image);
             }
+
+            if(expander.IsExpanded)
+            {
+                expander.Content = null;
+                expander.Content = new DirectoryFieldControl();
+                (expander.Content as DirectoryFieldControl).Initialize(SelectedDirectory.Model, GetStructure(), true);
+            }
         }
 
         /// <summary>
@@ -388,6 +399,33 @@ namespace Simplic.FileStructure.UI
             set
             {
                 PropertySetter(value, (newValue) => { model.UseFileSync = newValue; });
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets wheter the Expander is expanded or not
+        /// </summary>
+        public bool ExpanderIsExpanded
+        {
+            get
+            {
+                return expanderIsExpanded;
+            }
+            set
+            {
+                PropertySetter(value, (newValue) => { expanderIsExpanded = newValue; });
+                if (value == true)
+                {
+                    if (selectedDirectory != null)
+                    {
+                        expander.Content = new DirectoryFieldControl();
+                        (expander.Content as DirectoryFieldControl).Initialize(selectedDirectory.Model, GetStructure(), true);
+                    }
+                }
+                else
+                {
+                    expander.Content = null;
+                }
             }
         }
 
