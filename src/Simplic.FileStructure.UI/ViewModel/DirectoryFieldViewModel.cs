@@ -23,6 +23,9 @@ namespace Simplic.FileStructure.UI
         private List<DirectoryClassification> availableDirectoryClassifications;
         private List<GridEntry> gridEntries;
 
+        private Visibility expanderMode;
+        private ICommand saveMetadataCommand;
+
         private Directory directory;
         private FileStructure fileStructure;
         private DirectoryClassification directoryClassification;
@@ -44,6 +47,12 @@ namespace Simplic.FileStructure.UI
             directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();
             fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             fieldTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFieldTypeService>();
+            expanderMode = Visibility.Collapsed;
+
+            saveMetadataCommand = new RelayCommand((e) =>
+            {
+                Save();
+            });
         }
 
         /// <summary>
@@ -131,6 +140,15 @@ namespace Simplic.FileStructure.UI
             InitializeGrid();
         }
 
+        /// <summary>
+        /// Gets or sets the ExpanderMode Visibility
+        /// This is used to show the save button only while the control
+        /// is loaded in the Expander
+        /// </summary>
+        public void EnableExpanderMode()
+        {
+            ExpanderMode = Visibility.Visible;
+        }
         /// <summary>
         /// Prepares informations to display grid properly
         /// </summary>
@@ -233,6 +251,18 @@ namespace Simplic.FileStructure.UI
             set;
         }
 
+        public Visibility ExpanderMode
+        {
+            get
+            {
+                return expanderMode;
+            }
+            set
+            {
+                PropertySetter(value, (newValue) => { expanderMode = newValue; });
+            }
+        }
+
         /// <summary>
         /// Gets or sets the Directory Classification and refreshes Grid if it got changed
         /// </summary>
@@ -304,6 +334,22 @@ namespace Simplic.FileStructure.UI
             foreach (var dirFieldType in dirFieldTypes)
             {
                 availableFieldTypes.Add(fieldTypeService.Get(dirFieldType.FieldTypeId));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the save metadata command
+        /// </summary>
+        public ICommand SaveMetadataCommand
+        {
+            get
+            {
+                return saveMetadataCommand;
+            }
+
+            set
+            {
+                saveMetadataCommand = value;
             }
         }
 

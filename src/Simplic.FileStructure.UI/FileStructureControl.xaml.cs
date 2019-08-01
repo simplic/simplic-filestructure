@@ -62,7 +62,7 @@ namespace Simplic.FileStructure.UI
         /// <param name="fileStructure">File structure instance</param>
         public FileStructureViewModel Initialize(FileStructure fileStructure)
         {
-            var viewModel = new FileStructureViewModel(directoryTreeView);
+            var viewModel = new FileStructureViewModel(directoryTreeView, expanderMetadata);
             viewModel.Initialize(fileStructure);
 
             DataContext = viewModel;
