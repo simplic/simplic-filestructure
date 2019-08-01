@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <HierarchicalDataTemplate x:Key="ExplorerItem"
            ItemsSource="{Binding Directories}">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" ToolTip="{Binding Tooltip}">
                 <Image Source="{Binding IconImage}" Width="16" Height="16" Margin="0,0,3,0"/>
                 <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
             </StackPanel>
