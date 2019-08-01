@@ -58,6 +58,22 @@ namespace Simplic.FileStructure.UI
             }
         }
 
+
+        /// <summary>
+        /// Gets or sets the internal name
+        /// </summary>
+        public string InternalName
+        {
+            get
+            {
+                return model.InternalName;
+            }
+            set
+            {
+                PropertySetter(value, (newValue) => { model.InternalName = newValue; });
+            }
+        }
+
         /// <summary>
         /// Gets or sets the datatype
         /// </summary>
@@ -72,5 +88,21 @@ namespace Simplic.FileStructure.UI
                 PropertySetter(value, (newValue) => { model.Datatype = newValue; });
             }
         }
+
+        /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return model.Description;
+            }
+            set
+            {
+                PropertySetter(value, (newValue) => { model.Description = newValue; });
+            }
+        }
+
     }
 }

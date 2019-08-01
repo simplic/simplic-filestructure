@@ -33,5 +33,23 @@ namespace Simplic.FileStructure
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets the field Description
+        /// </summary>
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the field Internal Name
+        /// </summary>
+        public string InternalName
+        {
+            get;
+            set;
+        }
     }
 }
