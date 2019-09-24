@@ -86,7 +86,10 @@ namespace Simplic.FileStructure.UI
 #pragma warning restore CS0618 // Type or member is obsolete
 
                         if (blob != null)
+                        {
+                            ViewerArchiveManager.LastBlobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
                             Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary);
+                        }
                     }
                 };
             };
