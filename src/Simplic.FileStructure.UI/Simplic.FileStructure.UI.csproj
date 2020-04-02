@@ -231,9 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="package.bat" />
     <None Include="packages.config" />
-    <None Include="Simplic.FileStructure.UI.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

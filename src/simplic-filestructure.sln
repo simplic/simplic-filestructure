@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure", "Simplic.FileStructure\Simplic.FileStructure.csproj", "{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}"
 EndProject
@@ -12,12 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.UI", "Simplic.FileStructure.UI\Simplic.FileStructure.UI.csproj", "{C62AF878-9E55-482C-9966-DB1C8F12081D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Sync.FileSystem", "Simplic.FileStructure.Sync.FileSystem\Simplic.FileStructure.Sync.FileSystem.csproj", "{39F11128-DB7C-4AC0-B51D-2C041869B88C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleTest", "ConsoleTest", "{F24F14EE-BEF4-4269-98C8-423CA80CF25B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemWatcherTest", "Test\FileSystemWatcherTest\FileSystemWatcherTest.csproj", "{35A66716-838F-4E4E-BB18-CC68630D783D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStructureDirectoryDemo", "Test\FileStructureDirectoryDemo\FileStructureDirectoryDemo.csproj", "{41007946-A846-4934-A84F-5C96B9888716}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Rendering.Service", "Simplic.FileStructure.Rendering.Service\Simplic.FileStructure.Rendering.Service.csproj", "{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}"
 EndProject
@@ -47,14 +41,6 @@ Global
 		{39F11128-DB7C-4AC0-B51D-2C041869B88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F11128-DB7C-4AC0-B51D-2C041869B88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F11128-DB7C-4AC0-B51D-2C041869B88C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35A66716-838F-4E4E-BB18-CC68630D783D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35A66716-838F-4E4E-BB18-CC68630D783D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35A66716-838F-4E4E-BB18-CC68630D783D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35A66716-838F-4E4E-BB18-CC68630D783D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41007946-A846-4934-A84F-5C96B9888716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41007946-A846-4934-A84F-5C96B9888716}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41007946-A846-4934-A84F-5C96B9888716}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41007946-A846-4934-A84F-5C96B9888716}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,10 +48,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{35A66716-838F-4E4E-BB18-CC68630D783D} = {F24F14EE-BEF4-4269-98C8-423CA80CF25B}
-		{41007946-A846-4934-A84F-5C96B9888716} = {F24F14EE-BEF4-4269-98C8-423CA80CF25B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F8FAA4D-0936-4017-B844-9EC69940FB05}
