@@ -40,7 +40,7 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\Simplic.Tenant.UnitTest.dll
+      **\Simplic.FileStructure.UnitTest.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: 'test'
@@ -55,7 +55,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.*.nupkg;!**/Simplic.*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.FileStructure.*.nupkg;!**/Simplic.FileStructure.*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
     allowPackageConflicts: true

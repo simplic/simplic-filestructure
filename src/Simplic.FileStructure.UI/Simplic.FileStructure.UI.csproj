@@ -31,69 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Simplic.Base">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.17.20.322, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.17.20.322\lib\net451\Simplic.CoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Data, Version=1.6.120.322, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.6.120.322\lib\net48\Simplic.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.DataStack, Version=7.0.20.328, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.DataStack.7.0.20.328\lib\net48\Simplic.DataStack.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Document, Version=3.0.20.322, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Document.3.0.20.322\lib\net48\Simplic.Document.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Framework.Base">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Base.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Simplic.Framework.DBUI">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DBUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Simplic.Framework.DocumentProcessing">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DocumentProcessing.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Framework.Extension">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Extension.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Icon, Version=6.0.18.620, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Icon.6.0.18.620\lib\net451\Simplic.Icon.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Icon.UI">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Icon.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Localization.UI">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Localization.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Log">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Log.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Studio.UI, Version=1.5.20.328, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Studio.UI.1.5.20.328\lib\net48\Simplic.Studio.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Studio.UI.Navigation, Version=1.3.20.328, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Studio.UI.Navigation.1.3.20.328\lib\net48\Simplic.Studio.UI.Navigation.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.UI">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -104,34 +45,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Telerik.Windows.Controls">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Data">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Data.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.GridView.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Input">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Input.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Navigation">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.Navigation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.RibbonView">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Controls.RibbonView.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Telerik.Windows.Data">
-      <HintPath>..\..\..\simplic-framework\dependencies\Assemblies\Telerik.Windows.Data.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +136,80 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.CoreLib">
+      <Version>6.17.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Data">
+      <Version>1.6.120.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.DataStack">
+      <Version>7.0.20.328</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Document">
+      <Version>3.0.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Base">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.DBUI">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.DocumentProcessing">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Extension">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Office">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Icon">
+      <Version>6.0.18.620</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Icon.UI">
+      <Version>6.1.18.917</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Localization">
+      <Version>6.0.118.913</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Localization.UI">
+      <Version>1.0.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Log">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Studio.UI">
+      <Version>1.5.20.328</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Studio.UI.Navigation">
+      <Version>1.3.20.328</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.UI">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.Data.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.GanttView.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
