@@ -43,7 +43,6 @@ steps:
       **\Simplic.FileStructure.UnitTest.dll
       !**\*TestAdapter.dll
       !**\obj\**
-    searchFolder: 'test'
 
 - task: NuGetCommand@2
   inputs:
