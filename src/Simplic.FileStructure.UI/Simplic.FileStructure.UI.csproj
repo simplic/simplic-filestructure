@@ -141,6 +141,9 @@
     <PackageReference Include="CommonServiceLocator">
       <Version>2.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Simplic.Base">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.CoreLib">
       <Version>6.17.20.322</Version>
     </PackageReference>
@@ -202,6 +205,9 @@
       <Version>2020.1.218</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.GanttView.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.GridView.for.Wpf.Xaml">
       <Version>2020.1.218</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf.Xaml">
