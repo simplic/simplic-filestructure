@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.Data, Version=1.5.18.1029, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.5.18.1029\lib\net451\Simplic.Data.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Simplic.Data, Version=1.6.120.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.6.120.322\lib\net48\Simplic.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,6 +62,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
