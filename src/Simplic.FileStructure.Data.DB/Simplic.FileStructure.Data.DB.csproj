@@ -72,7 +72,7 @@
       <Version>1.6.120.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data.Sql">
-      <Version>1.14.120.322</Version>
+      <Version>1.14.220.427</Version>
     </PackageReference>
     <PackageReference Include="Simplic.DataStack">
       <Version>7.0.20.328</Version>

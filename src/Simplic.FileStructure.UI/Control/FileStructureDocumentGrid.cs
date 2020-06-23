@@ -87,8 +87,8 @@ namespace Simplic.FileStructure.UI
 
                         if (blob != null) 
                         {
-                            ViewerArchiveManager.LastBlobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
-                            Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary);
+                            var blobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
+                            Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary, blobId, "default");
                         }
                     }
                 };

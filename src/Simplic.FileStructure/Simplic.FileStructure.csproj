@@ -94,7 +94,7 @@
       <Version>1.6.120.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data.Sql">
-      <Version>1.14.120.322</Version>
+      <Version>1.14.220.427</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Sql">
       <Version>6.3.20.322</Version>

@@ -154,7 +154,7 @@
       <Version>7.0.20.328</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Document">
-      <Version>3.0.20.322</Version>
+      <Version>3.1.20.54</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
       <Version>7.2.120.329</Version>
@@ -163,13 +163,13 @@
       <Version>7.2.120.329</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.DBUI">
-      <Version>7.2.120.329</Version>
+      <Version>7.3.20.622</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.DocumentProcessing">
       <Version>7.2.120.329</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Extension">
-      <Version>7.2.120.329</Version>
+      <Version>7.5.20.621</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Office">
       <Version>7.2.120.329</Version>
@@ -181,7 +181,7 @@
       <Version>6.1.18.917</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization">
-      <Version>6.0.118.913</Version>
+      <Version>6.1.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization.UI">
       <Version>1.0.0.2</Version>
