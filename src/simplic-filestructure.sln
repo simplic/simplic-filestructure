@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{2ACEE08A-49C
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Workflow.UI", "Simplic.FileStructure.Workflow.UI\Simplic.FileStructure.Workflow.UI.csproj", "{9E2422FD-E0A8-4410-AECE-105DC7114E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F04D6F5B-2405-4D7D-AA6A-40F546968FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E2422FD-E0A8-4410-AECE-105DC7114E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E2422FD-E0A8-4410-AECE-105DC7114E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E2422FD-E0A8-4410-AECE-105DC7114E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E2422FD-E0A8-4410-AECE-105DC7114E14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
