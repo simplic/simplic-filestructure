@@ -48,6 +48,9 @@ namespace Simplic.FileStructure.UI
         {
             integratedGridView = grids.FirstOrDefault(x => x.Configuration.Name == configurationName);
 
+            if (integratedGridView != null)
+                Content = integratedGridView;
+
             if (integratedGridView == null)
             {
                 if (string.IsNullOrWhiteSpace(configurationName))
@@ -86,6 +89,8 @@ namespace Simplic.FileStructure.UI
 
                     integratedGridView.RefreshData();
                 };
+
+                grids.Add(integratedGridView);
             }
         }
 
