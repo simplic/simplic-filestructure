@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simplic.FileStructure.Workflow.UI
+namespace Simplic.FileStructure.Workflow
 {
-    public static class Init
+    public interface IDocumentWorkflowUserService : IDocumentWorkflowUserRepository
     {
-        public static void Initialize()
-        {
-
-        }
+        
     }
 }

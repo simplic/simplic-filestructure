@@ -56,6 +56,8 @@
     <Compile Include="Interface\IRenderingService.cs" />
     <Compile Include="Model\Directory.cs" />
     <Compile Include="Model\DirectoryClassification.cs" />
+    <Compile Include="Model\DirectoryFunction.cs" />
+    <Compile Include="Model\DirectoryFunctionType.cs" />
     <Compile Include="Model\DirectoryTypeClassification.cs" />
     <Compile Include="Model\DirectoryField.cs" />
     <Compile Include="Model\DirectoryClassificationField.cs" />
