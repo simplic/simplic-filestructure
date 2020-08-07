@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.FileStructure.Workflow;
+using System;
 
 namespace Simplic.FileStructure
 {
@@ -79,5 +80,7 @@ namespace Simplic.FileStructure
             get;
             set;
         }
+
+        public DocumentWorkflowState WorkflowState { get; set; } = 0;
     }
 }

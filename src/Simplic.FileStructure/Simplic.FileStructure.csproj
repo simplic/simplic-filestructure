@@ -102,6 +102,12 @@
       <Version>6.3.20.322</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
+      <Project>{359A7332-9F78-4922-8594-F92DEB19E95D}</Project>
+      <Name>Simplic.FileStructure.Workflow</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

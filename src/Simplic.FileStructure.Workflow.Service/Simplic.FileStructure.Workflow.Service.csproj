@@ -41,14 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentWorkflowTrackerService.cs" />
     <Compile Include="DocumentWorkflowUserService.cs" />
     <Compile Include="DocumentWorkflowAppSettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowOperationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
       <Project>{359A7332-9F78-4922-8594-F92DEB19E95D}</Project>
       <Name>Simplic.FileStructure.Workflow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simplic.FileStructure\Simplic.FileStructure.csproj">
+      <Project>{edfbfc8d-6bbe-4c46-bba7-8c3423a52152}</Project>
+      <Name>Simplic.FileStructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,7 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
         private readonly IFileStructureService fileStructureService;
         private readonly DocumentWorkflowAppSettings documentWorkflowAppSettings;
         private DocumentWorkflowUser documentWorkflowUser;
+        private FileStructure fileStructureConfiguration;
         #endregion
 
         internal Control_DocumentWorkflow(DBInternPage DBInternPage)
@@ -71,7 +72,7 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
                 documentWorkflowUserService.Save(documentWorkflowUser);
             }
 
-            var fileStructureConfiguration = fileStructureService.GetByInstanceDataGuid(documentWorkflowUser.Guid);
+            fileStructureConfiguration = fileStructureService.GetByInstanceDataGuid(documentWorkflowUser.Guid);
             if (fileStructureConfiguration == null)
             {
                 fileStructureConfiguration = new FileStructure
@@ -87,6 +88,12 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
             }
 
             fileStructureControl.Initialize(fileStructureConfiguration);
+        }
+
+
+        private void RibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            fileStructureService.Save(fileStructureConfiguration);
         }
     }
 }

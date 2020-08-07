@@ -22,6 +22,26 @@
             "type": "copy",
             "target": "\\src\\Simplic.FileStructure.UI\\bin\\Debug\\Simplic.FileStructure.UI.dll",
             "destination": "/bin/Simplic.FileStructure.UI.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.UI\\bin\\Debug\\Simplic.FileStructure.Workflow.UI.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.UI.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.Service\\bin\\Debug\\Simplic.FileStructure.Workflow.Service.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.Service.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow\\bin\\Debug\\Simplic.FileStructure.Workflow.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.Data.DB\\bin\\Debug\\Simplic.FileStructure.Workflow.Data.DB.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.Data.DB.dll"
         }
     ]
 }

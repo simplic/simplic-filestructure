@@ -115,7 +115,7 @@ namespace Simplic.FileStructure.UI
 
                 if (grid.lastDirectory != null && grid.lastDirectory != currentDirectory && currentDirectory != null)
                 {
-                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", e.NewValue.ToString());
+                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
                     grid.integratedGridView.RefreshData();
 
