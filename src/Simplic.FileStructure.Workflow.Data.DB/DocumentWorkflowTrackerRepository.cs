@@ -11,7 +11,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
 {
     public class DocumentWorkflowTrackerRepository : SqlRepositoryBase<Guid, DocumentWorkflowTracker>, IDocumentWorkflowTrackerRepository
     {
-        public override string TableName => "IT_Document_Workflow_Tracker";
+        public override string TableName => "IT_Document_Workflow_Tracking";
 
         public override string PrimaryKeyColumn => "Guid";
 

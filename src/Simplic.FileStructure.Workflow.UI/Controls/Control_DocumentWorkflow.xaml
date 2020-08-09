@@ -12,9 +12,9 @@
         <simplic:RibbonContextController Name="rsRibbonController">
             <simplic:RibbonContextController.RadRibbonContextTab>
                 <telerik:RadRibbonTab Header="Workflow">
-                    <telerik:RadRibbonGroup Header="{simplic:Localization Key=scheduler_action_label}" Name="actionRibbonGroup">
-                        <simplic:RibbonButton TextLocalizationKey="save_workflow_structure" Click="RibbonButton_Click" />
-                    </telerik:RadRibbonGroup>
+                    <simplic:RibbonGroup HeaderLocalizationKey="workflow_tab" Name="actionRibbonGroup">
+                        <simplic:RibbonButton TextLocalizationKey="save_workflow_structure" LargeIconName="save_16x" SmallIconName="save_16x" Click="SaveSettingButton" Size="Medium" />
+                    </simplic:RibbonGroup>
                 </telerik:RadRibbonTab>
             </simplic:RibbonContextController.RadRibbonContextTab>
             <simplic:RibbonContextController.Content>

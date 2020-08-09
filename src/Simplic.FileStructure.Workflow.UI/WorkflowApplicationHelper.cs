@@ -39,7 +39,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
-            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Workflow_User");
+            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -92,7 +92,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
-            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Workflow_User");
+            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -163,6 +163,19 @@ namespace Simplic.FileStructure.Workflow.UI
                 };
 
                 workflowOperationService.Complete(workflowOperation);
+            }
+
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+        
+        public static GridInvokeMethodResult ShowTracking(GridFunctionParameter parameter)
+        {
+            foreach (var row in parameter.GetSelectedRowsAsDataRow())
+            {
+                var documentId = (Guid)row["Guid"];
+                var ib = (AsyncGridItemBox)ItemBoxManager.GetItemBoxFromDB($"IB_Document_Workflow_Tracking");
+                ib.SetPlaceholder("DocumentId", documentId.ToString());
+                ib.ShowDialog();
             }
 
             return new GridInvokeMethodResult { RefreshGrid = true };

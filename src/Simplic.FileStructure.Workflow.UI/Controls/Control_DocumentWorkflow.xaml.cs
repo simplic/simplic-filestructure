@@ -40,13 +40,9 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
             InitializeComponent();
 
             documentWorkflowUserService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowUserService>();
-
             documentWorkflowAppSettingsService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowAppSettingsService>();
-
             fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
-
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
-
             documentWorkflowAppSettings = documentWorkflowAppSettingsService.Get(DBInternPage.Guid);
 
             if (documentWorkflowAppSettings == null || string.IsNullOrWhiteSpace(documentWorkflowAppSettings.InternalName))
@@ -87,13 +83,32 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
                 fileStructureService.Save(fileStructureConfiguration);
             }
 
+            fileStructureConfiguration.Name = $"{documentWorkflowAppSettings.PublicName}({Framework.Base.UserManager.Singleton.GetFriendlyName(sessionService.CurrentSession.UserId)})";
+
             fileStructureControl.Initialize(fileStructureConfiguration);
+
+            Loaded += ControlLoaded;
         }
 
+        #region Private Methods
+        private void ControlLoaded(object sender, RoutedEventArgs e)
+        {
+            LayoutDocumentParent.Closed += LayoutDocumentParentClosed;
 
-        private void RibbonButton_Click(object sender, RoutedEventArgs e)
+            Loaded -= ControlLoaded;
+        }
+
+        private void LayoutDocumentParentClosed(object sender, EventArgs e)
+        {
+            fileStructureService.Save(fileStructureConfiguration);
+
+            LayoutDocumentParent.Closed += LayoutDocumentParentClosed;
+        }
+
+        private void SaveSettingButton(object sender, RoutedEventArgs e)
         {
             fileStructureService.Save(fileStructureConfiguration);
         }
+        #endregion
     }
 }

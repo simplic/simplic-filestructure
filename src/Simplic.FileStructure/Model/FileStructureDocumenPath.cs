@@ -8,6 +8,8 @@ namespace Simplic.FileStructure
     /// </summary>
     public class FileStructureDocumenPath
     {
+        private string path;
+
         /// <summary>
         /// Gets or set the entry id
         /// </summary>
@@ -76,6 +78,20 @@ namespace Simplic.FileStructure
         /// Gets or sets the path as string
         /// </summary>
         public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                if (PreviousPath == null) // Only check for null, not for null and whitespace
+                    PreviousPath = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the previous path
+        /// </summary>
+        public string PreviousPath
         {
             get;
             set;
