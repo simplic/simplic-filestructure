@@ -53,6 +53,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
+      <Project>{359A7332-9F78-4922-8594-F92DEB19E95D}</Project>
+      <Name>Simplic.FileStructure.Workflow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simplic.FileStructure\Simplic.FileStructure.csproj">
       <Project>{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}</Project>
       <Name>Simplic.FileStructure</Name>
@@ -64,6 +68,12 @@
   <ItemGroup>
     <PackageReference Include="Simplic.Data">
       <Version>1.6.120.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Log">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Session">
+      <Version>6.4.20.322</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

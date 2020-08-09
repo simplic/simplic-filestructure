@@ -1,0 +1,47 @@
+{
+    "settings": {
+        "connectionString": "server=sc-dev02;dbn=simplic;links=tcpip;charset=UTF-8;uid=admin;pwd=school"
+    },
+    "commands": [
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure\\bin\\Debug\\Simplic.FileStructure.dll",
+            "destination": "/bin/Simplic.FileStructure.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Service\\bin\\Debug\\Simplic.FileStructure.Service.dll",
+            "destination": "/bin/Simplic.FileStructure.Service.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Data.DB\\bin\\Debug\\Simplic.FileStructure.Data.DB.dll",
+            "destination": "/bin/Simplic.FileStructure.Data.DB.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.UI\\bin\\Debug\\Simplic.FileStructure.UI.dll",
+            "destination": "/bin/Simplic.FileStructure.UI.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.UI\\bin\\Debug\\Simplic.FileStructure.Workflow.UI.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.UI.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.Service\\bin\\Debug\\Simplic.FileStructure.Workflow.Service.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.Service.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow\\bin\\Debug\\Simplic.FileStructure.Workflow.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.dll"
+        },
+        {
+            "type": "copy",
+            "target": "\\src\\Simplic.FileStructure.Workflow.Data.DB\\bin\\Debug\\Simplic.FileStructure.Workflow.Data.DB.dll",
+            "destination": "/bin/Simplic.FileStructure.Workflow.Data.DB.dll"
+        }
+    ]
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.Session;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,17 +11,24 @@ namespace Simplic.FileStructure.Service
     public class FileStructureDocumentPathService : IFileStructureDocumentPathService
     {
         private readonly IFileStructureDocumentPathRepository repository;
+        private readonly IFileStructureDocumentPathTrackingRepository fileStructureDocumentPathTrackingRepository;
         private readonly IFileStructureService structureService;
+        private readonly ISessionService sessionService;
 
         /// <summary>
         /// Initialize service
         /// </summary>
         /// <param name="repository">Repository instance</param>
         /// <param name="structureService">File structure service</param>
-        public FileStructureDocumentPathService(IFileStructureDocumentPathRepository repository, IFileStructureService structureService)
+        public FileStructureDocumentPathService(IFileStructureDocumentPathRepository repository
+            , IFileStructureService structureService
+            , IFileStructureDocumentPathTrackingRepository fileStructureDocumentPathTrackingRepository
+            , ISessionService sessionService)
         {
             this.repository = repository;
             this.structureService = structureService;
+            this.fileStructureDocumentPathTrackingRepository = fileStructureDocumentPathTrackingRepository;
+            this.sessionService = sessionService;
         }
 
         /// <summary>
@@ -88,6 +96,32 @@ namespace Simplic.FileStructure.Service
                         currentItem = null;
                         break;
                     }
+                }
+            }
+
+            // Path has changed
+            if (obj.PreviousPath != obj.Path)
+            {
+                try
+                {
+                    fileStructureDocumentPathTrackingRepository.Save(new FileStructureDocumenPathTracking
+                    {
+                        Id = Guid.NewGuid(),
+                        DirectoryGuid = obj.DirectoryGuid,
+                        DocumentGuid = obj.DocumentGuid,
+                        WorkflowState = obj.WorkflowState,
+                        FileStructureGuid = obj.FileStructureGuid,
+                        FileStructureHash = obj.FileStructureHash,
+                        IsProtectedPath = obj.IsProtectedPath,
+                        Path = obj.Path ?? "",
+                        StorageHash = obj.StorageHash,
+                        UserId = sessionService.CurrentSession.UserId,
+                        PreviousPath = obj.PreviousPath ?? ""
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Log.LogManagerInstance.Instance.Error($"Could not write file structure path tracking: Document id: {obj.DocumentGuid}", ex);
                 }
             }
 

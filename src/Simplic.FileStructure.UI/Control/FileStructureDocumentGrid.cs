@@ -1,6 +1,7 @@
 ﻿using Simplic.Framework.DBUI;
 using Simplic.Framework.Extension;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,19 +14,85 @@ namespace Simplic.FileStructure.UI
     public class FileStructureDocumentGrid : UserControl
     {
         private IntegratedGridView integratedGridView;
-        private Guid lastDirectoryId;
+        private Directory lastDirectory;
+        private DirectoryType lastDirectoryType;
+        private IDictionary<Guid, DirectoryType> typeCache = new Dictionary<Guid, DirectoryType>();
+        private IList<IntegratedGridView> grids = new List<IntegratedGridView>();
 
         /// <summary>
         /// Directory id binding property
         /// </summary>
-        public static readonly DependencyProperty DirectoryIdProperty =
-            DependencyProperty.Register("DirectoryId", typeof(Guid), typeof(FileStructureDocumentGrid), new PropertyMetadata(Guid.Empty, DirectoryIdChangedCallback));
+        public static readonly DependencyProperty DirectoryProperty =
+            DependencyProperty.Register("Directory", typeof(Directory), typeof(FileStructureDocumentGrid), new PropertyMetadata(null, DirectoryIdChangedCallback));
 
         /// <summary>
         /// File structure id property
         /// </summary>
         public static readonly DependencyProperty FileStructureIdProperty =
             DependencyProperty.Register("FileStructureId", typeof(Guid), typeof(FileStructureDocumentGrid), new PropertyMetadata(Guid.Empty));
+
+        private DirectoryType GetOrCreateDirectoryType(Guid typeId)
+        {
+            if (typeCache.ContainsKey(typeId))
+                return typeCache[typeId];
+
+            var service = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
+            var type = service.Get(typeId);
+
+            typeCache[typeId] = type;
+
+            return type;
+        }
+
+        private void SetGrid(string configurationName)
+        {
+            integratedGridView = grids.FirstOrDefault(x => x.Configuration.Name == configurationName);
+
+            if (integratedGridView != null)
+                Content = integratedGridView;
+
+            if (integratedGridView == null)
+            {
+                if (string.IsNullOrWhiteSpace(configurationName))
+                    configurationName = "Grid_Document_FileStructure";
+
+                integratedGridView = new IntegratedGridView();
+                Content = integratedGridView;
+
+                // Handle additional script parameter
+                integratedGridView.MenuHandler.RequestScriptParameter += OnRequestScriptParameter;
+
+                integratedGridView.LoadConfiguration(configurationName);
+
+                // Profile changed
+                integratedGridView.SelectedProfileChanged += (s, e) =>
+                {
+                    lastDirectory = Directory;
+                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
+                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
+
+                    integratedGridView.EmbeddedGridView.SelectionChanged += (sender, args) =>
+                    {
+                        if (args.AddedItems.Count > 0)
+                        {
+#pragma warning disable CS0618 // Type or member is obsolete
+                        var blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                        if (blob != null)
+                            {
+                                var blobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
+                                Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary, blobId, "default");
+                            }
+                        }
+                    };
+
+                    integratedGridView.RefreshData();
+                };
+
+                grids.Add(integratedGridView);
+            }
+        }
 
         /// <summary>
         /// Directory id changed callback
@@ -37,20 +104,31 @@ namespace Simplic.FileStructure.UI
             var grid = d as FileStructureDocumentGrid;
             if (grid.isLoaded)
             {
-                if (grid.lastDirectoryId != (Guid)e.NewValue && (Guid)e.NewValue != Guid.Empty)
+                if (e.NewValue == null)
+                    return;
+
+                var currentDirectory = (Directory)e.NewValue;
+                var currentDirectoryType = grid.GetOrCreateDirectoryType(currentDirectory.DirectoryTypeId);
+
+                if (grid.lastDirectoryType?.GridName != currentDirectoryType.GridName)
+                    grid.SetGrid(currentDirectoryType.GridName);
+
+                if (grid.lastDirectory != null && grid.lastDirectory != currentDirectory && currentDirectory != null)
                 {
-                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", e.NewValue.ToString());
+                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
                     grid.integratedGridView.RefreshData();
 
-                    grid.lastDirectoryId = (Guid)e.NewValue;
+                    grid.lastDirectory = currentDirectory;
+                    grid.lastDirectoryType = currentDirectoryType;
                 }
-                if ((Guid)e.NewValue == Guid.Empty)
+                if (currentDirectory == null || currentDirectory.Id == Guid.Empty)
                 {
                     grid.integratedGridView.CancelLoading();
                     grid.integratedGridView.EmbeddedGridView.Clear();
 
-                    grid.lastDirectoryId = (Guid)e.NewValue;
+                    grid.lastDirectory = currentDirectory;
+                    grid.lastDirectoryType = currentDirectoryType;
                 }
             }
         }
@@ -62,37 +140,7 @@ namespace Simplic.FileStructure.UI
         /// </summary>
         public FileStructureDocumentGrid()
         {
-            integratedGridView = new IntegratedGridView();
-            Content = integratedGridView;
-
-            // Handle additional script parameter
-            integratedGridView.MenuHandler.RequestScriptParameter += OnRequestScriptParameter;
-
-            integratedGridView.LoadConfiguration("Grid_Document_FileStructure");
-
-            // Profile changed
-            integratedGridView.SelectedProfileChanged += (s, e) =>
-            {
-                lastDirectoryId = DirectoryId;
-                integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", DirectoryId.ToString());
-                integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
-
-                integratedGridView.EmbeddedGridView.SelectionChanged += (sender, args) =>
-                {
-                    if (args.AddedItems.Count > 0)
-                    {
-#pragma warning disable CS0618 // Type or member is obsolete
-                        var blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
-#pragma warning restore CS0618 // Type or member is obsolete
-
-                        if (blob != null) 
-                        {
-                            var blobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
-                            Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary, blobId, "default");
-                        }
-                    }
-                };
-            };
+            SetGrid("Grid_Document_FileStructure");
 
             // Control loaded
             Loaded += (s, e) =>
@@ -114,8 +162,8 @@ namespace Simplic.FileStructure.UI
         {
             var documentStackGuid = Guid.Parse("12C9B95B-BD33-4FA0-9CA1-05E11122018C");
             var parameter = new DocCenterParameter("STACK_Document", documentStackGuid);
-                        
-            e.AdditionalParameter = new object[] 
+
+            e.AdditionalParameter = new object[]
             {
                 parameter
             };
@@ -126,10 +174,10 @@ namespace Simplic.FileStructure.UI
         /// <summary>
         /// Gets or sets the binded directory id
         /// </summary>
-        public Guid DirectoryId
+        public Directory Directory
         {
-            get { return (Guid)GetValue(DirectoryIdProperty); }
-            set { SetValue(DirectoryIdProperty, value); }
+            get { return (Directory)GetValue(DirectoryProperty); }
+            set { SetValue(DirectoryProperty, value); }
         }
 
         /// <summary>

@@ -47,6 +47,7 @@
     <Compile Include="DirectoryClassificationRepository.cs" />
     <Compile Include="FieldTypeRepository.cs" />
     <Compile Include="DirectoryTypeRepository.cs" />
+    <Compile Include="FileStructureDocumentPathTrackingRepository.cs" />
     <Compile Include="FileStructureDocumentPathRepository.cs" />
     <Compile Include="SyncQueueRepository.cs" />
     <Compile Include="FileStructureRepository.cs" />
