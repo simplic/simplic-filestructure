@@ -1,7 +1,9 @@
-﻿using Simplic.Framework.UI;
+﻿using Simplic.FileStructure.Model;
+using Simplic.Framework.UI;
 using Simplic.Studio.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,10 @@ namespace Simplic.FileStructure.UI
         private readonly IDirectoryClassificationService directoryClassificationService;
         private readonly IDirectoryTypeClassificationService directoryTypeClassificationService;
 
+        private DirectoryFunction selectedFunction;
+        private ObservableCollection<DirectoryFunction> functions;
+
+
         /// <summary>
         /// Initialize viewmodel
         /// </summary>
@@ -27,6 +33,16 @@ namespace Simplic.FileStructure.UI
         {
             directoryClassificationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryClassificationService>();
             directoryTypeClassificationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeClassificationService>();
+
+            var defaultFunction = new DirectoryFunction { DirectoryFunctionType = DirectoryFunctionType.Default, DisplayName = "Standard" };
+
+            functions = new ObservableCollection<DirectoryFunction>
+            {
+                defaultFunction,
+                new DirectoryFunction { DirectoryFunctionType = DirectoryFunctionType.Workflow, DisplayName = "Workflow" }
+            };
+
+            selectedFunction = defaultFunction;
         }
 
         /// <summary>
@@ -36,6 +52,8 @@ namespace Simplic.FileStructure.UI
         public void Initialize(DirectoryType model)
         {
             this.model = model;
+
+            selectedFunction = functions.FirstOrDefault(x => x.DirectoryFunctionType == model.DirectoryFunction);
         }
 
         /// <summary>
@@ -183,5 +201,32 @@ namespace Simplic.FileStructure.UI
             }
         }
 
+        public ObservableCollection<DirectoryFunction> Functions
+        {
+            get => functions;
+            set
+            {
+                PropertySetter(value, (newValue) => { functions = newValue; });
+            }
+        }
+
+        public DirectoryFunction SelectedFunction
+        {
+            get => selectedFunction;
+            set
+            {
+                PropertySetter(value, (newValue) => { selectedFunction = newValue; });
+                model.DirectoryFunction = value.DirectoryFunctionType;
+            }
+        }
+
+        public string GridName
+        {
+            get => model.GridName;
+            set
+            {
+                PropertySetter(value, (newValue) => { model.GridName = newValue; });
+            }
+        }
     }
 }

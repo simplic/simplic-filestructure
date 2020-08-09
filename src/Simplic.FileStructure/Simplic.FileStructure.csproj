@@ -53,15 +53,19 @@
     <Compile Include="Interface\IDirectoryClassificationService.cs" />
     <Compile Include="Interface\IFieldTypeService.cs" />
     <Compile Include="Interface\IDirectoryTypeService.cs" />
+    <Compile Include="Interface\IFileStructureDocumentPathTrackingRepository.cs" />
     <Compile Include="Interface\IRenderingService.cs" />
     <Compile Include="Model\Directory.cs" />
     <Compile Include="Model\DirectoryClassification.cs" />
+    <Compile Include="Model\DirectoryFunction.cs" />
+    <Compile Include="Model\DirectoryFunctionType.cs" />
     <Compile Include="Model\DirectoryTypeClassification.cs" />
     <Compile Include="Model\DirectoryField.cs" />
     <Compile Include="Model\DirectoryClassificationField.cs" />
     <Compile Include="Model\FieldType.cs" />
     <Compile Include="Model\DirectoryType.cs" />
     <Compile Include="Model\FileStructure.cs" />
+    <Compile Include="Model\FileStructureDocumenPathTracking.cs" />
     <Compile Include="Model\FileStructureDocumenPath.cs" />
     <Compile Include="Interface\IFileStructureDocumentPathRepository.cs" />
     <Compile Include="Interface\IFileStructureDocumentPathService.cs" />
@@ -94,11 +98,17 @@
       <Version>1.6.120.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data.Sql">
-      <Version>1.14.120.322</Version>
+      <Version>1.14.220.427</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Sql">
       <Version>6.3.20.322</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
+      <Project>{359A7332-9F78-4922-8594-F92DEB19E95D}</Project>
+      <Name>Simplic.FileStructure.Workflow</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

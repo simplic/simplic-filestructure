@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.FileStructure.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Simplic.FileStructure
@@ -63,5 +64,15 @@ namespace Simplic.FileStructure
             get;
             set;
         } = true;
+
+        /// <summary>
+        /// Gets or sets the grid name
+        /// </summary>
+        public string GridName { get; set; } = "";
+
+        /// <summary>
+        /// Gets or sets the directory function
+        /// </summary>
+        public DirectoryFunctionType DirectoryFunction { get; set; } = DirectoryFunctionType.Default;
     }
 }

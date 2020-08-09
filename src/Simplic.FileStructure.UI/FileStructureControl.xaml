@@ -101,7 +101,7 @@
                               ShowsPreview="True"
                               Width="4" />
 
-                <local:FileStructureDocumentGrid FileStructureId="{Binding Model.Id}" Visibility="{Binding SettingVisibility}" Margin="2" x:Name="documentGrid" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" DirectoryId="{Binding SelectedDirectory.Model.Id}" />
+                <local:FileStructureDocumentGrid FileStructureId="{Binding Model.Id}" Visibility="{Binding SettingVisibility}" Margin="2" x:Name="documentGrid" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Directory="{Binding SelectedDirectory.Model}" />
                 <Label Grid.Column="2" Grid.Row="2" Visibility="{Binding TemplateGridVisibility}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="{simplic:Localization Key=filestructure_template_no_document}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="36" />
             </Grid>
         </TabItem>
