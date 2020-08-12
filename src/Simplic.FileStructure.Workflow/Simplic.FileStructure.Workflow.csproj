@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IDocumentWorkflowContextService.cs" />
+    <Compile Include="Interface\IDocumentWorkflowContextRepository.cs" />
+    <Compile Include="Model\DocumentWorkflowContext.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerRepository.cs" />
