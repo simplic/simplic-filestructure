@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Interface\IDocumentWorkflowContextService.cs" />
     <Compile Include="Interface\IDocumentWorkflowContextRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowUserPermissionRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowUserPermissionService.cs" />
     <Compile Include="Model\DocumentWorkflowContext.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Model\DocumentWorkflowUser.cs" />
     <Compile Include="Model\DocumentWorkflowAppSettings.cs" />
     <Compile Include="Model\DocumentWorkflowState.cs" />
+    <Compile Include="Model\DocumentWorkflowUserPermission.cs" />
     <Compile Include="Model\WorkflowOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

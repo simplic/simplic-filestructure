@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DocumentWorkflowService.cs" />
     <Compile Include="DocumentWorkflowTrackerService.cs" />
+    <Compile Include="DocumentWorkflowUserPermissionService.cs" />
     <Compile Include="DocumentWorkflowUserService.cs" />
     <Compile Include="DocumentWorkflowAppSettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
