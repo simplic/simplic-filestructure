@@ -5,6 +5,7 @@ using Simplic.Framework.DocumentProcessing.Outlook;
 using Simplic.Localization;
 using Simplic.UI.GridView;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -33,6 +34,7 @@ namespace Simplic.FileStructure.UI
         private static ILocalizationService localizationService;
         private static IStackService stackService;
         private static IFileStructureService fielStructureService;
+
 
         /// <summary>
         /// Initialize control
@@ -82,7 +84,7 @@ namespace Simplic.FileStructure.UI
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
 
-                searchOverviewGrid.GridView.Loaded += (s, e) => 
+                searchOverviewGrid.GridView.Loaded += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
@@ -266,6 +268,32 @@ namespace Simplic.FileStructure.UI
                 if (payload.Grid is CursorGridViewControl)
                     (payload.Grid as CursorGridViewControl).RefreshData();
             }
+
+            // Save target filestructure before drop action
+            targetDirectory.StructureViewModel.Save();
+            var directoriesToCheck = new List<DirectoryViewModel> 
+            {
+                // Moved directory here <----------------------------------------------------------------
+            };
+            while (directoriesToCheck.Any())
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var subDirectory in directoriesToCheck)
+                {
+                    // Get all files in this directory
+
+                    // Recalculate path
+
+                    // Save
+
+                    // 
+                    innerDirectories.AddRange(subDirectory.Directories);
+                }
+
+                directoriesToCheck.Clear();
+                directoriesToCheck.AddRange(innerDirectories);
+            }
         }
 
         /// <summary>
@@ -293,9 +321,9 @@ namespace Simplic.FileStructure.UI
                     childDirectoryList = targetItem.Directories;
                 }
 
-                if (!draggedDirectory.DirectoryType.EnableDrag || 
-                    !targetItem.DirectoryType.EnableDrop || 
-                    targetItem == draggedDirectory || 
+                if (!draggedDirectory.DirectoryType.EnableDrag ||
+                    !targetItem.DirectoryType.EnableDrop ||
+                    targetItem == draggedDirectory ||
                     childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
                 {
                     options.DropAction = DropAction.None;
@@ -358,7 +386,7 @@ namespace Simplic.FileStructure.UI
                             oldDirectoryBase.Directories.Remove(targetItem);
                     }
 
-                    droppedDirectory.Parent = targetItem;                    
+                    droppedDirectory.Parent = targetItem;
                     droppedDirectory.Model.Parent = targetItem.Model;
 
                     // Expand target item
