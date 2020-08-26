@@ -28,7 +28,7 @@ namespace Simplic.FileStructure
         /// true will be returned. If no protected directory was found, false will be returned
         /// </summary>
         /// <param name="directoryIds">Ids for directory</param>
-        /// <returns>bool</returns>
+        /// <returns>True if a protected document exists, in any other case returns false</returns>
         bool IsProtected(IList<Guid> directoryIds);
 
     }
