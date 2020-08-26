@@ -4,6 +4,7 @@ using Simplic.Cache;
 using Simplic.Sql;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Dapper;
 
 namespace Simplic.FileStructure.Data.DB
 {
@@ -13,6 +14,7 @@ namespace Simplic.FileStructure.Data.DB
     public class FileStructureDocumentPathRepository : SqlRepositoryBase<Guid, FileStructureDocumenPath>, IFileStructureDocumentPathRepository
     {
         private JsonSerializerSettings jsonSettings;
+        private ISqlService sqlService;
 
         /// <summary>
         /// Initialize repository
@@ -22,6 +24,7 @@ namespace Simplic.FileStructure.Data.DB
         /// <param name="cacheService"></param>
         public FileStructureDocumentPathRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
         {
+            this.sqlService = sqlService;
             jsonSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
@@ -48,6 +51,22 @@ namespace Simplic.FileStructure.Data.DB
         public override Guid GetId(FileStructureDocumenPath obj)
         {
             return obj.Id;
+        }
+
+        public IEnumerable<FileStructureDocumenPath> GetByDirectoryId(Guid directoryId)
+        {
+            return GetAllByColumn<Guid>("DirectoryGuid", directoryId);
+        }
+
+        public bool IsProtected(List<Guid> guids, SeperatedStringBuilder ssb = null)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.QueryFirst<bool>($"SELECT CASE WHEN EXISTS (" +
+                    $"SELECT * FROM {TableName} where DirectoryGuid in ( {ssb} ) and IsProtectedPath = 1)" +
+                    $"THEN CAST(1 AS BIT)" +
+                    $"ELSE CAST(0 AS BIT) END");
+            });
         }
 
         /// <summary>

@@ -34,6 +34,7 @@ namespace Simplic.FileStructure.UI
         private static ILocalizationService localizationService;
         private static IStackService stackService;
         private static IFileStructureService fielStructureService;
+        private static IFileStructureDocumentPathService fileStructureDocumentPathService;
 
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace Simplic.FileStructure.UI
 
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
+            fileStructureDocumentPathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
 
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
@@ -130,13 +132,42 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Initialize directory dragging
+        /// Initialize directory dragging 
         /// </summary>
         /// <param name="sener"></param>
         /// <param name="e"></param>
         private static void OnDraginitialize(object sener, Telerik.Windows.DragDrop.DragInitializeEventArgs e)
         {
+
             var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            bool isProtected = false;
+            //Check if there is any child of the item protected
+            var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+            var guids = new List<Guid>();
+            var directoriesToCheck = new List<DirectoryViewModel>();
+            directoriesToCheck.Add(draggedDirectory);
+
+
+            while (directoriesToCheck.Any())
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var subDirectory in directoriesToCheck)
+                {
+                    guids.Add(subDirectory.Model.Id);
+                    innerDirectories.AddRange(subDirectory.Directories);
+                }
+
+                directoriesToCheck.Clear();
+                directoriesToCheck.AddRange(innerDirectories);
+            }
+
+
+
+            if (fileStructureDocumentPathService.IsProtected(guids))
+            {
+                MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             //if (options != null)
             //{
             //    var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
@@ -271,23 +302,22 @@ namespace Simplic.FileStructure.UI
 
             // Save target filestructure before drop action
             targetDirectory.StructureViewModel.Save();
-            var directoriesToCheck = new List<DirectoryViewModel> 
-            {
-                // Moved directory here <----------------------------------------------------------------
-            };
+            var directoriesToCheck = new List<DirectoryViewModel>();
+            directoriesToCheck.Add(targetDirectory);
+            //Recalculating the path through the save method 
             while (directoriesToCheck.Any())
             {
                 var innerDirectories = new List<DirectoryViewModel>();
 
                 foreach (var subDirectory in directoriesToCheck)
                 {
-                    // Get all files in this directory
+                    var guid = subDirectory.Model.Id;
+                    var list = fileStructureDocumentPathService.GetByDirectoryId(guid);
+                    foreach (FileStructureDocumenPath fileStructureDocumenPath in list)
+                    {
+                        fileStructureDocumentPathService.Save(fileStructureDocumenPath);
+                    }
 
-                    // Recalculate path
-
-                    // Save
-
-                    // 
                     innerDirectories.AddRange(subDirectory.Directories);
                 }
 
