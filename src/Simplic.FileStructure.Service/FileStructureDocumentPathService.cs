@@ -137,5 +137,23 @@ namespace Simplic.FileStructure.Service
         {
             return repository.GetByDocumentId(documentId);
         }
+
+
+        /// <summary>
+        /// Gets all by directory id 
+        /// </summary>
+        /// <param name="directoryId"></param>
+        /// <returns></returns>
+        public IEnumerable<FileStructureDocumenPath> GetByDirectoryId(Guid directoryId)
+        {
+            return repository.GetByDirectoryId(directoryId);
+        }
+
+
+
+        public bool IsProtected(IList<Guid> directoryIds)
+        {
+            return repository.IsProtected(directoryIds);
+        }
     }
 }

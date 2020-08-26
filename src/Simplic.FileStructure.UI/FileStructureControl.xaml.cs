@@ -5,6 +5,7 @@ using Simplic.Framework.DocumentProcessing.Outlook;
 using Simplic.Localization;
 using Simplic.UI.GridView;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -33,6 +34,8 @@ namespace Simplic.FileStructure.UI
         private static ILocalizationService localizationService;
         private static IStackService stackService;
         private static IFileStructureService fielStructureService;
+        private static IFileStructureDocumentPathService fileStructureDocumentPathService;
+
 
         /// <summary>
         /// Initialize control
@@ -43,6 +46,7 @@ namespace Simplic.FileStructure.UI
 
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
+            fileStructureDocumentPathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
 
             // Subscribe to preview drop event
             DragDropManager.AddPreviewDropHandler(directoryTreeView, new Telerik.Windows.DragDrop.DragEventHandler(OnPreviewDrop), true);
@@ -82,7 +86,7 @@ namespace Simplic.FileStructure.UI
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
 
-                searchOverviewGrid.GridView.Loaded += (s, e) => 
+                searchOverviewGrid.GridView.Loaded += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
                 };
@@ -128,25 +132,46 @@ namespace Simplic.FileStructure.UI
         }
 
         /// <summary>
-        /// Initialize directory dragging
+        /// Initialize directory dragging 
         /// </summary>
         /// <param name="sener"></param>
         /// <param name="e"></param>
         private static void OnDraginitialize(object sener, Telerik.Windows.DragDrop.DragInitializeEventArgs e)
         {
-            var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
-            if (options != null)
-            {
-                var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
-                if (fielStructureService.GetDocuments(draggedDirectory.StructureViewModel.Model, draggedDirectory.Model, true).Any())
-                {
-                    MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    e.Data = null;
-                    e.DragVisual = null;
-                    e.Handled = true;
+            var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
+            bool isProtected = false;
+            //Check if there is any child of the item protected
+            var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+            var guids = new List<Guid>();
+            var directoriesToCheck = new List<DirectoryViewModel>();
+            directoriesToCheck.Add(draggedDirectory);
+
+
+            while (directoriesToCheck.Any())
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var subDirectory in directoriesToCheck)
+                {
+                    guids.Add(subDirectory.Model.Id);
+                    innerDirectories.AddRange(subDirectory.Directories);
                 }
+
+                directoriesToCheck.Clear();
+                directoriesToCheck.AddRange(innerDirectories);
             }
+
+
+
+            if (fileStructureDocumentPathService.IsProtected(guids))
+            {
+                MessageBox.Show(localizationService.Translate("filestructure_drag_protected"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                e.Data = null;
+                e.DragVisual = null;
+                e.Handled = true;
+            }
+           
         }
 
         /// <summary>
@@ -266,6 +291,31 @@ namespace Simplic.FileStructure.UI
                 if (payload.Grid is CursorGridViewControl)
                     (payload.Grid as CursorGridViewControl).RefreshData();
             }
+
+            // Save target filestructure before drop action
+            targetDirectory.StructureViewModel.Save();
+            var directoriesToCheck = new List<DirectoryViewModel>();
+            directoriesToCheck.Add(targetDirectory);
+            //Recalculating the path through the save method 
+            while (directoriesToCheck.Any())
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var subDirectory in directoriesToCheck)
+                {
+                    var guid = subDirectory.Model.Id;
+                    var list = fileStructureDocumentPathService.GetByDirectoryId(guid);
+                    foreach (FileStructureDocumenPath fileStructureDocumenPath in list)
+                    {
+                        fileStructureDocumentPathService.Save(fileStructureDocumenPath);
+                    }
+
+                    innerDirectories.AddRange(subDirectory.Directories);
+                }
+
+                directoriesToCheck.Clear();
+                directoriesToCheck.AddRange(innerDirectories);
+            }
         }
 
         /// <summary>
@@ -293,9 +343,9 @@ namespace Simplic.FileStructure.UI
                     childDirectoryList = targetItem.Directories;
                 }
 
-                if (!draggedDirectory.DirectoryType.EnableDrag || 
-                    !targetItem.DirectoryType.EnableDrop || 
-                    targetItem == draggedDirectory || 
+                if (!draggedDirectory.DirectoryType.EnableDrag ||
+                    !targetItem.DirectoryType.EnableDrop ||
+                    targetItem == draggedDirectory ||
                     childDirectoryList != null && childDirectoryList.Any(x => x.Name?.ToLower() == draggedDirectory.Name.ToLower() && x != draggedDirectory))
                 {
                     options.DropAction = DropAction.None;
@@ -358,7 +408,7 @@ namespace Simplic.FileStructure.UI
                             oldDirectoryBase.Directories.Remove(targetItem);
                     }
 
-                    droppedDirectory.Parent = targetItem;                    
+                    droppedDirectory.Parent = targetItem;
                     droppedDirectory.Model.Parent = targetItem.Model;
 
                     // Expand target item
