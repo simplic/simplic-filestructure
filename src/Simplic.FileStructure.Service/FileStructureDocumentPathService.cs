@@ -138,20 +138,22 @@ namespace Simplic.FileStructure.Service
             return repository.GetByDocumentId(documentId);
         }
 
+
+        /// <summary>
+        /// Gets all by directory id 
+        /// </summary>
+        /// <param name="directoryId"></param>
+        /// <returns></returns>
         public IEnumerable<FileStructureDocumenPath> GetByDirectoryId(Guid directoryId)
         {
             return repository.GetByDirectoryId(directoryId);
         }
 
-        
+
 
         public bool IsProtected(List<Guid> guids, SeperatedStringBuilder ssb = null)
         {
-            ssb = new SeperatedStringBuilder(", ", "'");
-            foreach (var item in guids)
-                ssb.Append(item.ToString());
-            
-                return repository.IsProtected(guids, ssb);
+            return repository.IsProtected(guids);
         }
     }
 }

@@ -167,19 +167,11 @@ namespace Simplic.FileStructure.UI
             if (fileStructureDocumentPathService.IsProtected(guids))
             {
                 MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                e.Data = null;
+                e.DragVisual = null;
+                e.Handled = true;
             }
-            //if (options != null)
-            //{
-            //    var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
-            //    if (fielStructureService.GetDocuments(draggedDirectory.StructureViewModel.Model, draggedDirectory.Model, true).Any())
-            //    {
-            //        MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate//("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
-            //
-            //        e.Data = null;
-            //        e.DragVisual = null;
-            //        e.Handled = true;
-            //    }
-            //}
+           
         }
 
         /// <summary>

@@ -53,19 +53,32 @@ namespace Simplic.FileStructure.Data.DB
             return obj.Id;
         }
 
+        /// <summary>
+        /// Gets all by Directory id 
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <returns></returns>
         public IEnumerable<FileStructureDocumenPath> GetByDirectoryId(Guid directoryId)
         {
             return GetAllByColumn<Guid>("DirectoryGuid", directoryId);
         }
 
-        public bool IsProtected(List<Guid> guids, SeperatedStringBuilder ssb = null)
+        /// <summary>
+        /// Gets a bool if there is any data in the directory path protected
+        /// </summary>
+        /// <param name="guids"></param>
+        /// <returns></returns>
+        public bool IsProtected(List<Guid> guids)
         {
+            SeperatedStringBuilder ssb = new SeperatedStringBuilder(", ", "'");
+            foreach (var item in guids)
+                ssb.Append(item.ToString());
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.QueryFirst<bool>($"SELECT CASE WHEN EXISTS (" +
-                    $"SELECT * FROM {TableName} where DirectoryGuid in ( {ssb} ) and IsProtectedPath = 1)" +
-                    $"THEN CAST(1 AS BIT)" +
-                    $"ELSE CAST(0 AS BIT) END");
+                    $"SELECT * FROM {TableName} where DirectoryGuid in ( {ssb} ) and IsProtectedPath = 1) " +
+                    $"THEN 1 " +
+                    $"ELSE 0 END");
             });
         }
 
