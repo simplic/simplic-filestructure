@@ -151,9 +151,9 @@ namespace Simplic.FileStructure.Service
 
 
 
-        public bool IsProtected(List<Guid> guids, SeperatedStringBuilder ssb = null)
+        public bool IsProtected(IList<Guid> directoryIds)
         {
-            return repository.IsProtected(guids);
+            return repository.IsProtected(directoryIds);
         }
     }
 }

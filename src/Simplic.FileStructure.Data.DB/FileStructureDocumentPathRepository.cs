@@ -68,7 +68,7 @@ namespace Simplic.FileStructure.Data.DB
         /// </summary>
         /// <param name="guids"></param>
         /// <returns></returns>
-        public bool IsProtected(List<Guid> guids)
+        public bool IsProtected(IList<Guid> guids)
         {
             SeperatedStringBuilder ssb = new SeperatedStringBuilder(", ", "'");
             foreach (var item in guids)
