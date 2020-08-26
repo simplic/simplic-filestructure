@@ -166,7 +166,7 @@ namespace Simplic.FileStructure.UI
 
             if (fileStructureDocumentPathService.IsProtected(guids))
             {
-                MessageBox.Show(localizationService.Translate("filestructure_delete_notallowed"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(localizationService.Translate("filestructure_drag_protected"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
                 e.Data = null;
                 e.DragVisual = null;
                 e.Handled = true;
