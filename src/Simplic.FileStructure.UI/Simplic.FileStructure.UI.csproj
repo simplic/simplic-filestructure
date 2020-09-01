@@ -61,6 +61,7 @@
     <Compile Include="DirectoryFieldControl.xaml.cs">
       <DependentUpon>DirectoryFieldControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileStructureTabItem.cs" />
     <Compile Include="FileStructureControl.xaml.cs">
       <DependentUpon>FileStructureControl.xaml</DependentUpon>
     </Compile>

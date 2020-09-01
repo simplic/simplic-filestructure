@@ -10,5 +10,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <local:FileStructureControl x:Name="fileStructureControl" TreeViewMouseDoubleClick="OnTreeViewMouseDoubleClickHandler" />
+        
     </Grid>
 </simplic:DefaultRibbonWindow>
