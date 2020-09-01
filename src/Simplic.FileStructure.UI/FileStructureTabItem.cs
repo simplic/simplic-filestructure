@@ -33,81 +33,86 @@ namespace Simplic.FileStructure.UI
             base.OnSelected(e);
 
             if (instanceDataChanged)
+            {
+
                 Initialize();
+
+            }
         }
 
         private void Initialize()
         {
-            FileStructure fileStructure = null;
-            if (instanceDataChanged || Content == null)
+            Dispatcher.BeginInvoke((Action)(() =>
             {
-                fileStructureControl = new FileStructureControl();
-                Content = fileStructureControl;
-            }
-            fileStructure = fileStructureService.GetByInstanceDataGuid(InstanceDataGuid);
-            if (fileStructure == null)
-            {
-                MessageBoxResult selectFromTemplateResult = 0;
-                var t = Task.Run(() =>
+
+
+                FileStructure fileStructure = null;
+                if (instanceDataChanged || Content == null)
                 {
+                    fileStructureControl = new FileStructureControl();
+                    Content = fileStructureControl;
+                }
+                fileStructure = fileStructureService.GetByInstanceDataGuid(InstanceDataGuid);
+                if (fileStructure == null)
+                {
+                    MessageBoxResult selectFromTemplateResult = 0;
+
                     selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                });
-                t.Wait();
 
 
 
 
-                if (selectFromTemplateResult == MessageBoxResult.No)
-                {
-                    // Create new, maybe from template?
-                    fileStructure = new FileStructure
+
+                    if (selectFromTemplateResult == MessageBoxResult.No)
                     {
-                        InstanceDataGuid = InstanceDataGuid,
-                        StackGuid = StackHelper.Singleton.GetStackGuidByName(StackName),
-                        IsTemplate = false
-                    };
-                }
-                else
-                {
-                    AsyncItemBox templateItemBox = null;
-                    templateItemBox = ItemBoxManager.GetItemBoxFromDB("IB_FileStructureTemplate");
-                    Dispatcher.Invoke(() =>
+                        // Create new, maybe from template?
+                        fileStructure = new FileStructure
+                        {
+                            InstanceDataGuid = InstanceDataGuid,
+                            StackGuid = StackHelper.Singleton.GetStackGuidByName(StackName),
+                            IsTemplate = false
+                        };
+                    }
+                    else
                     {
-                        
+                        AsyncItemBox templateItemBox = null;
+                        templateItemBox = ItemBoxManager.GetItemBoxFromDB("IB_FileStructureTemplate");
+
+
                         templateItemBox.ShowDialog();
 
-                    });
 
-                    if (templateItemBox.SelectedItem != null)
-                    {
-                        var templateId = (Guid)templateItemBox.GetSelectedItemCell("Id");
-                        var template = fileStructureService.Get(templateId);
 
-                        // Copy template and connect with instance data entry
-                        fileStructure = template.Copy();
-                        fileStructure.IsTemplate = false;
-                        fileStructure.InstanceDataGuid = InstanceDataGuid;
-                        fileStructure.StackGuid = StackHelper.Singleton.GetStackGuidByName(StackName);
+                        if (templateItemBox.SelectedItem != null)
+                        {
+                            var templateId = (Guid)templateItemBox.GetSelectedItemCell("Id");
+                            var template = fileStructureService.Get(templateId);
+
+                            // Copy template and connect with instance data entry
+                            fileStructure = template.Copy();
+                            fileStructure.IsTemplate = false;
+                            fileStructure.InstanceDataGuid = InstanceDataGuid;
+                            fileStructure.StackGuid = StackHelper.Singleton.GetStackGuidByName(StackName);
+                        }
+
+
                     }
 
 
+
                 }
 
 
-                // Exit if no file structure is created
-
-            }
-
-
-            if (fileStructure == null)
-            {
-                return;
-            }
-            fileStructureService.Save(fileStructure);
-            // Initialize data context and keep load order
-            fileStructureControl.Initialize(fileStructure);
-            instanceDataChanged = false;
+                if (fileStructure == null)
+                {
+                    return;
+                }
+                fileStructureService.Save(fileStructure);
+                // Initialize data context and keep load order
+                fileStructureControl.Initialize(fileStructure);
+                instanceDataChanged = false;
+            }));
         }
 
         #region DependencyProperty
@@ -141,8 +146,14 @@ namespace Simplic.FileStructure.UI
         {
             instanceDataChanged = true;
 
+
             if (IsSelected)
+            {
+
                 Initialize();
+
+            }
+
         }
         #endregion
 
