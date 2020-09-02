@@ -11,6 +11,9 @@ using System.Windows.Controls;
 
 namespace Simplic.FileStructure.UI
 {
+    /// <summary>
+    /// Own Implementation of tab item to get stack name and instance data guid 
+    /// </summary>
     public class FileStructureTabItem : TabItem
     {
         #region Fields
@@ -33,19 +36,14 @@ namespace Simplic.FileStructure.UI
             base.OnSelected(e);
 
             if (instanceDataChanged)
-            {
-
                 Initialize();
 
-            }
         }
 
         private void Initialize()
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {
-
-
                 FileStructure fileStructure = null;
                 if (instanceDataChanged || Content == null)
                 {
@@ -58,11 +56,6 @@ namespace Simplic.FileStructure.UI
                     MessageBoxResult selectFromTemplateResult = 0;
 
                     selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-
-
-
-
 
                     if (selectFromTemplateResult == MessageBoxResult.No)
                     {
@@ -78,11 +71,7 @@ namespace Simplic.FileStructure.UI
                     {
                         AsyncItemBox templateItemBox = null;
                         templateItemBox = ItemBoxManager.GetItemBoxFromDB("IB_FileStructureTemplate");
-
-
                         templateItemBox.ShowDialog();
-
-
 
                         if (templateItemBox.SelectedItem != null)
                         {
@@ -95,19 +84,12 @@ namespace Simplic.FileStructure.UI
                             fileStructure.InstanceDataGuid = InstanceDataGuid;
                             fileStructure.StackGuid = StackHelper.Singleton.GetStackGuidByName(StackName);
                         }
-
-
                     }
-
-
-
                 }
-
 
                 if (fileStructure == null)
-                {
                     return;
-                }
+
                 fileStructureService.Save(fileStructure);
                 // Initialize data context and keep load order
                 fileStructureControl.Initialize(fileStructure);
@@ -145,15 +127,8 @@ namespace Simplic.FileStructure.UI
         private void OnInstanceDataGuidChanged(DependencyPropertyChangedEventArgs e)
         {
             instanceDataChanged = true;
-
-
             if (IsSelected)
-            {
-
                 Initialize();
-
-            }
-
         }
         #endregion
 
