@@ -24,11 +24,8 @@ namespace Simplic.FileStructure.UI
         {
             bool flag = false;
             if (value is DirectoryViewModel viewModel)
-            {
-                 flag = viewModel.DirectoryType.DirectoryFunction == DirectoryFunctionType.Workflow;
-                
-            }
-            
+                flag = viewModel.DirectoryType.DirectoryFunction == DirectoryFunctionType.Workflow;
+
             return (flag ? Visibility.Visible : Visibility.Collapsed);
         }
 

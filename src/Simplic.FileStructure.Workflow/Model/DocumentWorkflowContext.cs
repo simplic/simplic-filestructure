@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Document workflow context to create workflows
+    /// </summary>
     public class DocumentWorkflowContext
     {
         /// <summary>
