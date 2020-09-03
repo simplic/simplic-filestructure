@@ -31,6 +31,29 @@ namespace Simplic.FileStructure.Workflow.UI
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
         }
 
+        /// <summary>
+        /// Opens a window to create a workflow and assign settings to it
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult NewWorkflow(GridFunctionParameter parameter)
+        {
+            MessageBox.Show("Bitte seien sie nicht so frech / new");
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+        
+        /// <summary>
+        /// Edits the workflow
+        /// </summary>
+        /// <param name="parameter">the </param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult EditWorkflow(GridFunctionParameter parameter)
+        {
+            MessageBox.Show("Bitte seien sie nicht so nett / edit");
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+
         #region [ContextMenuStuff]
         /// <summary>
         /// Forwards the document to all user who installed the Workflow

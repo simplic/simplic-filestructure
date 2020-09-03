@@ -1,4 +1,7 @@
 ﻿using Simplic.DataStack;
+using Simplic.FileStructure.Model;
+using Simplic.FileStructure.Workflow;
+using Simplic.Framework.DBUI;
 using Simplic.Framework.UI;
 using Simplic.Icon;
 using Simplic.Localization;
@@ -31,18 +34,21 @@ namespace Simplic.FileStructure.UI
         private Expander expander;
         private ObservableCollection<FrameworkElement> visualPathElements;
         private string rootPath;
+        private string assignedWorkflow;
 
         private ICommand removeDirectoryCommand;
         private ICommand archiveFromClipboard;
         private ICommand archiveFromScanner;
         private ICommand editMetaDataCommand;
         private ICommand renameDirectoryCommand;
+        private ICommand assignWorkflowCommand;
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IStackService stackService;
         private readonly IFileStructureService fielStructureService;
+        private readonly IDocumentWorkflowContextService documentWorkflowContextService;
 
         private readonly IDirectoryFieldService directoryFieldService;
         private readonly IDirectoryClassificationFieldService directoryTypeFieldService;
@@ -60,6 +66,8 @@ namespace Simplic.FileStructure.UI
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
+            documentWorkflowContextService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowContextService>();
+
 
             directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();
             directoryTypeFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryClassificationFieldService>();
@@ -148,6 +156,22 @@ namespace Simplic.FileStructure.UI
                     return;
                 }
             }, (e) => { return selectedDirectory != null; });
+
+            // Command to assign the workflow 
+            assignWorkflowCommand = new RelayCommand((e) =>
+            {
+                var box = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow");
+                box.ShowDialog();
+                var result = box.GetSelectedItemCell("Guid");
+                if (result is Guid guid)
+                {
+                    selectedDirectory.Model.WorkflowId =guid ;
+                    Save();
+                    RaisePropertyChanged(nameof(AssignedWorkflow));
+                    RaisePropertyChanged(nameof(AssignedWorkflowVisibility));
+                }
+                
+            });
 
             // Archive from clipboard click
             archiveFromClipboard = new RelayCommand((e) =>
@@ -521,6 +545,8 @@ namespace Simplic.FileStructure.UI
             {
                 selectedDirectory = value;
                 RaisePropertyChanged(nameof(SelectedDirectory));
+                RaisePropertyChanged(nameof(AssignedWorkflow));
+                RaisePropertyChanged(nameof(AssignedWorkflowVisibility));
 
                 RefreshPath();
             }
@@ -571,6 +597,22 @@ namespace Simplic.FileStructure.UI
             set
             {
                 renameDirectoryCommand = value;
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the assign workflow command
+        /// </summary>
+        public ICommand AssignWorkflowCommand
+        {
+            get
+            {
+                return assignWorkflowCommand;
+            }
+            
+            set
+            {
+                assignWorkflowCommand = value;
             }
         }
 
@@ -678,6 +720,35 @@ namespace Simplic.FileStructure.UI
             {
                 visualPathElements = value;
             }
+        }
+        /// <summary>
+        /// Gets or sets the assigned workflow
+        /// </summary>
+        public string AssignedWorkflow
+        {
+            get
+            {
+                if (selectedDirectory.Model.WorkflowId == null || selectedDirectory.Model.WorkflowId == Guid.Empty)
+                    return "";
+
+                ;
+                return localizationService.Translate("filestructure_assigned_workflow") +": " + documentWorkflowContextService.Get((Guid)selectedDirectory.Model.WorkflowId).DisplayName;
+            }
+
+        }
+
+        /// <summary>
+        /// Gets the assigned workflow visibility 
+        /// </summary>
+        public Visibility AssignedWorkflowVisibility 
+        {
+            get
+            {
+                var flag = (selectedDirectory.Model.WorkflowId == null || selectedDirectory.Model.WorkflowId == Guid.Empty
+                    || selectedDirectory.DirectoryType.DirectoryFunction != DirectoryFunctionType.Workflow);
+                return flag ? Visibility.Collapsed : Visibility.Visible;
+                
+            }  
         }
     }
 }

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentWorkflowContextService.cs" />
     <Compile Include="DocumentWorkflowTrackerService.cs" />
     <Compile Include="DocumentWorkflowUserService.cs" />
     <Compile Include="DocumentWorkflowAppSettingsService.cs" />

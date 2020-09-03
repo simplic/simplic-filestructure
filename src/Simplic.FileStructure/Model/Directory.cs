@@ -88,5 +88,10 @@ namespace Simplic.FileStructure
         {
             return Id.GetHashCode();
         }
+
+        /// <summary>
+        /// Gets or sets the workflow id 
+        /// </summary>
+        public Guid? WorkflowId { get; set; }
     }
 }
