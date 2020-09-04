@@ -7,10 +7,10 @@ using Simplic.Framework.DBUI;
 
 namespace Simplic.FileStructure.Workflow.UI
 {
-    public class DocumentWorkflowContextApplicationHelper : GridWindowApplicationHelper<Guid, DocumentWorkflowContext, DocumentWorkflowContextViewModel>
+    public class DocumentWorkflowConfigurationApplicationHelper : GridWindowApplicationHelper<Guid, DocumentWorkflowConfiguration, DocumentWorkflowConfigurationViewModel>
     {
         public override string PrimaryKeyColumn => "Guid";
 
-        public override Type WindowInterface => typeof(IDocumentWorkflowContextWindow);
+        public override Type WindowInterface => typeof(IDocumentWorkflowConfigurationWindow);
     }
 }

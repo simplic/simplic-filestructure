@@ -13,7 +13,7 @@ namespace Simplic.FileStructure.Workflow.UI
     /// <summary>
     /// View model primarly used by DocumentWorkflowContext window
     /// </summary>
-    public class DocumentWorkflowContextViewModel : ExtendableViewModel, IWindowViewModel<DocumentWorkflowContext>
+    public class DocumentWorkflowConfigurationViewModel : ExtendableViewModel, IWindowViewModel<DocumentWorkflowConfiguration>
     {
         #region [Fields]
         private ObservableCollection<string> stateProviders = new ObservableCollection<string>();
@@ -23,18 +23,18 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <summary>
         /// Gets or sets the model
         /// </summary>
-        public DocumentWorkflowContext Model { get; set; }
+        public DocumentWorkflowConfiguration Model { get; set; }
 
 
         /// <summary>
         /// Initialize the to pass the model 
         /// </summary>
         /// <param name="model"></param>
-        public void Initialize(DocumentWorkflowContext model)
+        public void Initialize(DocumentWorkflowConfiguration model)
         {
             if (model == null)
             {
-                model = new DocumentWorkflowContext();
+                model = new DocumentWorkflowConfiguration();
             }
             Model = model;
             stateProviders.Add("Standard");

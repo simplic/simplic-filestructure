@@ -48,7 +48,7 @@ namespace Simplic.FileStructure.UI
         private readonly IDirectoryTypeService directoryTypeService;
         private readonly IStackService stackService;
         private readonly IFileStructureService fielStructureService;
-        private readonly IDocumentWorkflowContextService documentWorkflowContextService;
+        private readonly IDocumentWorkflowConfigurationService documentWorkflowContextService;
 
         private readonly IDirectoryFieldService directoryFieldService;
         private readonly IDirectoryClassificationFieldService directoryTypeFieldService;
@@ -66,7 +66,7 @@ namespace Simplic.FileStructure.UI
             iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
             stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
             fielStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
-            documentWorkflowContextService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowContextService>();
+            documentWorkflowContextService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowConfigurationService>();
 
 
             directoryFieldService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryFieldService>();

@@ -19,16 +19,16 @@ namespace Simplic.FileStructure.Workflow.UI
     /// <summary>
     /// Interaction logic for DocumentWorkflowContextWindow.xaml
     /// </summary>
-    public partial class DocumentWorkflowContextWindow : BaseDocumentWorkflowContextWindow
+    public partial class DocumentWorkflowConfigurationWindow : BaseDocumentWorkflowConfigurationWindow
     {
-        public DocumentWorkflowContextWindow(IDocumentWorkflowContextService service) : base(service)
+        public DocumentWorkflowConfigurationWindow(IDocumentWorkflowConfigurationService service) : base(service)
         {
             InitializeComponent();
         }
     }
-    public abstract class BaseDocumentWorkflowContextWindow : ApplicationWindow<Guid, DocumentWorkflowContext, DocumentWorkflowContextViewModel, IDocumentWorkflowContextService>, IDocumentWorkflowContextWindow
+    public abstract class BaseDocumentWorkflowConfigurationWindow : ApplicationWindow<Guid, DocumentWorkflowConfiguration, DocumentWorkflowConfigurationViewModel, IDocumentWorkflowConfigurationService>, IDocumentWorkflowConfigurationWindow
     {
-        public BaseDocumentWorkflowContextWindow(IDocumentWorkflowContextService service)
+        public BaseDocumentWorkflowConfigurationWindow(IDocumentWorkflowConfigurationService service)
             : base(service)
         {
         }

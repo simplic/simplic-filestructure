@@ -1,4 +1,4 @@
-﻿<local:BaseDocumentWorkflowContextWindow x:Class="Simplic.FileStructure.Workflow.UI.DocumentWorkflowContextWindow"
+﻿<local:BaseDocumentWorkflowConfigurationWindow x:Class="Simplic.FileStructure.Workflow.UI.DocumentWorkflowConfigurationWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -33,4 +33,4 @@
         <simplic:ComboBox ItemsSource="{Binding StateProviders}"  SelectedItem="{Binding SelectedStateProvider}" Grid.Row="2" Grid.Column="1" />
 
     </Grid>
-</local:BaseDocumentWorkflowContextWindow>
+</local:BaseDocumentWorkflowConfigurationWindow>

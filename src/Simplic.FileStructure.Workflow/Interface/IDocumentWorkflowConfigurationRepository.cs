@@ -7,7 +7,7 @@ using Simplic.Data;
 
 namespace Simplic.FileStructure.Workflow
 {
-    public interface IDocumentWorkflowContextRepository : IRepositoryBase<Guid, DocumentWorkflowContext>
+    public interface IDocumentWorkflowConfigurationRepository : IRepositoryBase<Guid, DocumentWorkflowConfiguration>
     {
     }
 }

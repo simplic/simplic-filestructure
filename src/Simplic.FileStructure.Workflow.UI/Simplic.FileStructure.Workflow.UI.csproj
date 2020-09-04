@@ -56,12 +56,12 @@
     <Compile Include="Controls\Window_DocumentWorkflow.xaml.cs">
       <DependentUpon>Window_DocumentWorkflow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextApplicationHelper.cs" />
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextViewModel.cs" />
+    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationApplicationHelper.cs" />
+    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationViewModel.cs" />
     <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml.cs">
       <DependentUpon>DocumentWorkflowContextWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\IDocumentWorkflowContextWindow.cs" />
+    <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />

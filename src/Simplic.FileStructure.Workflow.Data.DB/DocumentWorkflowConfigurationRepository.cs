@@ -9,7 +9,10 @@ using Simplic.Sql;
 
 namespace Simplic.FileStructure.Workflow.Data.DB
 {
-    public class DocumentWorkflowContextRepository : SqlRepositoryBase<Guid, DocumentWorkflowContext>, IDocumentWorkflowContextRepository
+    /// <summary>
+    /// Represents the repository
+    /// </summary>
+    public class DocumentWorkflowConfigurationRepository : SqlRepositoryBase<Guid, DocumentWorkflowConfiguration>, IDocumentWorkflowConfigurationRepository
     {
         /// <summary>
         /// Override to get the table name
@@ -27,7 +30,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// <param name="sqlService"> Sql service for database connection pool</param>
         /// <param name="sqlColumnService"> Service for the sql column</param>
         /// <param name="cacheService">Service to set the cache </param>
-        public DocumentWorkflowContextRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
+        public DocumentWorkflowConfigurationRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
         {
             UseCache = true;
         }
@@ -37,6 +40,6 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// </summary>
         /// <param name="obj">Document workflow context</param>
         /// <returns></returns>
-        public override Guid GetId(DocumentWorkflowContext obj) => obj.Guid;
+        public override Guid GetId(DocumentWorkflowConfiguration obj) => obj.Guid;
     }
 }

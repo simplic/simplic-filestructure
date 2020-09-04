@@ -10,7 +10,7 @@ namespace Simplic.FileStructure.Workflow.UI
     /// <summary>
     /// Interface for DocumentWorkflowContextWindow
     /// </summary>
-    public interface IDocumentWorkflowContextWindow : IWindow<Guid, DocumentWorkflowContext, DocumentWorkflowContextViewModel>
+    public interface IDocumentWorkflowConfigurationWindow : IWindow<Guid, DocumentWorkflowConfiguration, DocumentWorkflowConfigurationViewModel>
     {
     }
 }

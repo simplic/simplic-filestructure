@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow.Service
 {
-    public class DocumentWorkflowContextService : IDocumentWorkflowContextService
+    public class DocumentWorkflowConfigurationService : IDocumentWorkflowConfigurationService
     {
-        IDocumentWorkflowContextRepository repository;
-        public DocumentWorkflowContextService(IDocumentWorkflowContextRepository repository)
+        IDocumentWorkflowConfigurationRepository repository;
+        public DocumentWorkflowConfigurationService(IDocumentWorkflowConfigurationRepository repository)
         {
             this.repository = repository;
         }
@@ -19,7 +19,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// </summary>
         /// <param name="obj">document workflow context</param>
         /// <returns></returns>
-        public bool Delete(DocumentWorkflowContext obj)
+        public bool Delete(DocumentWorkflowConfiguration obj)
         {
             return repository.Delete(obj);
         }
@@ -35,11 +35,11 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Returns the poco DocumentWorkflowContext based on id
+        /// Returns the poco DocumentWorkflowConfiguaration based on id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public DocumentWorkflowContext Get(Guid id)
+        public DocumentWorkflowConfiguration Get(Guid id)
         {
             return repository.Get(id);
         }
@@ -48,7 +48,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// Returns an IEnumarable which contains all DocumentWorkflowContext
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<DocumentWorkflowContext> GetAll()
+        public IEnumerable<DocumentWorkflowConfiguration> GetAll()
         {
             return repository.GetAll();
         }
@@ -58,7 +58,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public bool Save(DocumentWorkflowContext obj)
+        public bool Save(DocumentWorkflowConfiguration obj)
         {
             return repository.Save(obj);
         }
