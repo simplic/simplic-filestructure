@@ -90,7 +90,7 @@ namespace Simplic.FileStructure
         }
 
         /// <summary>
-        /// Gets or sets the workflow id 
+        /// Gets or sets the workflow id. The id will be used to identify the workflow configuration for specific directory.
         /// </summary>
         public Guid? WorkflowId { get; set; }
     }
