@@ -194,7 +194,9 @@ namespace Simplic.FileStructure.UI
             // Save target filestructure before drop action
             if (targetDirectory.StructureViewModel.IsDirty)
                 targetDirectory.StructureViewModel.Save();
-
+            //Check if the the folder is a workflow folder and has a workflow assigned 
+            if (DirectoryIsWorkflow(targetDirectory))
+                return;
             // File drag & drop
             DataObject dataObject = (e.Data as DataObject);
             if (dataObject != null && dataObject.ContainsFileDropList())
@@ -331,6 +333,7 @@ namespace Simplic.FileStructure.UI
                 var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
 
+                
                 ObservableCollection<DirectoryViewModel> childDirectoryList;
 
                 // Add to new parent
@@ -368,6 +371,7 @@ namespace Simplic.FileStructure.UI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void OnPreviewDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
+        
         {
             var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
             var treeView = sender as Telerik.Windows.Controls.RadTreeView;
@@ -375,6 +379,10 @@ namespace Simplic.FileStructure.UI
             if (options != null)
             {
                 var droppedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+                //Check if the the folder is a workflow folder and has a workflow assigned
+                if (DirectoryIsWorkflow(droppedDirectory))
+                    return;
+                
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
 
                 // Remove from parent
@@ -423,6 +431,21 @@ namespace Simplic.FileStructure.UI
                 options.DropAction = DropAction.None;
                 e.Effects = DragDropEffects.None;
             }
+        }
+
+        private static bool DirectoryIsWorkflow(DirectoryViewModel directory)
+        {
+            //Guid of the type workflow folder
+            var workflowGuid = Guid.Parse("F3F2BF83-5ACD-4221-BAA1-5138ED5D9769");
+            if (directory.Model.DirectoryTypeId.Equals(workflowGuid))
+            {
+                if (!directory.Model.WorkflowId.HasValue)
+                {
+                    MessageBox.Show("filestructure_workflow_not_assigned");
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool IsInSamePath(FileStructure fileStructure, Directory startDirectory, Directory directoryToCheck)

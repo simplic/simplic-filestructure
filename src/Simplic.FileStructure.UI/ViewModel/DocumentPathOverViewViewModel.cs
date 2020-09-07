@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using Simplic.DataStack;
+using Simplic.FileStructure.Workflow;
 using Simplic.Framework.DBUI;
 using Simplic.Icon;
 using Simplic.Localization;
@@ -29,6 +30,7 @@ namespace Simplic.FileStructure.UI
         private readonly IIconService iconService;
         private readonly ILocalizationService localizationService;
         private readonly IStackService stackService;
+        private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
 
         private ICommand addDocumentPathCommand;
         private ICommand changeDocumentPathCommand;
@@ -43,13 +45,14 @@ namespace Simplic.FileStructure.UI
         public DocumentPathOverViewViewModel(Guid documentId)
         {
             this.documentId = documentId;
-            
+
             documentPathService = ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             fileStructureService = ServiceLocator.Current.GetInstance<IFileStructureService>();
             directoryTypeService = ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = ServiceLocator.Current.GetInstance<IIconService>();
             localizationService = ServiceLocator.Current.GetInstance<ILocalizationService>();
             stackService = ServiceLocator.Current.GetInstance<IStackService>();
+            documentWorkflowAssignmentService = ServiceLocator.Current.GetInstance<IDocumentWorkflowAssignmentService>();
 
             removedPaths = new List<DocumentPathViewModel>();
 
@@ -220,6 +223,32 @@ namespace Simplic.FileStructure.UI
 
             foreach (var path in paths)
                 documentPathService.Save(path.Model);
+
+            if (!documentWorkflowAssignmentService.AlreadyExists(documentId))
+            {
+                bool isWorkflowFolder = false;
+                Guid worklfowId = Guid.Empty;
+                var file = fileStructureService.Get(paths.Last().Model.FileStructureGuid);
+
+                foreach (var directory in file.Directories)
+                {
+                    if (directory.WorkflowId.HasValue)
+                    {
+                        isWorkflowFolder = true;
+                        worklfowId = (Guid)directory.WorkflowId;
+                    }
+                }
+
+                if (isWorkflowFolder)
+                {
+                    var documentWorkflowAssignment = new DocumentWorkflowAssignment
+                    {
+                        DocumentId = documentId,
+                        WorkflowId = worklfowId,
+                    };
+                    documentWorkflowAssignmentService.Save(documentWorkflowAssignment);
+                }
+            }
 
             IsDirty = false;
         }
