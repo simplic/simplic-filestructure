@@ -162,8 +162,6 @@ namespace Simplic.FileStructure.UI
                 directoriesToCheck.AddRange(innerDirectories);
             }
 
-
-
             if (fileStructureDocumentPathService.IsProtected(guids))
             {
                 MessageBox.Show(localizationService.Translate("filestructure_drag_protected"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
@@ -171,7 +169,15 @@ namespace Simplic.FileStructure.UI
                 e.DragVisual = null;
                 e.Handled = true;
             }
-           
+
+            //Checks if the folder is assigned to a workflow
+            if (draggedDirectory.Model.WorkflowId.HasValue)
+            {
+                MessageBox.Show(localizationService.Translate("filestructure_drag_protected_workflow"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                e.Data = null;
+                e.DragVisual = null;
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -333,7 +339,7 @@ namespace Simplic.FileStructure.UI
                 var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
 
-                
+
                 ObservableCollection<DirectoryViewModel> childDirectoryList;
 
                 // Add to new parent
@@ -371,7 +377,7 @@ namespace Simplic.FileStructure.UI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void OnPreviewDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
-        
+
         {
             var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
             var treeView = sender as Telerik.Windows.Controls.RadTreeView;
@@ -382,7 +388,7 @@ namespace Simplic.FileStructure.UI
                 //Check if the the folder is a workflow folder and has a workflow assigned
                 if (DirectoryIsWorkflow(droppedDirectory))
                     return;
-                
+
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
 
                 // Remove from parent
@@ -441,7 +447,7 @@ namespace Simplic.FileStructure.UI
             {
                 if (!directory.Model.WorkflowId.HasValue)
                 {
-                    MessageBox.Show("filestructure_workflow_not_assigned");
+                    MessageBox.Show(localizationService.Translate("filestructure_workflow_not_assigned"),localizationService.Translate("filestructure_drag_protected_workflow"),MessageBoxButton.OK,MessageBoxImage.Information);
                     return true;
                 }
             }
