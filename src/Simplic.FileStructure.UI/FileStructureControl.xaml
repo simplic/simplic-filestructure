@@ -16,9 +16,7 @@
                 <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
             </StackPanel>
         </HierarchicalDataTemplate>
-            <local:WorkflowVisibilityConverter
-         x:Key="WorkflowVisibility"
-          />
+            <local:WorkflowVisibilityConverter x:Key="WorkflowVisibility"/>
     </UserControl.Resources>
     <TabControl>
         <TabItem Header="{simplic:Localization Key=filestructure_explorer_tab}">

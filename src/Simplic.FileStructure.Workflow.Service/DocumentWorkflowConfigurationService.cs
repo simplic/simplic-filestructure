@@ -8,7 +8,7 @@ namespace Simplic.FileStructure.Workflow.Service
 {
     public class DocumentWorkflowConfigurationService : IDocumentWorkflowConfigurationService
     {
-        IDocumentWorkflowConfigurationRepository repository;
+        private readonly IDocumentWorkflowConfigurationRepository repository;
         public DocumentWorkflowConfigurationService(IDocumentWorkflowConfigurationRepository repository)
         {
             this.repository = repository;

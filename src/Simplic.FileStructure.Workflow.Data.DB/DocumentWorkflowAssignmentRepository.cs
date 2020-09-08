@@ -32,18 +32,17 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// </summary>
         public override string PrimaryKeyColumn => "Guid";
 
-        public bool AlreadyExists(Guid documentId)
+        public bool AlreadyExists(Guid documentId, Guid workflowId)
         {
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.QueryFirstOrDefault<bool>($"SELECT CASE WHEN EXISTS(" +
-                    $"SELECT * FROM {TableName} where DocumentId = :documentId) " +
+                    $"SELECT * FROM {TableName} where DocumentId = :documentId) and WorkflowId = :workflowId " +
                     $"THEN 1 " +
                     $"ELSE 0 END",
-                    new { documentId });
+                    new { documentId, workflowId });
             });
         }
-
 
         /// <summary>
         /// Gets the id based on an object 

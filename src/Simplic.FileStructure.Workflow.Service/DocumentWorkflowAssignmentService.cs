@@ -6,42 +6,37 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow.Service
 {
+    /// <summary>
+    /// Represents the implementation of the interface <see cref="IDocumentWorkflowAssignmentService"/>
+    /// </summary>
     public class DocumentWorkflowAssignmentService : IDocumentWorkflowAssignmentService
     {
+        #region[IRepository]
+
+        #endregion
         private readonly IDocumentWorkflowAssignmentRepository repository;
         public DocumentWorkflowAssignmentService(IDocumentWorkflowAssignmentRepository repository)
         {
             this.repository = repository;
         }
 
-        public bool AlreadyExists(Guid documentId)
-        {
-            return repository.AlreadyExists(documentId);
-        }
+        #region[IRepositoryBase]
 
-        public bool Delete(DocumentWorkflowAssignment obj)
-        {
-            return repository.Delete(obj);
-        }
+        public bool Delete(DocumentWorkflowAssignment obj) => repository.Delete(obj);
 
-        public bool Delete(Guid id)
-        {
-            return repository.Delete(id);
-        }
+        public bool Delete(Guid id) => repository.Delete(id);
 
-        public DocumentWorkflowAssignment Get(Guid id)
-        {
-            return repository.Get(id);
-        }
+        public DocumentWorkflowAssignment Get(Guid id) => repository.Get(id);
+        
 
-        public IEnumerable<DocumentWorkflowAssignment> GetAll()
-        {
-            return repository.GetAll();
-        }
+        public IEnumerable<DocumentWorkflowAssignment> GetAll() => repository.GetAll();
+        
 
-        public bool Save(DocumentWorkflowAssignment obj)
-        {
-            return repository.Save(obj);
-        }
+        public bool Save(DocumentWorkflowAssignment obj) => repository.Save(obj);
+        
+        #endregion
+
+        public bool AlreadyExists(Guid documentId, Guid workflowId) => repository.AlreadyExists(documentId, workflowId);
+
     }
 }

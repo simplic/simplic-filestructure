@@ -163,10 +163,11 @@ namespace Simplic.FileStructure.UI
             // Command to assign the workflow 
             assignWorkflowCommand = new RelayCommand((e) =>
             {
+
                 var documents = fielStructureService.GetDocuments(model, selectedDirectory.Model, false);
                 foreach (var document in documents)
                 {
-                    if (documentWorkflowAssignmentService.AlreadyExists(document))
+                    if (documentWorkflowAssignmentService.AlreadyExists(document, (Guid)selectedDirectory.Model.WorkflowId))
                     {
                         MessageBox.Show("filestructure_workflow_assign_already_documents");
                         return;

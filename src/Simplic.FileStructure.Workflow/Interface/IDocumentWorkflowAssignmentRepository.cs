@@ -17,6 +17,6 @@ namespace Simplic.FileStructure.Workflow
         /// </summary>
         /// <param name="documentId"> The id of the document</param>
         /// <returns>a bool true if the id already exists</returns>
-        bool AlreadyExists(Guid documentId);
+        bool AlreadyExists(Guid documentId, Guid workflowId);
     }
 }

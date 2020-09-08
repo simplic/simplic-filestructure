@@ -17,7 +17,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// <summary>
         /// Override to get the table name
         /// </summary>
-        public override string TableName => "IT_Document_Workflow_Context";
+        public override string TableName => "IT_Document_Workflow_Configuration";
 
         /// <summary>
         /// Override to get the string 

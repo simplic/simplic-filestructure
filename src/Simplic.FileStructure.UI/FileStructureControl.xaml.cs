@@ -201,7 +201,7 @@ namespace Simplic.FileStructure.UI
             if (targetDirectory.StructureViewModel.IsDirty)
                 targetDirectory.StructureViewModel.Save();
             //Check if the the folder is a workflow folder and has a workflow assigned 
-            if (DirectoryIsWorkflow(targetDirectory))
+            if (IsDirectoryWorkflow(targetDirectory))
                 return;
             // File drag & drop
             DataObject dataObject = (e.Data as DataObject);
@@ -386,7 +386,7 @@ namespace Simplic.FileStructure.UI
             {
                 var droppedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
                 //Check if the the folder is a workflow folder and has a workflow assigned
-                if (DirectoryIsWorkflow(droppedDirectory))
+                if (IsDirectoryWorkflow(droppedDirectory))
                     return;
 
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
@@ -439,15 +439,17 @@ namespace Simplic.FileStructure.UI
             }
         }
 
-        private static bool DirectoryIsWorkflow(DirectoryViewModel directory)
+        private static bool IsDirectoryWorkflow(DirectoryViewModel directory)
         {
             //Guid of the type workflow folder
             var workflowGuid = Guid.Parse("F3F2BF83-5ACD-4221-BAA1-5138ED5D9769");
+
             if (directory.Model.DirectoryTypeId.Equals(workflowGuid))
             {
                 if (!directory.Model.WorkflowId.HasValue)
                 {
-                    MessageBox.Show(localizationService.Translate("filestructure_workflow_not_assigned"),localizationService.Translate("filestructure_drag_protected_workflow"),MessageBoxButton.OK,MessageBoxImage.Information);
+                    MessageBox.Show(localizationService.Translate("filestructure_workflow_not_assigned"), 
+                        localizationService.Translate("filestructure_drag_protected_workflow"), MessageBoxButton.OK, MessageBoxImage.Information);
                     return true;
                 }
             }

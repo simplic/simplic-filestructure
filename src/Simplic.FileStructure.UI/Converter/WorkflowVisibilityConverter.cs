@@ -10,6 +10,9 @@ using Simplic.FileStructure.Model;
 
 namespace Simplic.FileStructure.UI
 {
+    /// <summary>
+    /// Represents the workflow visibility converter 
+    /// </summary>
     public class WorkflowVisibilityConverter : IValueConverter
     {
         /// <summary>

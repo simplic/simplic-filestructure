@@ -53,7 +53,7 @@ namespace Simplic.FileStructure.UI
                 fileStructure = fileStructureService.GetByInstanceDataGuid(InstanceDataGuid);
                 if (fileStructure == null)
                 {
-                    MessageBoxResult selectFromTemplateResult = 0;
+                    MessageBoxResult selectFromTemplateResult = MessageBoxResult.None;
 
                     selectFromTemplateResult = MessageBox.Show(localizationService.Translate("filestructure_select_template_msg"), localizationService.Translate("filestructure_select_template_title"), MessageBoxButton.YesNo, MessageBoxImage.Question);
 

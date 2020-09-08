@@ -224,31 +224,30 @@ namespace Simplic.FileStructure.UI
             foreach (var path in paths)
                 documentPathService.Save(path.Model);
 
-            if (!documentWorkflowAssignmentService.AlreadyExists(documentId))
+
+            bool isWorkflowFolder = false;
+            Guid worklfowId = Guid.Empty;
+            var file = fileStructureService.Get(paths.Last().Model.FileStructureGuid);
+
+            foreach (var directory in file.Directories)
             {
-                bool isWorkflowFolder = false;
-                Guid worklfowId = Guid.Empty;
-                var file = fileStructureService.Get(paths.Last().Model.FileStructureGuid);
-
-                foreach (var directory in file.Directories)
+                if (directory.WorkflowId.HasValue)
                 {
-                    if (directory.WorkflowId.HasValue)
-                    {
-                        isWorkflowFolder = true;
-                        worklfowId = (Guid)directory.WorkflowId;
-                    }
-                }
-
-                if (isWorkflowFolder)
-                {
-                    var documentWorkflowAssignment = new DocumentWorkflowAssignment
-                    {
-                        DocumentId = documentId,
-                        WorkflowId = worklfowId,
-                    };
-                    documentWorkflowAssignmentService.Save(documentWorkflowAssignment);
+                    isWorkflowFolder = true;
+                    worklfowId = (Guid)directory.WorkflowId;
                 }
             }
+
+            if (isWorkflowFolder)
+            {
+                var documentWorkflowAssignment = new DocumentWorkflowAssignment
+                {
+                    DocumentId = documentId,
+                    WorkflowId = worklfowId,
+                };
+                documentWorkflowAssignmentService.Save(documentWorkflowAssignment);
+            }
+
 
             IsDirty = false;
         }
