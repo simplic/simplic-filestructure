@@ -15,6 +15,6 @@ namespace Simplic.FileStructure.Workflow
         /// Returns the document workflow state based on a document id and a workflow id
         /// </summary>
         /// <param name="documentId"></param>
-        DocumentWorkflowStateType GetNewDocumentWorkflowState(Guid documentId, Guid workflowId);  
+        DocumentWorkflowState GetNewDocumentWorkflowState(Guid documentId, Guid workflowId);  
     }
 }

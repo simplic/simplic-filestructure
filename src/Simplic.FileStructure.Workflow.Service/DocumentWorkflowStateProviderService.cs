@@ -10,6 +10,7 @@ namespace Simplic.FileStructure.Workflow.Service
     {
         private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
         private readonly IDocumentWorkflowStateService documentWorkflowStateService;
+        private readonly IFileStrucutreDocumentPathService fileStrucutreDocumentPathService;
 
         public DocumentWorkflowStateProviderService(IDocumentWorkflowAssignmentService documentWorkflowAssignmentService,
             IDocumentWorkflowStateService documentWorkflowStateService)
@@ -18,9 +19,13 @@ namespace Simplic.FileStructure.Workflow.Service
             this.documentWorkflowAssignmentService = documentWorkflowAssignmentService;
         }
 
-        public DocumentWorkflowStateType GetNewDocumentWorkflowState(Guid documentId, Guid workflowId)
+        public DocumentWorkflowState GetNewDocumentWorkflowState(Guid documentId, Guid workflowId)
         {
-            throw new NotImplementedException();
+            var state = new DocumentWorkflowState();
+            documentWorkflowAssignmentService.AlreadyExists(documentId, workflowId);
+
+
+            return state;
         }
     }
 
