@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IDocumentWorkflowStateProviderService.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
     <Compile Include="Interface\IDocumentWorkflowAssignmentRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowStateRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowStateService.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerService.cs" />
     <Compile Include="Interface\IDocumentWorkflowUserRepository.cs" />
@@ -54,10 +57,11 @@
     <Compile Include="Interface\IWorkflowOperationRepository.cs" />
     <Compile Include="Interface\IWorkflowOperationService.cs" />
     <Compile Include="Model\DocumentWorkflowAssignment.cs" />
+    <Compile Include="Model\DocumentWorkflowState.cs" />
     <Compile Include="Model\DocumentWorkflowTracker.cs" />
     <Compile Include="Model\DocumentWorkflowUser.cs" />
     <Compile Include="Model\DocumentWorkflowAppSettings.cs" />
-    <Compile Include="Model\DocumentWorkflowState.cs" />
+    <Compile Include="Model\DocumentWorkflowStateType.cs" />
     <Compile Include="Model\DocumentWorkflowConfiguration.cs" />
     <Compile Include="Model\WorkflowOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

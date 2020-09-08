@@ -38,7 +38,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult NewWorkflow(GridFunctionParameter parameter)
         {
-            MessageBox.Show("Bitte seien sie nicht so frech / new");
+            
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
         
@@ -49,7 +49,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult EditWorkflow(GridFunctionParameter parameter)
         {
-            MessageBox.Show("Bitte seien sie nicht so nett / edit");
+            
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 

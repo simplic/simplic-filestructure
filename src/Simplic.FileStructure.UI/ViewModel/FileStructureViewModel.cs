@@ -1,4 +1,5 @@
-﻿using Simplic.DataStack;
+﻿using Dapper;
+using Simplic.DataStack;
 using Simplic.FileStructure.Model;
 using Simplic.FileStructure.Workflow;
 using Simplic.Framework.DBUI;
@@ -53,6 +54,7 @@ namespace Simplic.FileStructure.UI
 
         private readonly IDirectoryFieldService directoryFieldService;
         private readonly IDirectoryClassificationFieldService directoryTypeFieldService;
+        private readonly Guid workflowGuid = Guid.Parse("F3F2BF83-5ACD-4221-BAA1-5138ED5D9769");
 
         /// <summary>
         /// Create view model
@@ -163,15 +165,11 @@ namespace Simplic.FileStructure.UI
             // Command to assign the workflow 
             assignWorkflowCommand = new RelayCommand((e) =>
             {
-
-                var documents = fielStructureService.GetDocuments(model, selectedDirectory.Model, false);
-                foreach (var document in documents)
+                if (selectedDirectory.Model.WorkflowId.HasValue)
                 {
-                    if (documentWorkflowAssignmentService.AlreadyExists(document, (Guid)selectedDirectory.Model.WorkflowId))
-                    {
-                        MessageBox.Show("filestructure_workflow_assign_already_documents");
-                        return;
-                    }
+                    MessageBox.Show(localizationService.Translate("filestructure_workflow_assign_already"),
+                            localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
                 }
 
                 var box = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow");
@@ -181,6 +179,8 @@ namespace Simplic.FileStructure.UI
                 if (result is Guid guid)
                 {
                     selectedDirectory.Model.WorkflowId = guid;
+                    //Assign all parents and children the workflow
+                    assignedWorkflowToParentsAndChildren(guid);
                     Save();
                     RaisePropertyChanged(nameof(AssignedWorkflow));
                     RaisePropertyChanged(nameof(AssignedWorkflowVisibility));
@@ -194,7 +194,7 @@ namespace Simplic.FileStructure.UI
                 if (IsDirty)
                     Save();
 
-                if (DirectoryIsWorkflow(selectedDirectory))
+                if (IsWorkflowDirectory(selectedDirectory))
                     return;
                 Helper.ArchiveHelper.ArchiveFromClipboard(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });
@@ -206,21 +206,45 @@ namespace Simplic.FileStructure.UI
                 if (IsDirty)
                     Save();
 
-                if (DirectoryIsWorkflow(selectedDirectory))
+                if (IsWorkflowDirectory(selectedDirectory))
                     return;
 
                 Helper.ArchiveHelper.ArchiveFromScanClient(model, selectedDirectory.Model);
             }, (e) => { return selectedDirectory != null; });
         }
 
-        private bool DirectoryIsWorkflow(DirectoryViewModel selectedDirectory)
+        /// <summary>
+        /// Assign the workflow to all the parents and children
+        /// </summary>
+        /// <param name="guid"></param>
+        private void assignedWorkflowToParentsAndChildren(Guid guid)
         {
-            var workflowGuid = Guid.Parse("F3F2BF83-5ACD-4221-BAA1-5138ED5D9769");
+            var directories = selectedDirectory.StructureViewModel.Directories.AsList();
+
+            while (directories.Count != 0)
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var innerDir in directories)
+                {
+                    if (innerDir.Model.DirectoryTypeId.Equals(workflowGuid))
+                        innerDir.Model.WorkflowId = guid;
+
+                    innerDirectories.AddRange(innerDir.Directories);
+                }
+                directories.Clear();
+                directories.AddRange(innerDirectories);
+            }
+        }
+
+        private bool IsWorkflowDirectory(DirectoryViewModel selectedDirectory)
+        {
+
             if (selectedDirectory.Model.DirectoryTypeId.Equals(workflowGuid))
             {
                 if (!selectedDirectory.Model.WorkflowId.HasValue)
                 {
-                    MessageBox.Show("filestructure_workflow_not_assigned");
+                    MessageBox.Show(localizationService.Translate("filestructure_workflow_not_assigned"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
                     return true;
                 }
 
@@ -369,6 +393,8 @@ namespace Simplic.FileStructure.UI
 
                 childrenDirectory = SelectedDirectory.Directories;
             }
+            if (!(SelectedDirectory == null || SelectedDirectory.Model == null))
+                directoryViewModel.Model.WorkflowId = SelectedDirectory.Model.WorkflowId;
 
             SelectedDirectory = directoryViewModel;
             RawDirectories.Add(directoryViewModel);

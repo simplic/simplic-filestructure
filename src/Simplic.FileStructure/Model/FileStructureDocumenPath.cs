@@ -97,6 +97,6 @@ namespace Simplic.FileStructure
             set;
         }
 
-        public DocumentWorkflowState WorkflowState { get; set; } = 0;
+        public DocumentWorkflowStateType WorkflowState { get; set; } = 0;
     }
 }

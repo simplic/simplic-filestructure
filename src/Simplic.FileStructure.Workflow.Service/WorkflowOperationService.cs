@@ -46,7 +46,7 @@ namespace Simplic.FileStructure.Workflow.Service
 
             if (targetPath != null)
             {
-                targetPath.WorkflowState = DocumentWorkflowState.InReview;
+                targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
             }
             else
             {
@@ -61,13 +61,13 @@ namespace Simplic.FileStructure.Workflow.Service
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,
                     IsProtectedPath = false,
-                    WorkflowState = DocumentWorkflowState.InReview
+                    WorkflowState = DocumentWorkflowStateType.InReview
                 };
             }
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.Forwarded,
+                ActionName = DocumentWorkflowStateType.Forwarded,
                 CreateDateTime = DateTime.Now,
                 DocumentId = targetPath.DocumentGuid,
                 TargetUserId = workflowOperation.TargetUserId,
@@ -79,7 +79,7 @@ namespace Simplic.FileStructure.Workflow.Service
             fileStructureDocumentPathService.Save(targetPath); 
             
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
-            path.WorkflowState = DocumentWorkflowState.Completed;
+            path.WorkflowState = DocumentWorkflowStateType.Completed;
 
             fileStructureDocumentPathService.Save(path);
         }
@@ -112,7 +112,7 @@ namespace Simplic.FileStructure.Workflow.Service
 
             if (targetPath != null)
             {
-                targetPath.WorkflowState = DocumentWorkflowState.InReview;
+                targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
             }
             else
             {
@@ -127,13 +127,13 @@ namespace Simplic.FileStructure.Workflow.Service
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,
                     IsProtectedPath = false,
-                    WorkflowState = DocumentWorkflowState.InReview
+                    WorkflowState = DocumentWorkflowStateType.InReview
                 };
             }
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.ForwardedCopy,
+                ActionName = DocumentWorkflowStateType.ForwardedCopy,
                 CreateDateTime = DateTime.Now,
                 DocumentId = targetPath.DocumentGuid,
                 TargetUserId = workflowOperation.TargetUserId,
@@ -148,12 +148,12 @@ namespace Simplic.FileStructure.Workflow.Service
         public void Complete(WorkflowOperation workflowOperation)
         {
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
-            path.WorkflowState = DocumentWorkflowState.Completed;
+            path.WorkflowState = DocumentWorkflowStateType.Completed;
             
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.Completed,
+                ActionName = DocumentWorkflowStateType.Completed,
                 CreateDateTime = DateTime.Now,
                 DocumentId = workflowOperation.DocumentId,
                 UserId = workflowOperation.UserId

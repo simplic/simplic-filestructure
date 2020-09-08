@@ -11,9 +11,7 @@ namespace Simplic.FileStructure.Workflow.Service
     /// </summary>
     public class DocumentWorkflowAssignmentService : IDocumentWorkflowAssignmentService
     {
-        #region[IRepository]
-
-        #endregion
+       
         private readonly IDocumentWorkflowAssignmentRepository repository;
         public DocumentWorkflowAssignmentService(IDocumentWorkflowAssignmentRepository repository)
         {
@@ -21,7 +19,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         #region[IRepositoryBase]
-
+        
         public bool Delete(DocumentWorkflowAssignment obj) => repository.Delete(obj);
 
         public bool Delete(Guid id) => repository.Delete(id);
