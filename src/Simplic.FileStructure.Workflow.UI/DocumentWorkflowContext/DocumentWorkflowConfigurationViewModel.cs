@@ -17,7 +17,6 @@ namespace Simplic.FileStructure.Workflow.UI
     {
         #region [Fields]
         private ObservableCollection<string> stateProviders = new ObservableCollection<string>();
-
         #endregion
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 Model.DisplayName = newValue;
             });
         }
-
+        
         /// <summary>
         /// Gets or sets the state providers 
         /// </summary>

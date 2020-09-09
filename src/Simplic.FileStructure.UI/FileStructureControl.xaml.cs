@@ -275,7 +275,8 @@ namespace Simplic.FileStructure.UI
                         {
                             DirectoryGuid = targetDirectory.Model.Id,
                             FileStructureGuid = targetDirectory.StructureViewModel.Model.Id,
-                            DocumentGuid = path.DocumentGuid
+                            DocumentGuid = path.DocumentGuid,
+                            WorkflowId = targetDirectory.Model.WorkflowId
                         };
 
                         service.Save(newPath);

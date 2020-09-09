@@ -98,5 +98,10 @@ namespace Simplic.FileStructure
         }
 
         public DocumentWorkflowStateType WorkflowState { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the workflow id
+        /// </summary>
+        public Guid? WorkflowId { get; set; }
     }
 }
