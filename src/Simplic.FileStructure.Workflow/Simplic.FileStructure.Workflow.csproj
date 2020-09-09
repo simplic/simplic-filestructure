@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IDocumentWorkflowStateProviderService.cs" />
+    <Compile Include="Interface\IDocumentWorkflowStateProvider.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
     <Compile Include="Interface\IDocumentWorkflowAssignmentRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowStateProviderRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateService.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerRepository.cs" />
