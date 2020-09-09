@@ -32,7 +32,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// </summary>
         public override string PrimaryKeyColumn => "Guid";
 
-        public bool AlreadyExists(Guid documentId, Guid workflowId)
+        public bool Exists(Guid documentId, Guid workflowId)
         {
             return sqlService.OpenConnection((connection) =>
             {
@@ -51,5 +51,20 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// <param name="obj"></param>
         /// <returns></returns>
         public override Guid GetId(DocumentWorkflowAssignment obj) => obj.Guid;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="workflowId"></param>
+        /// <param name="stateId"></param>
+        public void SetState(Guid documentId, Guid workflowId, Guid stateId)
+        {
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute($"UPDATE {TableName} Set StateId = :stateId WHERE DocumentId = :documentId and WorkflowId = :workflowId",
+                    new { stateId, documentId, workflowId });
+            });
+        }
     }
 }

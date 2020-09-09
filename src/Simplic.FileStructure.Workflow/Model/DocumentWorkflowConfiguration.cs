@@ -30,6 +30,5 @@ namespace Simplic.FileStructure.Workflow
         /// Gets or sets the state provider
         /// </summary>
         public string StateProviderName { get; set; }
-
     }
 }

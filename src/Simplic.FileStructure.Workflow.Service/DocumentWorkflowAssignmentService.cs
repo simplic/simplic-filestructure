@@ -34,7 +34,8 @@ namespace Simplic.FileStructure.Workflow.Service
         
         #endregion
 
-        public bool AlreadyExists(Guid documentId, Guid workflowId) => repository.AlreadyExists(documentId, workflowId);
+        public bool Exists(Guid documentId, Guid workflowId) => repository.Exists(documentId, workflowId);
 
+        public void SetState(Guid documentId, Guid workflowId, Guid stateId) => repository.SetState(documentId, workflowId, stateId);
     }
 }
