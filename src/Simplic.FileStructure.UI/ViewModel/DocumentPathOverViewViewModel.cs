@@ -253,7 +253,6 @@ namespace Simplic.FileStructure.UI
                 documentWorkflowAssignmentService.Save(documentWorkflowAssignment);
             }
 
-
             IsDirty = false;
         }
 

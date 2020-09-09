@@ -29,7 +29,7 @@ namespace Simplic.FileStructure.Workflow
         /// <summary>
         /// Gets or sets the state 
         /// </summary>
-        public string State { get; set; }
+        public Guid? StateId { get; set; }
 
     }
 }
