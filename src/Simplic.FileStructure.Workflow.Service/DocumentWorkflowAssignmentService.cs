@@ -22,9 +22,9 @@ namespace Simplic.FileStructure.Workflow.Service
         
         public bool Delete(DocumentWorkflowAssignment obj) => repository.Delete(obj);
 
-        public bool Delete(Guid id) => repository.Delete(id);
+        public bool Delete(long id) => repository.Delete(id);
 
-        public DocumentWorkflowAssignment Get(Guid id) => repository.Get(id);
+        public DocumentWorkflowAssignment Get(long id) => repository.Get(id);
         
 
         public IEnumerable<DocumentWorkflowAssignment> GetAll() => repository.GetAll();

@@ -10,7 +10,7 @@ namespace Simplic.FileStructure.Workflow
     /// <summary>
     /// Represents the document workflow assignment repository interface
     /// </summary>
-    public interface IDocumentWorkflowAssignmentRepository : IRepositoryBase<Guid, DocumentWorkflowAssignment>
+    public interface IDocumentWorkflowAssignmentRepository : IRepositoryBase<long, DocumentWorkflowAssignment>
     {
         /// <summary>
         /// Returns a bool which is true if the pair of document id and workflow id exists 

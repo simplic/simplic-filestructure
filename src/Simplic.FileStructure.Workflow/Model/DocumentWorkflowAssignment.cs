@@ -12,10 +12,9 @@ namespace Simplic.FileStructure.Workflow
     public class DocumentWorkflowAssignment
     {
         /// <summary>
-        /// Gets or sets the guid which stands for the primary key 
+        /// Gets or sets the primary key as long
         /// </summary>
-        public Guid Guid { get; set; } = Guid.NewGuid();
-        
+        public long Ident { get; set; }
         /// <summary>
         /// Gets or sets the document id
         /// </summary>

@@ -84,6 +84,7 @@ namespace Simplic.FileStructure.UI.Helper
                 var newPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = directory.Id,
+                    WorkflowId = directory.WorkflowId,
                     FileStructureGuid = fileStructure.Id,
                     DocumentGuid = documentWin.GetInstanceDataGuid()
                 };

@@ -119,10 +119,12 @@ namespace Simplic.FileStructure.Workflow.Service
                 var firstDirectory = targetStructure.Directories.FirstOrDefault();
 
                 // TODO: Check for null
+                // TODO: Search first directory with the same workflow id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 targetPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = firstDirectory.Id,
+                    WorkflowId = firstDirectory.WorkflowId,
                     FileStructureGuid = targetStructure.Id,
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,

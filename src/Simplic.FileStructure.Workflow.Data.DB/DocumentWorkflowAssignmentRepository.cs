@@ -13,7 +13,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
     /// <summary>
     /// Represents the document workflow assignment repository 
     /// </summary>
-    public class DocumentWorkflowAssignmentRepository : SqlRepositoryBase<Guid, DocumentWorkflowAssignment>, IDocumentWorkflowAssignmentRepository
+    public class DocumentWorkflowAssignmentRepository : SqlRepositoryBase<long, DocumentWorkflowAssignment>, IDocumentWorkflowAssignmentRepository
     {
         private readonly ISqlService sqlService;
         public DocumentWorkflowAssignmentRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
@@ -30,7 +30,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// <summary>
         /// Primary key colunm in the database table 
         /// </summary>
-        public override string PrimaryKeyColumn => "Guid";
+        public override string PrimaryKeyColumn => "Ident";
 
         public bool Exists(Guid documentId, Guid workflowId)
         {
@@ -50,7 +50,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override Guid GetId(DocumentWorkflowAssignment obj) => obj.Guid;
+        public override long GetId(DocumentWorkflowAssignment obj) => obj.Ident;
 
         /// <summary>
         /// 

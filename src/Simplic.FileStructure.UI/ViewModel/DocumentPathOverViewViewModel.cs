@@ -123,6 +123,7 @@ namespace Simplic.FileStructure.UI
                     }
 
                     selectedPath.Model.DirectoryGuid = selectPathWindow.SelectedDirectory.Id;
+                    selectedPath.Model.WorkflowId = selectPathWindow.SelectedDirectory.WorkflowId;
                     selectedPath.RefreshPath();
                 }
             });
@@ -226,31 +227,7 @@ namespace Simplic.FileStructure.UI
             foreach (var path in paths)
             {
                 var fileStructure = fileStructureService.Get(path.Model.FileStructureGuid);
-                path.Model.WorkflowId = fileStructure.Directories.First().WorkflowId;
                 documentPathService.Save(path.Model);
-            }
-
-            bool isWorkflowFolder = false;
-            Guid worklfowId = Guid.Empty;
-            var file = fileStructureService.Get(paths.Last().Model.FileStructureGuid);
-
-            foreach (var directory in file.Directories)
-            {
-                if (directory.WorkflowId.HasValue)
-                {
-                    isWorkflowFolder = true;
-                    worklfowId = (Guid)directory.WorkflowId;
-                }
-            }
-
-            if (isWorkflowFolder)
-            {
-                var documentWorkflowAssignment = new DocumentWorkflowAssignment
-                {
-                    DocumentId = documentId,
-                    WorkflowId = worklfowId,
-                };
-                documentWorkflowAssignmentService.Save(documentWorkflowAssignment);
             }
 
             IsDirty = false;
