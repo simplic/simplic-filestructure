@@ -147,9 +147,10 @@ namespace Simplic.FileStructure.UI
             var directoriesToCheck = new List<DirectoryViewModel>();
             directoriesToCheck.Add(draggedDirectory);
 
-
+            
             while (directoriesToCheck.Any())
             {
+
                 var innerDirectories = new List<DirectoryViewModel>();
 
                 foreach (var subDirectory in directoriesToCheck)

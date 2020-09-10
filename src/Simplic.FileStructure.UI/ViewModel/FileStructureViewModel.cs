@@ -804,7 +804,7 @@ namespace Simplic.FileStructure.UI
         {
             get
             {
-                var flag = (selectedDirectory.Model.WorkflowId == null || selectedDirectory.Model.WorkflowId == Guid.Empty
+                var flag = (selectedDirectory == null || selectedDirectory.Model.WorkflowId == null || selectedDirectory.Model.WorkflowId == Guid.Empty
                     || selectedDirectory.DirectoryType.DirectoryFunction != DirectoryFunctionType.Workflow);
                 return flag ? Visibility.Collapsed : Visibility.Visible;
 

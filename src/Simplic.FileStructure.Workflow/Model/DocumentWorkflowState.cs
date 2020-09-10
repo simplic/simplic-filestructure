@@ -26,6 +26,6 @@ namespace Simplic.FileStructure.Workflow
         /// <summary>
         /// Gets or sets the 
         /// </summary>
-        public DocumentWorkflowStateType DocumentWorkflowStateType { get; set; }
+        public DocumentWorkflowStateType StateType { get; set; }
     }
 }

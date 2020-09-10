@@ -22,14 +22,16 @@ namespace Simplic.FileStructure.Workflow.Service
 		{
 			Guid = Guid.Parse("f7811c53-84e5-4bcb-8ada-93546176dd42"),
 			InternalName = "InProgress",
-			Name = "InProgress"
+			Name = "InProgress",
+			StateType = DocumentWorkflowStateType.InReview
 		};
 
 		private readonly DocumentWorkflowState completedState = new DocumentWorkflowState
 		{
 			Guid = Guid.Parse("d17d9972-07bf-4ccd-99f1-60f2190a3a76"),
 			InternalName = "Completed",
-			Name = "Completed"
+			Name = "Completed",
+			StateType = DocumentWorkflowStateType.Completed
 		};
 
 		public DocumentWorkflowState ResolveDocumentWorkflowState(Guid documentId, Guid workflowId)

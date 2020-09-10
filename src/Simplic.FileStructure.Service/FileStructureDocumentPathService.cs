@@ -161,7 +161,7 @@ namespace Simplic.FileStructure.Service
 							var state = stateProvider.ResolveDocumentWorkflowState(obj.DocumentGuid, workflowId);
 							if (state == null) throw new Exception($"Could not resolve initial state for document: {obj.DocumentGuid}");
 
-							documentWorkflowAssignmentService.SetState(obj.DirectoryGuid, workflowId, state.Guid);
+							documentWorkflowAssignmentService.SetState(obj.DocumentGuid, workflowId, state.Guid);
 						}
 					}
 				}
