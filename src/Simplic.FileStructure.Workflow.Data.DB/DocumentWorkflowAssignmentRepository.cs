@@ -32,6 +32,19 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// </summary>
         public override string PrimaryKeyColumn => "Ident";
 
+        public override bool Save(DocumentWorkflowAssignment obj)
+        {
+            if (obj.Ident == 0)
+            {
+                obj.Ident = sqlService.OpenConnection((connection) =>
+                {
+                    return connection.Query<long>($"select get_identity('{TableName}')").FirstOrDefault();
+                });
+            }
+
+            return base.Save(obj);
+        }
+
         public bool Exists(Guid documentId, Guid workflowId)
         {
             return sqlService.OpenConnection((connection) =>
@@ -42,7 +55,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
                     $"ELSE 0 END",
                     new { documentId, workflowId });
             });
-            
+
         }
 
         /// <summary>

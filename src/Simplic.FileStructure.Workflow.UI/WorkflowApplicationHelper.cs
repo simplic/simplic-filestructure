@@ -85,6 +85,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -95,7 +96,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
-                    InternalWorkflowName = itemBox.GetSelectedItemCell("InternalName").ToString(),
+                    WorkflowId = workflowId,
                     Guid = Guid.NewGuid()                    
                 };
 
@@ -115,7 +116,9 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
-            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+
+            var itemBox = ShowWorkflowUser(); 
+            
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -138,6 +141,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -148,7 +152,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
-                    InternalWorkflowName = itemBox.GetSelectedItemCell("InternalName").ToString(),
+                    WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
 
@@ -166,6 +170,13 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
+
+        private static AsyncItemBox ShowWorkflowUser()
+        {
+            var itembox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            return itembox;
+        }
+
         public static GridInvokeMethodResult Complete(GridFunctionParameter parameter)
         {
 
@@ -173,6 +184,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -181,6 +193,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     UserId = sessionService.CurrentSession.UserId,
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
+                    WorkflowId = workflowId,
                     ActionName = "completed",
                     Guid = Guid.NewGuid()
                 };

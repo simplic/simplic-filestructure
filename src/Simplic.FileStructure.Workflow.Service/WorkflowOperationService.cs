@@ -15,7 +15,7 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowTrackerService documentWorkflowTrackerService;
 
         public WorkflowOperationService(IFileStructureService fileStructureService,
-                                        IDocumentWorkflowAppSettingsService documentWorkflowAppSettingsService, 
+                                        IDocumentWorkflowAppSettingsService documentWorkflowAppSettingsService,
                                         IDocumentWorkflowUserService documentWorkflowUserService,
                                         IFileStructureDocumentPathService fileStructureDocumentPathService,
                                         IDocumentWorkflowTrackerService documentWorkflowTrackerService)
@@ -27,12 +27,21 @@ namespace Simplic.FileStructure.Workflow.Service
             this.documentWorkflowTrackerService = documentWorkflowTrackerService;
         }
 
+        private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId)
+        {
+            foreach (var directory in fileStructure.Directories)
+                if (directory.WorkflowId == workflowId)
+                    return directory;
+
+            // TODO: Add exception handling, a workflow is not configurated/existing, if no directory was
+            // found for the specific user instance
+            return null;
+        }
+
         public void ForwardTo(WorkflowOperation workflowOperation)
         {
-
-
             // Add path to forwarded user
-            var workflow = documentWorkflowUserService.Get(workflowOperation.InternalWorkflowName, workflowOperation.TargetUserId);
+            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
 
             // TODO: Check for null
 
@@ -50,11 +59,11 @@ namespace Simplic.FileStructure.Workflow.Service
             }
             else
             {
-                var firstDirectory = targetStructure.Directories.FirstOrDefault();
+                var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
 
                 // TODO: Check for null
 
-                targetPath = new FileStructureDocumenPath 
+                targetPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = firstDirectory.Id,
                     FileStructureGuid = targetStructure.Id,
@@ -76,8 +85,8 @@ namespace Simplic.FileStructure.Workflow.Service
             };
             documentWorkflowTrackerService.Save(tracker);
 
-            fileStructureDocumentPathService.Save(targetPath); 
-            
+            fileStructureDocumentPathService.Save(targetPath);
+
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
             path.WorkflowState = DocumentWorkflowStateType.Completed;
 
@@ -87,7 +96,7 @@ namespace Simplic.FileStructure.Workflow.Service
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
         {
             // Add path to forwarded user
-            var workflow = documentWorkflowUserService.Get(workflowOperation.InternalWorkflowName, workflowOperation.TargetUserId);
+            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
             if (workflow == null)
             {
                 throw new Exception("workflow is null");
@@ -116,7 +125,7 @@ namespace Simplic.FileStructure.Workflow.Service
             }
             else
             {
-                var firstDirectory = targetStructure.Directories.FirstOrDefault();
+                var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
 
                 // TODO: Check for null
                 // TODO: Search first directory with the same workflow id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -151,7 +160,6 @@ namespace Simplic.FileStructure.Workflow.Service
         {
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
             path.WorkflowState = DocumentWorkflowStateType.Completed;
-            
 
             var tracker = new DocumentWorkflowTracker
             {
@@ -162,7 +170,7 @@ namespace Simplic.FileStructure.Workflow.Service
             };
 
             documentWorkflowTrackerService.Save(tracker);
-            
+
             fileStructureDocumentPathService.Save(path);
         }
     }

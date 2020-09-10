@@ -29,9 +29,9 @@ namespace Simplic.FileStructure.Workflow.Service
             return documentWorkflowRepository.Get(id);
         }
 
-        public DocumentWorkflowUser Get(string internalName, int userId)
+        public DocumentWorkflowUser Get(int userId)
         {
-            return documentWorkflowRepository.Get(internalName, userId);
+            return documentWorkflowRepository.Get(userId);
         }
 
         public IEnumerable<DocumentWorkflowUser> GetAll()
