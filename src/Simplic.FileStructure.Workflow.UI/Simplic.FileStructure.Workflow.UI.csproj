@@ -56,6 +56,12 @@
     <Compile Include="Controls\Window_DocumentWorkflow.xaml.cs">
       <DependentUpon>Window_DocumentWorkflow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationApplicationHelper.cs" />
+    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationViewModel.cs" />
+    <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml.cs">
+      <DependentUpon>DocumentWorkflowContextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
@@ -101,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Window_DocumentWorkflow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

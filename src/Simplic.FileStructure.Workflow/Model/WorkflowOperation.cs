@@ -10,7 +10,7 @@ namespace Simplic.FileStructure.Workflow
     {
         public Guid Guid { get; set; }
 
-        public string InternalWorkflowName { get; set; }
+        public Guid WorkflowId { get; set; }
 
         public int UserId { get; set; }
 

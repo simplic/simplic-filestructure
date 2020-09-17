@@ -10,6 +10,6 @@ namespace Simplic.FileStructure.Workflow
 {
     public interface IDocumentWorkflowUserRepository : IRepositoryBase<Guid, DocumentWorkflowUser>
     {
-        DocumentWorkflowUser Get(string internalName, int userId);
+        DocumentWorkflowUser Get(int userId);
     }
 }

@@ -25,12 +25,13 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         public override string PrimaryKeyColumn => "Guid";
         public override Guid GetId(DocumentWorkflowUser obj) => obj.Guid;
 
-        public DocumentWorkflowUser Get(string internalName, int userId)
+        public DocumentWorkflowUser Get(int userId)
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.QueryFirstOrDefault<DocumentWorkflowUser>($"SELECT * FROM {TableName} WHERE InternalName = :internalName AND UserId = :userId",
-                    new { internalName, userId });
+                // TODO: Maybe it is better, to return an enumerable here.......
+                return connection.QueryFirstOrDefault<DocumentWorkflowUser>($"SELECT * FROM {TableName} WHERE UserId = :userId",
+                    new { userId });
             });
         }
 

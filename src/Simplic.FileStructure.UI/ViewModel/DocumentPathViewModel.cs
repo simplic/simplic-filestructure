@@ -51,6 +51,8 @@ namespace Simplic.FileStructure.UI
             Model.Path = "";
             VisualPathElements.Clear();
             var fileStructure = fileStructureService.Get(Model.FileStructureGuid);
+            
+
 
             if (fileStructure != null)
             {

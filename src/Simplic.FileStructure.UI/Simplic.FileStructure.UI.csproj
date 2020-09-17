@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\GridDocumentPathConverter.cs" />
+    <Compile Include="Converter\WorkflowVisibilityConverter.cs" />
     <Compile Include="DirectoryClassificationEditor.xaml.cs">
       <DependentUpon>DirectoryClassificationEditor.xaml</DependentUpon>
     </Compile>
@@ -61,6 +62,7 @@
     <Compile Include="DirectoryFieldControl.xaml.cs">
       <DependentUpon>DirectoryFieldControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileStructureTabItem.cs" />
     <Compile Include="FileStructureControl.xaml.cs">
       <DependentUpon>FileStructureControl.xaml</DependentUpon>
     </Compile>
@@ -128,6 +130,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
+      <Project>{359A7332-9F78-4922-8594-F92DEB19E95D}</Project>
+      <Name>Simplic.FileStructure.Workflow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simplic.FileStructure\Simplic.FileStructure.csproj">
       <Project>{edfbfc8d-6bbe-4c46-bba7-8c3423a52152}</Project>
       <Name>Simplic.FileStructure</Name>

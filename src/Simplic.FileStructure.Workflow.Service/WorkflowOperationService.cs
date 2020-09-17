@@ -15,7 +15,7 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowTrackerService documentWorkflowTrackerService;
 
         public WorkflowOperationService(IFileStructureService fileStructureService,
-                                        IDocumentWorkflowAppSettingsService documentWorkflowAppSettingsService, 
+                                        IDocumentWorkflowAppSettingsService documentWorkflowAppSettingsService,
                                         IDocumentWorkflowUserService documentWorkflowUserService,
                                         IFileStructureDocumentPathService fileStructureDocumentPathService,
                                         IDocumentWorkflowTrackerService documentWorkflowTrackerService)
@@ -27,12 +27,21 @@ namespace Simplic.FileStructure.Workflow.Service
             this.documentWorkflowTrackerService = documentWorkflowTrackerService;
         }
 
+        private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId)
+        {
+            foreach (var directory in fileStructure.Directories)
+                if (directory.WorkflowId == workflowId)
+                    return directory;
+
+            // TODO: Add exception handling, a workflow is not configurated/existing, if no directory was
+            // found for the specific user instance
+            return null;
+        }
+
         public void ForwardTo(WorkflowOperation workflowOperation)
         {
-
-
             // Add path to forwarded user
-            var workflow = documentWorkflowUserService.Get(workflowOperation.InternalWorkflowName, workflowOperation.TargetUserId);
+            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
 
             // TODO: Check for null
 
@@ -46,28 +55,28 @@ namespace Simplic.FileStructure.Workflow.Service
 
             if (targetPath != null)
             {
-                targetPath.WorkflowState = DocumentWorkflowState.InReview;
+                targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
             }
             else
             {
-                var firstDirectory = targetStructure.Directories.FirstOrDefault();
+                var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
 
                 // TODO: Check for null
 
-                targetPath = new FileStructureDocumenPath 
+                targetPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = firstDirectory.Id,
                     FileStructureGuid = targetStructure.Id,
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,
                     IsProtectedPath = false,
-                    WorkflowState = DocumentWorkflowState.InReview
+                    WorkflowState = DocumentWorkflowStateType.InReview
                 };
             }
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.Forwarded,
+                ActionName = DocumentWorkflowStateType.Forwarded,
                 CreateDateTime = DateTime.Now,
                 DocumentId = targetPath.DocumentGuid,
                 TargetUserId = workflowOperation.TargetUserId,
@@ -76,10 +85,10 @@ namespace Simplic.FileStructure.Workflow.Service
             };
             documentWorkflowTrackerService.Save(tracker);
 
-            fileStructureDocumentPathService.Save(targetPath); 
-            
+            fileStructureDocumentPathService.Save(targetPath);
+
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
-            path.WorkflowState = DocumentWorkflowState.Completed;
+            path.WorkflowState = DocumentWorkflowStateType.Completed;
 
             fileStructureDocumentPathService.Save(path);
         }
@@ -87,7 +96,7 @@ namespace Simplic.FileStructure.Workflow.Service
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
         {
             // Add path to forwarded user
-            var workflow = documentWorkflowUserService.Get(workflowOperation.InternalWorkflowName, workflowOperation.TargetUserId);
+            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
             if (workflow == null)
             {
                 throw new Exception("workflow is null");
@@ -112,28 +121,30 @@ namespace Simplic.FileStructure.Workflow.Service
 
             if (targetPath != null)
             {
-                targetPath.WorkflowState = DocumentWorkflowState.InReview;
+                targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
             }
             else
             {
-                var firstDirectory = targetStructure.Directories.FirstOrDefault();
+                var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
 
                 // TODO: Check for null
+                // TODO: Search first directory with the same workflow id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 targetPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = firstDirectory.Id,
+                    WorkflowId = firstDirectory.WorkflowId,
                     FileStructureGuid = targetStructure.Id,
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,
                     IsProtectedPath = false,
-                    WorkflowState = DocumentWorkflowState.InReview
+                    WorkflowState = DocumentWorkflowStateType.InReview
                 };
             }
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.ForwardedCopy,
+                ActionName = DocumentWorkflowStateType.ForwardedCopy,
                 CreateDateTime = DateTime.Now,
                 DocumentId = targetPath.DocumentGuid,
                 TargetUserId = workflowOperation.TargetUserId,
@@ -148,19 +159,18 @@ namespace Simplic.FileStructure.Workflow.Service
         public void Complete(WorkflowOperation workflowOperation)
         {
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
-            path.WorkflowState = DocumentWorkflowState.Completed;
-            
+            path.WorkflowState = DocumentWorkflowStateType.Completed;
 
             var tracker = new DocumentWorkflowTracker
             {
-                ActionName = DocumentWorkflowState.Completed,
+                ActionName = DocumentWorkflowStateType.Completed,
                 CreateDateTime = DateTime.Now,
                 DocumentId = workflowOperation.DocumentId,
                 UserId = workflowOperation.UserId
             };
 
             documentWorkflowTrackerService.Save(tracker);
-            
+
             fileStructureDocumentPathService.Save(path);
         }
     }

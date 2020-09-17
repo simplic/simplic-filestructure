@@ -31,6 +31,29 @@ namespace Simplic.FileStructure.Workflow.UI
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
         }
 
+        /// <summary>
+        /// Opens a window to create a workflow and assign settings to it
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult NewWorkflow(GridFunctionParameter parameter)
+        {
+            
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+        
+        /// <summary>
+        /// Edits the workflow
+        /// </summary>
+        /// <param name="parameter">the </param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult EditWorkflow(GridFunctionParameter parameter)
+        {
+            
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+
         #region [ContextMenuStuff]
         /// <summary>
         /// Forwards the document to all user who installed the Workflow
@@ -62,6 +85,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -72,7 +96,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
-                    InternalWorkflowName = itemBox.GetSelectedItemCell("InternalName").ToString(),
+                    WorkflowId = workflowId,
                     Guid = Guid.NewGuid()                    
                 };
 
@@ -92,7 +116,9 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
-            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+
+            var itemBox = ShowWorkflowUser(); 
+            
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -115,6 +141,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -125,7 +152,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
-                    InternalWorkflowName = itemBox.GetSelectedItemCell("InternalName").ToString(),
+                    WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
 
@@ -143,6 +170,13 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
+
+        private static AsyncItemBox ShowWorkflowUser()
+        {
+            var itembox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            return itembox;
+        }
+
         public static GridInvokeMethodResult Complete(GridFunctionParameter parameter)
         {
 
@@ -150,6 +184,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -158,6 +193,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     UserId = sessionService.CurrentSession.UserId,
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
+                    WorkflowId = workflowId,
                     ActionName = "completed",
                     Guid = Guid.NewGuid()
                 };

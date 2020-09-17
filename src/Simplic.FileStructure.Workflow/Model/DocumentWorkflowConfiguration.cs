@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
-    public class DocumentWorkflowState
+    /// <summary>
+    /// Document workflow context to create workflows
+    /// </summary>
+    public class DocumentWorkflowConfiguration
     {
         /// <summary>
         /// Gets or sets the guid
@@ -14,18 +17,18 @@ namespace Simplic.FileStructure.Workflow
         public Guid Guid { get; set; } = Guid.NewGuid();
 
         /// <summary>
-        /// Gets or sets the name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Gets or sets the internal name
         /// </summary>
         public string InternalName { get; set; }
 
         /// <summary>
-        /// Gets or sets the 
+        /// Gets or sets the display name
         /// </summary>
-        public DocumentWorkflowStateType StateType { get; set; }
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state provider
+        /// </summary>
+        public string StateProviderName { get; set; }
     }
 }

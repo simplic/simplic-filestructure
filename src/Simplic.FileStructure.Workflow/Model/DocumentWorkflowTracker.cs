@@ -16,6 +16,6 @@ namespace Simplic.FileStructure.Workflow
 
         public int? TargetUserId { get; set; }
 
-        public DocumentWorkflowState ActionName { get; set; }
+        public DocumentWorkflowStateType ActionName { get; set; }
     }
 }

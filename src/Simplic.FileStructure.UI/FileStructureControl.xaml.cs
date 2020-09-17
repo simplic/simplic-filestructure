@@ -150,6 +150,7 @@ namespace Simplic.FileStructure.UI
 
             while (directoriesToCheck.Any())
             {
+
                 var innerDirectories = new List<DirectoryViewModel>();
 
                 foreach (var subDirectory in directoriesToCheck)
@@ -162,8 +163,6 @@ namespace Simplic.FileStructure.UI
                 directoriesToCheck.AddRange(innerDirectories);
             }
 
-
-
             if (fileStructureDocumentPathService.IsProtected(guids))
             {
                 MessageBox.Show(localizationService.Translate("filestructure_drag_protected"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
@@ -171,7 +170,15 @@ namespace Simplic.FileStructure.UI
                 e.DragVisual = null;
                 e.Handled = true;
             }
-           
+
+            //Checks if the folder is assigned to a workflow
+            if (draggedDirectory.Model.WorkflowId.HasValue)
+            {
+                MessageBox.Show(localizationService.Translate("filestructure_drag_protected_workflow"), localizationService.Translate("filestructure_delete_notallowed_title"), MessageBoxButton.OK, MessageBoxImage.Information);
+                e.Data = null;
+                e.DragVisual = null;
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -194,15 +201,21 @@ namespace Simplic.FileStructure.UI
             // Save target filestructure before drop action
             if (targetDirectory.StructureViewModel.IsDirty)
                 targetDirectory.StructureViewModel.Save();
-
+            //Check if the the folder is a workflow folder and has a workflow assigned 
+            if (IsWorkflowDirectory(targetDirectory))
+                return;
             // File drag & drop
             DataObject dataObject = (e.Data as DataObject);
+            var refreshDirectoryPath = true;
+
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
                 foreach (var file in dataObject.GetFileDropList())
                 {
                     Helper.ArchiveHelper.ArchiveFile(targetDirectory.StructureViewModel.Model, targetDirectory.Model, file);
                 }
+
+                refreshDirectoryPath = false;
             }
             else if (dataObject != null && dataObject.GetData("FileGroupDescriptorW") != null)
             {
@@ -250,6 +263,8 @@ namespace Simplic.FileStructure.UI
 
                     Helper.ArchiveHelper.ArchiveFile(targetDirectory.StructureViewModel.Model, targetDirectory.Model, directory + filename);
                 }
+
+                refreshDirectoryPath = false;
             }
             else if (dataObject != null && dataObject.GetData(typeof(GridViewPayload)) != null)
             {
@@ -267,7 +282,8 @@ namespace Simplic.FileStructure.UI
                         {
                             DirectoryGuid = targetDirectory.Model.Id,
                             FileStructureGuid = targetDirectory.StructureViewModel.Model.Id,
-                            DocumentGuid = path.DocumentGuid
+                            DocumentGuid = path.DocumentGuid,
+                            WorkflowId = targetDirectory.Model.WorkflowId
                         };
 
                         service.Save(newPath);
@@ -281,11 +297,14 @@ namespace Simplic.FileStructure.UI
                         }
 
                         path.DirectoryGuid = targetDirectory.Model.Id;
+                        path.WorkflowId = targetDirectory.Model.WorkflowId;
                         path.FileStructureGuid = targetDirectory.StructureViewModel.Model.Id;
 
                         service.Save(path);
                     }
                 }
+
+                refreshDirectoryPath = false;
 
                 // Refresh grid
                 if (payload.Grid is CursorGridViewControl)
@@ -293,28 +312,31 @@ namespace Simplic.FileStructure.UI
             }
 
             // Save target filestructure before drop action
-            targetDirectory.StructureViewModel.Save();
-            var directoriesToCheck = new List<DirectoryViewModel>();
-            directoriesToCheck.Add(targetDirectory);
-            //Recalculating the path through the save method 
-            while (directoriesToCheck.Any())
+            if (refreshDirectoryPath)
             {
-                var innerDirectories = new List<DirectoryViewModel>();
-
-                foreach (var subDirectory in directoriesToCheck)
+                targetDirectory.StructureViewModel.Save();
+                var directoriesToCheck = new List<DirectoryViewModel>();
+                directoriesToCheck.Add(targetDirectory);
+                //Recalculating the path through the save method 
+                while (directoriesToCheck.Any())
                 {
-                    var guid = subDirectory.Model.Id;
-                    var list = fileStructureDocumentPathService.GetByDirectoryId(guid);
-                    foreach (FileStructureDocumenPath fileStructureDocumenPath in list)
+                    var innerDirectories = new List<DirectoryViewModel>();
+
+                    foreach (var subDirectory in directoriesToCheck)
                     {
-                        fileStructureDocumentPathService.Save(fileStructureDocumenPath);
+                        var guid = subDirectory.Model.Id;
+                        var list = fileStructureDocumentPathService.GetByDirectoryId(guid);
+                        foreach (FileStructureDocumenPath fileStructureDocumenPath in list)
+                        {
+                            fileStructureDocumentPathService.Save(fileStructureDocumenPath);
+                        }
+
+                        innerDirectories.AddRange(subDirectory.Directories);
                     }
 
-                    innerDirectories.AddRange(subDirectory.Directories);
+                    directoriesToCheck.Clear();
+                    directoriesToCheck.AddRange(innerDirectories);
                 }
-
-                directoriesToCheck.Clear();
-                directoriesToCheck.AddRange(innerDirectories);
             }
         }
 
@@ -330,6 +352,7 @@ namespace Simplic.FileStructure.UI
             {
                 var draggedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
+
 
                 ObservableCollection<DirectoryViewModel> childDirectoryList;
 
@@ -368,6 +391,7 @@ namespace Simplic.FileStructure.UI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void OnPreviewDrop(object sender, Telerik.Windows.DragDrop.DragEventArgs e)
+
         {
             var options = DragDropPayloadManager.GetDataFromObject(e.Data, TreeViewDragDropOptions.Key) as TreeViewDragDropOptions;
             var treeView = sender as Telerik.Windows.Controls.RadTreeView;
@@ -375,6 +399,10 @@ namespace Simplic.FileStructure.UI
             if (options != null)
             {
                 var droppedDirectory = options.DraggedItems.OfType<DirectoryViewModel>().FirstOrDefault();
+                //Check if the the folder is a workflow folder and has a workflow assigned
+                if (IsWorkflowDirectory(droppedDirectory))
+                    return;
+
                 var targetItem = options?.DropTargetItem?.DataContext as DirectoryViewModel;
 
                 // Remove from parent
@@ -423,6 +451,23 @@ namespace Simplic.FileStructure.UI
                 options.DropAction = DropAction.None;
                 e.Effects = DragDropEffects.None;
             }
+        }
+
+        private static bool IsWorkflowDirectory(DirectoryViewModel directory)
+        {
+            //Guid of the type workflow folder
+            var workflowGuid = Guid.Parse("F3F2BF83-5ACD-4221-BAA1-5138ED5D9769");
+
+            if (directory.Model.DirectoryTypeId.Equals(workflowGuid))
+            {
+                if (!directory.Model.WorkflowId.HasValue)
+                {
+                    MessageBox.Show(localizationService.Translate("filestructure_workflow_not_assigned"),
+                        localizationService.Translate("filestructure_drag_protected_workflow"), MessageBoxButton.OK, MessageBoxImage.Information);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool IsInSamePath(FileStructure fileStructure, Directory startDirectory, Directory directoryToCheck)
