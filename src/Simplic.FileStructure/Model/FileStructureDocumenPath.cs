@@ -9,6 +9,7 @@ namespace Simplic.FileStructure
     public class FileStructureDocumenPath
     {
         private string path;
+        private DocumentWorkflowStateType documentWorkflowStateType = DocumentWorkflowStateType.InReview;
 
         /// <summary>
         /// Gets or set the entry id
@@ -97,6 +98,29 @@ namespace Simplic.FileStructure
             set;
         }
 
-        public DocumentWorkflowState WorkflowState { get; set; } = 0;
+        public DocumentWorkflowStateType WorkflowState
+        {
+            get => documentWorkflowStateType;
+            set
+            {
+                documentWorkflowStateType = value;
+                if (PreviousPath == null) // Only check for null, not for null and whitespace
+                    PreviousWorkflowState = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the previous workflow state
+        /// </summary>
+        public DocumentWorkflowStateType? PreviousWorkflowState
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the workflow id
+        /// </summary>
+        public Guid? WorkflowId { get; set; }
     }
 }

@@ -53,14 +53,13 @@ namespace Simplic.FileStructure.Workflow.UI.Controls
 
             PageName = documentWorkflowAppSettings.PublicName;
 
-            documentWorkflowUser = documentWorkflowUserService.Get(documentWorkflowAppSettings.InternalName, sessionService.CurrentSession.UserId);
+            documentWorkflowUser = documentWorkflowUserService.Get(sessionService.CurrentSession.UserId);
 
             if (documentWorkflowUser == null)
             {
                 documentWorkflowUser = new DocumentWorkflowUser
                 {
                     UserId = sessionService.CurrentSession.UserId,
-                    InternalName = documentWorkflowAppSettings.InternalName,
                     IsDeleted = false
                     // TODO: Set current tenant
                 };

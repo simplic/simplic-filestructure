@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using Simplic.DataStack;
+using Simplic.FileStructure.Workflow;
 using Simplic.Framework.DBUI;
 using Simplic.Icon;
 using Simplic.Localization;
@@ -29,6 +30,7 @@ namespace Simplic.FileStructure.UI
         private readonly IIconService iconService;
         private readonly ILocalizationService localizationService;
         private readonly IStackService stackService;
+        private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
 
         private ICommand addDocumentPathCommand;
         private ICommand changeDocumentPathCommand;
@@ -43,13 +45,14 @@ namespace Simplic.FileStructure.UI
         public DocumentPathOverViewViewModel(Guid documentId)
         {
             this.documentId = documentId;
-            
+
             documentPathService = ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             fileStructureService = ServiceLocator.Current.GetInstance<IFileStructureService>();
             directoryTypeService = ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             iconService = ServiceLocator.Current.GetInstance<IIconService>();
             localizationService = ServiceLocator.Current.GetInstance<ILocalizationService>();
             stackService = ServiceLocator.Current.GetInstance<IStackService>();
+            documentWorkflowAssignmentService = ServiceLocator.Current.GetInstance<IDocumentWorkflowAssignmentService>();
 
             removedPaths = new List<DocumentPathViewModel>();
 
@@ -120,6 +123,7 @@ namespace Simplic.FileStructure.UI
                     }
 
                     selectedPath.Model.DirectoryGuid = selectPathWindow.SelectedDirectory.Id;
+                    selectedPath.Model.WorkflowId = selectPathWindow.SelectedDirectory.WorkflowId;
                     selectedPath.RefreshPath();
                 }
             });
@@ -195,9 +199,11 @@ namespace Simplic.FileStructure.UI
                                 Id = Guid.NewGuid(),
                                 DirectoryGuid = selectPathWindow.SelectedDirectory.Id,
                                 DocumentGuid = documentId,
-                                FileStructureGuid = fileStructure.Id
+                                FileStructureGuid = fileStructure.Id,
+                                WorkflowId = selectPathWindow.SelectedDirectory.WorkflowId
+                               
                             };
-
+                            
                             return newDocumentPath;
                         }
                     }
@@ -219,7 +225,10 @@ namespace Simplic.FileStructure.UI
             removedPaths.Clear();
 
             foreach (var path in paths)
+            {
+                var fileStructure = fileStructureService.Get(path.Model.FileStructureGuid);
                 documentPathService.Save(path.Model);
+            }
 
             IsDirty = false;
         }
