@@ -38,10 +38,10 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult NewWorkflow(GridFunctionParameter parameter)
         {
-            
+
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
-        
+
         /// <summary>
         /// Edits the workflow
         /// </summary>
@@ -49,7 +49,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult EditWorkflow(GridFunctionParameter parameter)
         {
-            
+
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
@@ -97,10 +97,21 @@ namespace Simplic.FileStructure.Workflow.UI
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
                     WorkflowId = workflowId,
-                    Guid = Guid.NewGuid()                    
+                    Guid = Guid.NewGuid()
                 };
 
-                workflowOperationService.ForwardTo(workflowOperation);
+                try
+                {
+                    workflowOperationService.ForwardTo(workflowOperation);
+                }
+                catch (DocumentWorkflowException ex)
+                {
+                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+
+                    // TODO: Add localization
+                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return GridInvokeMethodResult.NoGridRefresh();
+                }
 
                 if (!string.IsNullOrWhiteSpace(comment.Comment))
                 {
@@ -117,8 +128,8 @@ namespace Simplic.FileStructure.Workflow.UI
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
 
-            var itemBox = ShowWorkflowUser(); 
-            
+            var itemBox = ShowWorkflowUser();
+
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -156,8 +167,18 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid()
                 };
 
-                workflowOperationService.ForwardCopyTo(workflowOperation);
+                try
+                {
+                    workflowOperationService.ForwardCopyTo(workflowOperation);
+                }
+                catch (DocumentWorkflowException ex)
+                {
+                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
 
+                    // TODO: Add localization
+                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return GridInvokeMethodResult.NoGridRefresh();
+                }
 
                 if (!string.IsNullOrWhiteSpace(comment.Comment))
                 {
@@ -203,7 +224,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
-        
+
         public static GridInvokeMethodResult ShowTracking(GridFunctionParameter parameter)
         {
             foreach (var row in parameter.GetSelectedRowsAsDataRow())

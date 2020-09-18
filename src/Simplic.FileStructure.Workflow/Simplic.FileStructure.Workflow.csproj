@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exception\DocumentWorkflowException.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateProvider.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
