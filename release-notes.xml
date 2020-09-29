@@ -1,2 +1,5 @@
 <ReleaseNotes>
+	<ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c">
+		<Change type="bug">Added a hotfix to change the workflow of the parent directory and all its children.</Change>
+	</ChangeSet>
 </ReleaseNotes>
