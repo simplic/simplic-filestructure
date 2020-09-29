@@ -180,7 +180,7 @@ namespace Simplic.FileStructure.UI
                 {
                     selectedDirectory.Model.WorkflowId = guid;
                     //Assign all parents and children the workflow
-                    assignedWorkflowToParentsAndChildren(guid);
+                    AssignedWorkflowToParentsAndChildren(guid);
                     Save();
                     RaisePropertyChanged(nameof(AssignedWorkflow));
                     RaisePropertyChanged(nameof(AssignedWorkflowVisibility));
@@ -217,9 +217,15 @@ namespace Simplic.FileStructure.UI
         /// Assign the workflow to all the parents and children
         /// </summary>
         /// <param name="guid"></param>
-        private void assignedWorkflowToParentsAndChildren(Guid guid)
+        private void AssignedWorkflowToParentsAndChildren(Guid guid)
         {
-            var directories = selectedDirectory.StructureViewModel.Directories.AsList();
+            var parentDirectory = selectedDirectory.StructureViewModel.Directories.AsList();
+            
+            var parent = FindParent(selectedDirectory);
+
+            var directories = parent.Directories.AsList();
+            if (parent.Model.DirectoryTypeId.Equals(workflowGuid))
+                parent.Model.WorkflowId = guid;
 
             while (directories.Count != 0)
             {
@@ -235,6 +241,36 @@ namespace Simplic.FileStructure.UI
                 directories.Clear();
                 directories.AddRange(innerDirectories);
             }
+        }
+
+        /// <summary>
+        /// Finds the parent of the selected directory
+        /// </summary>
+        /// <param name="selectedDirectory"></param>
+        /// <returns></returns>
+        private DirectoryViewModel FindParent(DirectoryViewModel selectedDirectory)
+        {
+            var parent = selectedDirectory;
+            var parentDirectory = selectedDirectory.StructureViewModel.Directories.AsList();
+            while (parentDirectory.Count != 0)
+            {
+                var innerDirectories = new List<DirectoryViewModel>();
+
+                foreach (var innerDir in parentDirectory)
+                {
+                    if (innerDir.Model.Parent == null)
+                    {
+                        parent = innerDir;
+                    }
+                    if (innerDir.Model == selectedDirectory.Model)
+                        return parent;
+
+                    innerDirectories.AddRange(innerDir.Directories);
+                }
+                parentDirectory.Clear();
+                parentDirectory.AddRange(innerDirectories);
+            }
+            return parent;
         }
 
         private bool IsWorkflowDirectory(DirectoryViewModel selectedDirectory)
