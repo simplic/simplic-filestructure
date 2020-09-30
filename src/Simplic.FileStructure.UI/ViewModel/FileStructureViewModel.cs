@@ -233,7 +233,7 @@ namespace Simplic.FileStructure.UI
 
                 foreach (var innerDir in directories)
                 {
-                    if (innerDir.Model.DirectoryTypeId.Equals(directoryTypeWorkflowGuid))
+                    if (innerDir.Model.DirectoryTypeId == directoryTypeWorkflowGuid)
                         innerDir.Model.WorkflowId = guid;
 
                     innerDirectories.AddRange(innerDir.Directories);
@@ -276,7 +276,7 @@ namespace Simplic.FileStructure.UI
         private bool IsWorkflowDirectory(DirectoryViewModel selectedDirectory)
         {
 
-            if (selectedDirectory.Model.DirectoryTypeId.Equals(directoryTypeWorkflowGuid))
+            if (selectedDirectory.Model.DirectoryTypeId == directoryTypeWorkflowGuid)
             {
                 if (!selectedDirectory.Model.WorkflowId.HasValue)
                 {
