@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{2ACEE08A-49C
 	ProjectSection(SolutionItems) = preProject
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\project.repocli.json = ..\project.repocli.json
+		..\release-notes.xml = ..\release-notes.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Workflow.UI", "Simplic.FileStructure.Workflow.UI\Simplic.FileStructure.Workflow.UI.csproj", "{9E2422FD-E0A8-4410-AECE-105DC7114E14}"
