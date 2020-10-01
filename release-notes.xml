@@ -1,5 +1,5 @@
 <ReleaseNotes>
-	<ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c">
+	<ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c" version="3.6.20.1001" date="2020-10-01">
 		<Change type="bug">Fixed a bug that was responsible for assigning the same workflow to each folder even if the folder was already assigned to a workflow</Change>
 	</ChangeSet>
 </ReleaseNotes>
