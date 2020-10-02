@@ -2,7 +2,7 @@
 	<ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c">
 		<Change type="bug">Fixed a bug that was responsible for assigning the same workflow to each folder even if the folder was already assigned to a workflow</Change>
 	</ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="2ff4ee77-6a85-4c6c-bba1-414f652f8201">
     <Change type="bug">Fixes a bug, that removes the workflow id when forwarding a document.</Change>
   </ChangeSet>
 </ReleaseNotes>
