@@ -84,6 +84,7 @@ namespace Simplic.FileStructure.Workflow.Service
                     FileStructureGuid = targetStructure.Id,
                     Id = Guid.NewGuid(),
                     DocumentGuid = workflowOperation.DocumentId,
+                    WorkflowId = workflowOperation.WorkflowId,
                     IsProtectedPath = false,
                     WorkflowState = DocumentWorkflowStateType.InReview
                 };
