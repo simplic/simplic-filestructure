@@ -1,6 +1,0 @@
-{
-  "productname": "SimplicApplicationCollection",
-  "is_main_repo": false,
-  "main_repo_name": "simplic-logistics",
-  "main_repo_init_path": "src/Simplic.PlugIn.Logistics/Init.cs"
-}
