@@ -85,6 +85,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
+                // The grid needs a the column workflow id 
                 var workflowId = (Guid)row["WorkflowId"];
 
                 var workflowOperation = new WorkflowOperation
