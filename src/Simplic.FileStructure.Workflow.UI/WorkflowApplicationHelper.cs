@@ -1,4 +1,5 @@
-﻿using Simplic.Framework.DBUI;
+﻿using Simplic.Document;
+using Simplic.Framework.DBUI;
 using Simplic.Localization;
 using Simplic.Session;
 using System;
@@ -19,6 +20,7 @@ namespace Simplic.FileStructure.Workflow.UI
         private static IWorkflowOperationService workflowOperationService;
         private static ISessionService sessionService;
 
+
         /// <summary>
         /// Initialize helper
         /// </summary>
@@ -29,6 +31,7 @@ namespace Simplic.FileStructure.Workflow.UI
             workflowOperationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IWorkflowOperationService>();
             fileStructureDocumentPathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
+           
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 var documentId = (Guid)row["Guid"];
                 var documentPathId = (Guid)row["DocumentPathId"];
                 // The grid needs a the column workflow id 
-                var workflowId = (Guid)row["WorkflowId"];
+                var workflowId = (Guid)fileStructureDocumentPathService.Get(documentPathId).WorkflowId;
 
                 var workflowOperation = new WorkflowOperation
                 {
