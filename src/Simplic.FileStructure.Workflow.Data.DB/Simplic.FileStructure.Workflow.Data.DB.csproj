@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentWorkflowConfigurationRepository.cs" />
     <Compile Include="WorkflowOperationRepository.cs" />
+    <Compile Include="WorkflowOrganizationUnitRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
