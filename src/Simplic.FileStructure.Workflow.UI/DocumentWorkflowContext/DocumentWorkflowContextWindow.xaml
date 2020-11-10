@@ -6,7 +6,7 @@
              xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              xmlns:local="clr-namespace:Simplic.FileStructure.Workflow.UI" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
-             Height="300" Width="600"
+             Height="600" Width="800"
              Title="{simplic:Localization Key=dwc_workflow}"
     >
     <Grid>
@@ -20,17 +20,68 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label Content="{simplic:Localization Key=dwc_internal_name}" Grid.Row="0"/>
         <Label Content="{simplic:Localization Key=dwc_display_name}" Grid.Row="1"/>
         <Label Content="{simplic:Localization Key=dwc_state_provide}" Grid.Row="2"/>
+        <Label Content="{simplic:Localization Key=dwc_organization_unit}" Grid.Row="3"/>
 
 
         <simplic:TextBox Text="{Binding InternalName}" Grid.Row="0" Grid.Column="1" />
         <simplic:TextBox Text="{Binding DisplayName}" Grid.Row="1" Grid.Column="1"/>
         <simplic:ComboBox ItemsSource="{Binding StateProviders}"  SelectedItem="{Binding SelectedStateProvider}" Grid.Row="2" Grid.Column="1" />
+        <Grid  Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <telerik:RadMultiColumnComboBox x:Name="customerCombo" Grid.Row="2" Grid.Column="0" Margin="5"  
+                                                    NullText="{simplic:Localization Key=dwc_select_workflow_unit}"
+                                                    AutoCompleteMode="Search" SelectionMode="Single"
+                                                    KeepDropDownOpen="False" 
+                                                    DropDownMinWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                                                    DropDownWidth="600"
+                                                    DropDownMaxWidth="800"
+                                                    IsReadOnly="True"
+                                                    DropDownMinHeight="30"
+                                                    DropDownHeight="NaN"
+                                                    DropDownMaxHeight="300"                                                         
+                                                    SelectedItem="{Binding WorkflowOrganizationUnit, Mode=TwoWay}"
+                                                    DisplayMemberPath="DisplayName">
+                <telerik:RadMultiColumnComboBox.ItemsSourceProvider>
+                    <telerik:GridViewItemsSourceProvider ItemsSource="{Binding WorkflowOrganizationUnits}" AutoGenerateColumns="False">
+                        <telerik:GridViewItemsSourceProvider.Columns>
+                            <telerik:GridViewDataColumn Header="{simplic:Localization Key=dwc_internal_name}" DataMemberBinding="{Binding InternalName}" />
+                            <telerik:GridViewDataColumn Header="{simplic:Localization Key=dwc_display_name}" DataMemberBinding="{Binding DisplayName}" />
+                        </telerik:GridViewItemsSourceProvider.Columns>
+                    </telerik:GridViewItemsSourceProvider>
+                </telerik:RadMultiColumnComboBox.ItemsSourceProvider>
+            </telerik:RadMultiColumnComboBox>
+            <telerik:RadButton Width="30" Grid.Column="1" Background="Transparent" Content="+" FontSize="18" Command="{Binding AddTab}" />
+
+        </Grid>
+        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="4" Grid.ColumnSpan="10">
+            <telerik:RadTabControl.ItemTemplate>
+                <DataTemplate>
+                    <telerik:RadTabItem Header="{Binding Header}"/>
+                </DataTemplate>
+            </telerik:RadTabControl.ItemTemplate>
+            <telerik:RadTabControl.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox>
+                            <Label Content="Superuser"/>
+                            <Label Content="demo_wf"/>
+                        </ListBox>
+                        <ListBox>
+                            <Label Content="SmallUser"      />
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadTabControl.ContentTemplate>
+        </telerik:RadTabControl>
 
     </Grid>
 </local:BaseDocumentWorkflowConfigurationWindow>

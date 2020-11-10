@@ -26,11 +26,18 @@ namespace Simplic.FileStructure.Workflow
         /// </summary>
         public string DisplayName { get; set; }
 
+
         /// <summary>
         /// Gets or sets the is deleted 
         /// Returs false if this poco is not deleted, and true if it is deleted
         /// Purpose: Its just a flag, so we dont need to delete it physically from the storage system
         /// </summary>
         public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// Gets or sets the workflow organisation user assignments 
+        /// 
+        /// </summary>
+        public IEnumerable<WorkflowOrganizationUnitUserAssignment> WorkflowOrganisationUserAssignments { get; set; }
     }
 }

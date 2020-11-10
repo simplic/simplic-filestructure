@@ -58,8 +58,10 @@
     <Compile Include="Interface\IDocumentWorkflowAssignmentService.cs" />
     <Compile Include="Interface\IWorkflowOperationRepository.cs" />
     <Compile Include="Interface\IWorkflowOperationService.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitAssignmentRepository.cs" />
     <Compile Include="Interface\IWorkflowOrganizationUnitRepository.cs" />
     <Compile Include="Interface\IWorkflowOrganizationUnitService.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitUserAssignmentRepository.cs" />
     <Compile Include="Model\DocumentWorkflowAssignment.cs" />
     <Compile Include="Model\DocumentWorkflowState.cs" />
     <Compile Include="Model\DocumentWorkflowTracker.cs" />
@@ -68,7 +70,9 @@
     <Compile Include="Model\DocumentWorkflowStateType.cs" />
     <Compile Include="Model\DocumentWorkflowConfiguration.cs" />
     <Compile Include="Model\WorkflowOperation.cs" />
+    <Compile Include="Model\WorkflowOrganizationUnitUserAssignment.cs" />
     <Compile Include="Model\WorkflowOrganizationUnit.cs" />
+    <Compile Include="Model\WorkflowOrganizationUnitAssignment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,6 @@ namespace Simplic.FileStructure.Workflow.UI
             workflowOperationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IWorkflowOperationService>();
             fileStructureDocumentPathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
-           
         }
 
         /// <summary>
@@ -41,7 +40,6 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult NewWorkflow(GridFunctionParameter parameter)
         {
-
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
@@ -52,7 +50,26 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult EditWorkflow(GridFunctionParameter parameter)
         {
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
 
+        /// <summary>
+        /// Opens a window to create a workflow organization unit and assign settings to it
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult NewWorkflowOrganizaitonUnit(GridFunctionParameter parameter)
+        {
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+        /// <summary>
+        /// Edits the workflow organization unit
+        /// </summary>
+        /// <param name="parameter">the </param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult EditWorkflowOrganizaitonUnit(GridFunctionParameter parameter)
+        {
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 

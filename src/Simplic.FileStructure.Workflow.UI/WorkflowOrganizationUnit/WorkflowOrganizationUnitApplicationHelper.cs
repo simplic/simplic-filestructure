@@ -13,7 +13,7 @@ namespace Simplic.FileStructure.Workflow.UI
     {
         public override string PrimaryKeyColumn => "Guid";
 
-        public override Type WindowInterface => typeof(IDocumentWorkflowConfigurationWindow);
+        public override Type WindowInterface => typeof(IWorkflowOrganizationUnitWindow);
 
     }
 }

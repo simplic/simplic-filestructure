@@ -61,7 +61,9 @@
     <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml.cs">
       <DependentUpon>DocumentWorkflowContextWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DocumentWorkflowContext\DragVisualProvider.cs" />
     <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
+    <Compile Include="DocumentWorkflowContext\UserViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
