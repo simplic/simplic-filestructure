@@ -8,7 +8,7 @@ using Telerik.Windows.Controls;
 using Telerik.Windows.DragDrop;
 using Telerik.Windows.DragDrop.Behaviors;
 
-namespace Simplic.FileStructure.Workflow.UI.DocumentWorkflowContext
+namespace Simplic.FileStructure.Workflow.UI
 {
     public class DragVisualProvider : DependencyObject, IDragVisualProvider
 	{
@@ -51,4 +51,4 @@ namespace Simplic.FileStructure.Workflow.UI.DocumentWorkflowContext
 		public bool UseDefaultCursors { get; set; }
 	}
 }
-}
+

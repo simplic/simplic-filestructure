@@ -63,11 +63,13 @@
     </Compile>
     <Compile Include="DocumentWorkflowContext\DragVisualProvider.cs" />
     <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
-    <Compile Include="DocumentWorkflowContext\UserViewModel.cs" />
+    <Compile Include="DocumentWorkflowContext\WorkflowOrganizationUnitAssignmentViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectWorkflowOrganizationUnitViewModel.cs" />
+    <Compile Include="UserViewModel.cs" />
     <Compile Include="ViewModel\DocumentWorkflowAppSettingsViewModel.cs" />
     <Compile Include="WorkflowApplicationHelper.cs" />
     <Compile Include="WorkflowOrganizationUnit\IWorkflowOrganizationUnitWindow.cs" />
@@ -104,6 +106,9 @@
     </PackageReference>
     <PackageReference Include="Simplic.UI">
       <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.User">
+      <Version>6.3.20.1025</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
       <Version>2020.1.218</Version>

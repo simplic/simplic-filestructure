@@ -22,6 +22,8 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             this.sqlService = sqlService;
         }
 
+        public IEnumerable<WorkflowOrganizationUnitUserAssignment> GetByAssignmentId(Guid guid) => GetAllByColumn("WorkflowOrganzitionAssignmentId", guid);
+
         public override string TableName => "FileStructure_WorkflowOrganizationUnit_UserAssignment";
 
         public override string PrimaryKeyColumn => "Guid";

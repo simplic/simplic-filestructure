@@ -76,6 +76,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Simplic.CoreLib">
+      <Version>6.17.20.322</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Data">
       <Version>1.6.120.322</Version>
     </PackageReference>

@@ -12,8 +12,12 @@ namespace Simplic.FileStructure.Workflow.Data.DB
     public class WorkflowOrganizationUnitAssignmentRepository : SqlRepositoryBase<Guid, WorkflowOrganizationUnitAssignment>, IWorkflowOrganizationUnitAssignmentRepository
     {
         private readonly ISqlService sqlService;
-        public WorkflowOrganizationUnitAssignmentRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)
+        private readonly IWorkflowOrganizationUnitUserAssignmentRepository workflowOrganizationUnitUserAssignmentRepository;
+
+        public WorkflowOrganizationUnitAssignmentRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService
+            , IWorkflowOrganizationUnitUserAssignmentRepository workflowOrganizationUnitUserAssignmentRepository) : base(sqlService, sqlColumnService, cacheService)
         {
+            this.workflowOrganizationUnitUserAssignmentRepository = workflowOrganizationUnitUserAssignmentRepository;
             UseCache = true;
             this.sqlService = sqlService;
         }
@@ -21,6 +25,50 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         public override string TableName => "FileStructure_WorkflowOrganizationUnit_Assignment";
 
         public override string PrimaryKeyColumn => "Guid";
+
+        public IEnumerable<WorkflowOrganizationUnitAssignment> GetByWorkflowId(Guid guid) => GetAllByColumn("WorkflowId", guid);
+
+        protected override IEnumerable<WorkflowOrganizationUnitAssignment> GetAllByColumn<T>(string columnName, T id)
+        {
+            return base.GetAllByColumn(columnName, id).Select(x => LoadDepenedingData(x));
+        }
+
+        protected override WorkflowOrganizationUnitAssignment GetByColumn<T>(string columnName, T id)
+        {
+            return LoadDepenedingData(base.GetByColumn(columnName, id));
+        }
+
+        private WorkflowOrganizationUnitAssignment LoadDepenedingData(WorkflowOrganizationUnitAssignment unitAssignment)
+        {
+            if (unitAssignment == null)
+                return null;
+
+            var users = workflowOrganizationUnitUserAssignmentRepository.GetByAssignmentId(unitAssignment.Guid);
+            unitAssignment.Users = new Collections.Generic.StatefulCollection<WorkflowOrganizationUnitUserAssignment>(users);
+
+            return unitAssignment;
+        }
+
+        public override bool Save(WorkflowOrganizationUnitAssignment obj)
+        {
+            base.Save(obj);
+
+            if (obj.Users != null)
+            {
+                foreach (var assignment in obj.Users.GetRemovedItems())
+                    workflowOrganizationUnitUserAssignmentRepository.Delete(assignment);
+
+                foreach (var assignment in obj.Users.GetNewItems())
+                    workflowOrganizationUnitUserAssignmentRepository.Save(assignment);
+
+                foreach (var assignment in obj.Users.GetItems())
+                    workflowOrganizationUnitUserAssignmentRepository.Save(assignment);
+
+                obj.Users.Commit();
+            }
+
+            return true;
+        }
 
         public override Guid GetId(WorkflowOrganizationUnitAssignment obj) => obj.Guid;
     }

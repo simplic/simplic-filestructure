@@ -8,8 +8,8 @@ using Simplic.FileStructure.Workflow;
 
 namespace Simplic.FileStructure.Workflow
 {
-    public interface IWorkflowOrganizationUnitAssignmentRepository : IRepositoryBase<Guid,WorkflowOrganizationUnitAssignment>
+    public interface IWorkflowOrganizationUnitAssignmentRepository : IRepositoryBase<Guid, WorkflowOrganizationUnitAssignment>
     {
-
+        IEnumerable<WorkflowOrganizationUnitAssignment> GetByWorkflowId(Guid guid);
     }
 }

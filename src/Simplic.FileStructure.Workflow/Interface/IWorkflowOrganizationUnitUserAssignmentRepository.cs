@@ -9,6 +9,6 @@ namespace Simplic.FileStructure.Workflow
 {
     public interface IWorkflowOrganizationUnitUserAssignmentRepository : IRepositoryBase<Guid, WorkflowOrganizationUnitUserAssignment>
     {
-
+        IEnumerable<WorkflowOrganizationUnitUserAssignment> GetByAssignmentId(Guid guid);
     }
 }

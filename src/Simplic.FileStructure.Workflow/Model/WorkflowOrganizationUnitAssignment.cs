@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simplic.Collections.Generic;
 
 namespace Simplic.FileStructure.Workflow
 {
@@ -25,7 +26,8 @@ namespace Simplic.FileStructure.Workflow
         /// <summary>
         /// Gets or sets the workflow organization unit id <see cref="WorkflowOrganizationUnit"/>
         /// </summary>
-        public Guid WorkflowOrganisationUnitId{ get; set; }
-       
+        public Guid WorkflowOrganisationUnitId { get; set; }
+
+        public StatefulCollection<WorkflowOrganizationUnitUserAssignment> Users { get; set; } = new StatefulCollection<WorkflowOrganizationUnitUserAssignment>(new WorkflowOrganizationUnitUserAssignment[] { });
     }
 }
