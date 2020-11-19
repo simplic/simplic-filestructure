@@ -203,13 +203,11 @@ namespace Simplic.FileStructure.UI
                                 WorkflowId = selectPathWindow.SelectedDirectory.WorkflowId
                                
                             };
-                            
                             return newDocumentPath;
                         }
                     }
                 }
             }
-
             return null;
         }
 

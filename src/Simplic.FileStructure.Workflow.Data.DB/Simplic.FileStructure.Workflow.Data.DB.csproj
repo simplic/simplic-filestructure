@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="DocumentWorkflowAssignmentRepository.cs" />
+    <Compile Include="DocumentWorkflowOrganizationUnitAssignmentRepository.cs" />
     <Compile Include="DocumentWorkflowStateProviderRepository.cs" />
     <Compile Include="DocumentWorkflowStateRepository.cs" />
     <Compile Include="DocumentWorkflowTrackerRepository.cs" />

@@ -84,11 +84,13 @@ namespace Simplic.FileStructure.UI
                 searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                    
                 };
 
                 searchOverviewGrid.GridView.Loaded += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                    
                 };
             }
 

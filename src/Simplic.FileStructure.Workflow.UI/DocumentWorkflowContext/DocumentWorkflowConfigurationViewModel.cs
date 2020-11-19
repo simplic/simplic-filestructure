@@ -30,6 +30,7 @@ namespace Simplic.FileStructure.Workflow.UI
         private SelectWorkflowOrganizationUnitViewModel workflowOrganzitationUnit;
         private IList<User.User> users = new List<User.User>();
         private IUserService userService;
+        private WorkflowOrganizationUnitAssignmentViewModel selectedAssignment;
         #endregion
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 model = new DocumentWorkflowConfiguration();
             }
-            
+
             Model = model;
             var providerList = CommonServiceLocator.ServiceLocator.Current.GetAllInstances<IDocumentWorkflowStateProvider>();
             userService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IUserService>();
@@ -53,10 +54,13 @@ namespace Simplic.FileStructure.Workflow.UI
 
             RaisePropertyChanged(nameof(StateProviders));
             workflowOrganizationUnits = new ObservableCollection<SelectWorkflowOrganizationUnitViewModel>(workflowOrganizationUnitService.GetAll().Select(x => new SelectWorkflowOrganizationUnitViewModel(x) { Parent = this }).ToList());
-            assignments = new ObservableCollection<WorkflowOrganizationUnitAssignmentViewModel>(Model.OrganizationUnits.GetAsObservableCollection().Select(y=> new WorkflowOrganizationUnitAssignmentViewModel(y, this) { }));
+            assignments = new ObservableCollection<WorkflowOrganizationUnitAssignmentViewModel>(Model.OrganizationUnits.GetAsObservableCollection().Select(y => new WorkflowOrganizationUnitAssignmentViewModel(y, this) { }));
             CollectionNotifyPropertyChanged(assignments, model.OrganizationUnits, x => x.Model);
-
             addTab = new RelayCommand(o => Add());
+
+            if (assignments.Any())
+                selectedAssignment = assignments.FirstOrDefault();
+
         }
 
         /// <summary>
@@ -64,23 +68,31 @@ namespace Simplic.FileStructure.Workflow.UI
         /// </summary>
         private void Add()
         {
+            if (workflowOrganzitationUnit == null)
+                return;
+
+            //Assignment is not initialized
             if (assignments == null)
                 assignments = new ObservableCollection<WorkflowOrganizationUnitAssignmentViewModel>();
 
+            //Assignment has already the wou inside
             if (assignments.Any(x => x.Model.WorkflowOrganisationUnitId == workflowOrganzitationUnit.Guid))
                 return;
 
-            //Todo: Fix tt
+
             var workflow = new WorkflowOrganizationUnitAssignmentViewModel(new WorkflowOrganizationUnitAssignment { WorkflowOrganisationUnitId = workflowOrganzitationUnit.Guid }, this)
             {
                 Header = workflowOrganzitationUnit?.Name,
             };
-            
+
             if (string.IsNullOrWhiteSpace(workflow.Header))
                 return;
 
             assignments.Add(workflow);
+            selectedAssignment = workflow;
+
             RaisePropertyChanged(nameof(Tabs));
+            RaisePropertyChanged(nameof(SelectedAssignment));
         }
 
         /// <summary>
@@ -116,11 +128,11 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <summary>
         /// Gets a list of al users
         /// </summary>
-        public IList<User.User>  Users 
+        public IList<User.User> Users
         {
-            get 
+            get
             {
-                if (users == null || users.Any())
+                if (users == null || !users.Any())
                     users = userService.GetAll().ToList();
                 return users;
             }
@@ -191,6 +203,22 @@ namespace Simplic.FileStructure.Workflow.UI
         /// </summary>
         public ObservableCollection<WorkflowOrganizationUnitAssignmentViewModel> Tabs { get => assignments; set => assignments = value; }
 
+        /// <summary>
+        /// Gets or sets the selected assignment
+        /// </summary>
+        public WorkflowOrganizationUnitAssignmentViewModel SelectedAssignment { get => selectedAssignment; set => selectedAssignment = value; }
+
+        /// <summary>
+        /// Removes the <see cref="WorkflowOrganizationUnitAssignmentViewModel"/> 
+        /// </summary>
+        /// <param name="workflowOrganizationUnitAssignmentViewModel"></param>
+        public void RemoveItem(WorkflowOrganizationUnitAssignmentViewModel workflowOrganizationUnitAssignmentViewModel)
+        {
+            var result = LocalizedMessageBox.Show("dwc_caption", "dwc_sure_delete", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Information);
+            if (result == System.Windows.MessageBoxResult.Yes)
+                if (assignments.Contains(workflowOrganizationUnitAssignmentViewModel))
+                    assignments.Remove(workflowOrganizationUnitAssignmentViewModel);
+        }
     }
 
 }

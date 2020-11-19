@@ -70,10 +70,14 @@
             <telerik:RadButton Width="30" Grid.Column="1" Background="Transparent" Content="+" FontSize="18" Command="{Binding AddTab}" />
 
         </Grid>
-        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="4" Grid.ColumnSpan="10">
+        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="4" SelectedItem="{Binding SelectedAssignment}" Grid.ColumnSpan="10" CloseTabsOnMouseMiddleButtonDown="True"  >
+            
             <telerik:RadTabControl.ItemTemplate>
                 <DataTemplate>
-                    <telerik:Label Content="{Binding Header}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <telerik:Label Content="{Binding Header}"/>
+                        <telerik:RadButton Content="x" Background="Transparent" Width="20" Padding="0" Command="{Binding Remove}"/>
+                    </StackPanel>
                 </DataTemplate>
             </telerik:RadTabControl.ItemTemplate>
             <telerik:RadTabControl.ContentTemplate>
@@ -109,7 +113,7 @@
                         <telerik:RadListBox AllowDrop="True" Background="Transparent"
                                  ScrollViewer.PanningMode="None"
                                  Grid.Column="1" Grid.Row="1" SelectionMode="Extended"
-                                 ItemsSource="{Binding AssignedUsers}"
+                                 ItemsSource="{Binding UserAssignedSource.View}"
                                  DisplayMemberPath="Name">
 
                             <telerik:RadListBox.DragVisualProvider>

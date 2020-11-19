@@ -84,11 +84,16 @@ namespace Simplic.FileStructure.Workflow.UI
         {
             var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
             itemBox.ShowDialog();
+            int targetUserId = 0;
+            Guid? workflowOrganzisationId = null;
 
             if (itemBox.SelectedItem == null)
                 return new GridInvokeMethodResult { RefreshGrid = false };
 
-            var targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
+            if ((string)itemBox.GetSelectedItemCell("Type") == "User")
+                targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
+            else
+                workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
 
             var comment = new Framework.Extension.InstanceDataCommentModel
             {
@@ -118,9 +123,13 @@ namespace Simplic.FileStructure.Workflow.UI
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
                     WorkflowId = workflowId,
-                    Guid = Guid.NewGuid()
+                    Guid = Guid.NewGuid(),
                 };
-
+                if ((string)itemBox.GetSelectedItemCell("Type") == "WorkflowOrganizationUnit")
+                {
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
+                    workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
+                }
                 try
                 {
                     workflowOperationService.ForwardTo(workflowOperation);
@@ -144,6 +153,8 @@ namespace Simplic.FileStructure.Workflow.UI
             }
 
             return new GridInvokeMethodResult { RefreshGrid = true };
+
+
         }
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
@@ -258,6 +269,24 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
+
+        /// <summary>
+        /// Checks the document out for the <see cref="WorkflowOrganizationUnit"/> and puts it in the user path
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult DocumentCheckOut(GridFunctionParameter parameter)
+        {
+            foreach (var row in parameter.GetSelectedRowsAsDataRow())
+            {
+                var documentId = (Guid)row["Guid"];
+                var organizationUnit = (Guid)row[""];
+
+            }
+
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
         #endregion
     }
 }
