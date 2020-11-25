@@ -15,6 +15,7 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IFileStructureDocumentPathService fileStructureDocumentPathService;
         private readonly IDocumentWorkflowTrackerService documentWorkflowTrackerService;
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
+        
 
 
         public WorkflowOperationService(IFileStructureService fileStructureService,
@@ -212,6 +213,12 @@ namespace Simplic.FileStructure.Workflow.Service
 
             documentWorkflowTrackerService.Save(tracker);
             fileStructureDocumentPathService.Save(path);
+        }
+
+        public void DocumentCheckOut(WorkflowOperation workflowOperation)
+        {
+            documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganzisationId);
+            ForwardCopyTo(workflowOperation);
         }
         //Checkout dokument auschecken für die wou und in den user packen 
     }

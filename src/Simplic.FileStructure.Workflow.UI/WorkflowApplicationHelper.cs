@@ -19,6 +19,7 @@ namespace Simplic.FileStructure.Workflow.UI
         private static ILocalizationService localizationService;
         private static IWorkflowOperationService workflowOperationService;
         private static ISessionService sessionService;
+        private static IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
 
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace Simplic.FileStructure.Workflow.UI
             workflowOperationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IWorkflowOperationService>();
             fileStructureDocumentPathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
+            documentWorkflowOrganizationUnitAssignmentService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowOrganizationUnitAssignmentService>();
         }
 
         /// <summary>
@@ -125,6 +127,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     WorkflowId = workflowId,
                     Guid = Guid.NewGuid(),
                 };
+
                 if ((string)itemBox.GetSelectedItemCell("Type") == "WorkflowOrganizationUnit")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
@@ -159,7 +162,8 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
-
+            Guid? workflowOrganzisationId = null;
+            int targetUserId = 0;
             var itemBox = ShowWorkflowUser();
 
             itemBox.ShowDialog();
@@ -167,7 +171,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.SelectedItem == null)
                 return new GridInvokeMethodResult { RefreshGrid = false };
 
-            var targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
+            
 
             var comment = new Framework.Extension.InstanceDataCommentModel
             {
@@ -179,6 +183,11 @@ namespace Simplic.FileStructure.Workflow.UI
 
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
+
+            if ((string)itemBox.GetSelectedItemCell("Type") == "User")
+                targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
+            else
+                workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -198,6 +207,11 @@ namespace Simplic.FileStructure.Workflow.UI
                     WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
+                if ((string)itemBox.GetSelectedItemCell("Type") == "WorkflowOrganizationUnit")
+                {
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
+                    workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
+                }
 
                 try
                 {
@@ -280,10 +294,26 @@ namespace Simplic.FileStructure.Workflow.UI
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
                 var documentId = (Guid)row["Guid"];
-                var organizationUnit = (Guid)row[""];
-
+                var organizationUnitId = (Guid)row["OrganizationId"];
+                //var documentPathId = (Guid)row["DocumentPathId"];
+                // The grid needs a the column workflow id 
+                //var workflowId = (Guid)fileStructureDocumentPathService.Get(documentPathId).WorkflowId;
+                
+                var workflowOperation = new WorkflowOperation
+                {
+                    DocumentId = documentId,
+                    UserId = sessionService.CurrentSession.UserId,
+                    TargetUserId = sessionService.CurrentSession.UserId,
+                    CreateDateTime = DateTime.Now,
+                    UpdateDateTime = DateTime.Now,
+                    ActionName = "forward",
+                    //WorkflowId = workflowId,
+                    WorkflowOrganzisationId = organizationUnitId,
+                    Guid = Guid.NewGuid()
+                };
+                
+                workflowOperationService.DocumentCheckOut(workflowOperation);
             }
-
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 

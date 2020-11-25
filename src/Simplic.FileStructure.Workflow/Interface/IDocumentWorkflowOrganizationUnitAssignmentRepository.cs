@@ -9,6 +9,6 @@ namespace Simplic.FileStructure.Workflow
 {
     public interface IDocumentWorkflowOrganizationUnitAssignmentRepository : IRepositoryBase<Guid, DocumentWorkflowOrganizationUnitAssignment>
     {
-
+        bool DeleteByIds(Guid documentId, Guid organizationId);
     }
 }
