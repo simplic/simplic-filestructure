@@ -54,7 +54,7 @@ namespace Simplic.FileStructure.Workflow.Service
             // found for the specific user instance
             return null;
         }
-        
+
         /// <summary>
         /// Sends the document to the target user id user
         /// </summary>
@@ -175,6 +175,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 if (targetPath != null)
                 {
                     targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
+
                 }
                 else
                 {
@@ -217,6 +218,7 @@ namespace Simplic.FileStructure.Workflow.Service
             {
                 DocumentId = workflowOperation.DocumentId,
                 WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganzisationId,
+                WorkflowId = workflowOperation.WorkflowId
             };
             documentWorkflowOrganizationUnitAssignmentService.Save(documentWorkflowOrganzitionUnitAssignment);
         }
@@ -249,8 +251,41 @@ namespace Simplic.FileStructure.Workflow.Service
         public void DocumentCheckOut(WorkflowOperation workflowOperation)
         {
             documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganzisationId);
-            ForwardCopyTo(workflowOperation);
+
+            // Add path to forwarded user
+            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
+            if (workflow == null)
+            {
+                throw new DocumentWorkflowException("workflow is null");
+            }
+            var targetStructure = fileStructureService.GetByInstanceDataGuid(workflow.Guid);
+            if (targetStructure == null)
+            {
+                throw new DocumentWorkflowException("targetStructure is null");
+            }
+
+            var targetPath = new FileStructureDocumenPath
+            {
+                DirectoryGuid = (Guid)workflowOperation.DirectoryId,
+                WorkflowId = workflowOperation.WorkflowId,
+                FileStructureGuid = targetStructure.Id,
+                Id = Guid.NewGuid(),
+                DocumentGuid = workflowOperation.DocumentId,
+                IsProtectedPath = false,
+                WorkflowState = DocumentWorkflowStateType.InReview
+            };
+
+            var tracker = new DocumentWorkflowTracker
+            {
+                ActionName = DocumentWorkflowStateType.ForwardedCopy,
+                CreateDateTime = DateTime.Now,
+                DocumentId = targetPath.DocumentGuid,
+                TargetUserId = workflowOperation.TargetUserId,
+                UserId = workflowOperation.UserId
+            };
+
+            documentWorkflowTrackerService.Save(tracker);
+            fileStructureDocumentPathService.Save(targetPath);
         }
-        //Checkout dokument auschecken für die wou und in den user packen 
     }
 }

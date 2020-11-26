@@ -67,5 +67,15 @@ namespace Simplic.FileStructure.Workflow
         /// Gets or sets the workflow organization id, its based on the guid of <see cref="WorkflowOrganizationUnit.Guid"/>
         /// </summary>
         public Guid? WorkflowOrganzisationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the directory id
+        /// </summary>
+        public Guid? DirectoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file structure id
+        /// </summary>
+        public Guid? FileStructureId { get; set; }
     }
 }

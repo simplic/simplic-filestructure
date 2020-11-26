@@ -84,7 +84,13 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
-            var itemBox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            if (parameter.SelectedRows.Count == 0)
+            {
+                return GridInvokeMethodResult.NoGridRefresh();
+            }
+
+            var itemBox = (AsyncGridItemBox)ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            itemBox.SetPlaceholder("WorkflowId", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
             itemBox.ShowDialog();
             int targetUserId = 0;
             Guid? workflowOrganzisationId = null;
@@ -92,7 +98,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.SelectedItem == null)
                 return new GridInvokeMethodResult { RefreshGrid = false };
 
-            if ((string)itemBox.GetSelectedItemCell("Type") == "User")
+            if ((string)itemBox.GetSelectedItemCell("Type") == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
@@ -128,7 +134,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid(),
                 };
 
-                if ((string)itemBox.GetSelectedItemCell("Type") == "WorkflowOrganizationUnit")
+                if ((string)itemBox.GetSelectedItemCell("Type") == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                     workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
@@ -164,8 +170,14 @@ namespace Simplic.FileStructure.Workflow.UI
         {
             Guid? workflowOrganzisationId = null;
             int targetUserId = 0;
-            var itemBox = ShowWorkflowUser();
+            
+            if (parameter.SelectedRows.Count == 0)
+            {
+                return GridInvokeMethodResult.NoGridRefresh();
+            }
 
+            var itemBox = (AsyncGridItemBox)ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            itemBox.SetPlaceholder("WorkflowId", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
             itemBox.ShowDialog();
 
             if (itemBox.SelectedItem == null)
@@ -184,7 +196,7 @@ namespace Simplic.FileStructure.Workflow.UI
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
 
-            if ((string)itemBox.GetSelectedItemCell("Type") == "User")
+            if ((string)itemBox.GetSelectedItemCell("Type") == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
@@ -207,7 +219,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
-                if ((string)itemBox.GetSelectedItemCell("Type") == "WorkflowOrganizationUnit")
+                if ((string)itemBox.GetSelectedItemCell("Type") == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                     workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
@@ -297,7 +309,8 @@ namespace Simplic.FileStructure.Workflow.UI
                 var organizationUnitId = (Guid)row["OrganizationId"];
                 //var documentPathId = (Guid)row["DocumentPathId"];
                 // The grid needs a the column workflow id 
-                //var workflowId = (Guid)fileStructureDocumentPathService.Get(documentPathId).WorkflowId;
+                var workflowId = (Guid)row["WorkflowId"];
+                var directoryId = (Guid)row["DirectoryId"];
                 
                 var workflowOperation = new WorkflowOperation
                 {
@@ -307,8 +320,9 @@ namespace Simplic.FileStructure.Workflow.UI
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                     ActionName = "forward",
-                    //WorkflowId = workflowId,
+                    WorkflowId = workflowId,
                     WorkflowOrganzisationId = organizationUnitId,
+                    DirectoryId = directoryId,
                     Guid = Guid.NewGuid()
                 };
                 
