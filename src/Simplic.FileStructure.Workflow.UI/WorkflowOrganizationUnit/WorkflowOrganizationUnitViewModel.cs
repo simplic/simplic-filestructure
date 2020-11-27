@@ -10,9 +10,11 @@ using Telerik.Windows.Controls;
 
 namespace Simplic.FileStructure.Workflow.UI
 {
+    /// <summary>
+    /// Represents the workflow organization unit view model
+    /// </summary>
     public class WorkflowOrganizationUnitViewModel : ExtendableViewModel, IWindowViewModel<WorkflowOrganizationUnit>
     {
-
 
         public void Initialize(WorkflowOrganizationUnit model)
         {
@@ -24,34 +26,33 @@ namespace Simplic.FileStructure.Workflow.UI
             Model = model;
         }
 
-       
         /// <summary>
         /// Gets or sets the internal name
         /// </summary>
         public string InternalName
-		{
-			get => Model.InternalName;
-			set => PropertySetter(value, newValue =>
-			{
-				Model.InternalName = newValue;
-			});
-		}
+        {
+            get => Model.InternalName;
+            set => PropertySetter(value, newValue =>
+            {
+                Model.InternalName = newValue;
+            });
+        }
 
-		/// <summary>
-		/// Gets or sets the display name
-		/// </summary>
-		public string DisplayName
-		{
-			get => Model.DisplayName;
-			set => PropertySetter(value, newValue =>
-			{
-				Model.DisplayName = newValue;
-			});
-		}
+        /// <summary>
+        /// Gets or sets the display name
+        /// </summary>
+        public string DisplayName
+        {
+            get => Model.DisplayName;
+            set => PropertySetter(value, newValue =>
+            {
+                Model.DisplayName = newValue;
+            });
+        }
 
-		/// <summary>
-		/// Gets or sets the model 
-		/// </summary>
+        /// <summary>
+        /// Gets or sets the model 
+        /// </summary>
         public WorkflowOrganizationUnit Model { get; set; }
 
 

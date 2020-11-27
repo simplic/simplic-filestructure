@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Defines method for storing a state provider in a document based workflow  
+    /// </summary>
     public interface IDocumentWorkflowStateProviderRepository
     {
         /// <summary>

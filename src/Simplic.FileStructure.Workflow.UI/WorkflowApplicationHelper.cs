@@ -134,7 +134,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid(),
                 };
 
-                if ((string)itemBox.GetSelectedItemCell("Type") == "Gruppe")
+                if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                     workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
@@ -196,7 +196,7 @@ namespace Simplic.FileStructure.Workflow.UI
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
 
-            if ((string)itemBox.GetSelectedItemCell("Type") == "Benutzer")
+            if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
@@ -219,7 +219,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
-                if ((string)itemBox.GetSelectedItemCell("Type") == "Gruppe")
+                if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                     workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
@@ -301,13 +301,13 @@ namespace Simplic.FileStructure.Workflow.UI
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static GridInvokeMethodResult DocumentCheckOut(GridFunctionParameter parameter)
+        public static GridInvokeMethodResult DocumentCheckout(GridFunctionParameter parameter)
         {
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
                 var documentId = (Guid)row["Guid"];
                 var organizationUnitId = (Guid)row["OrganizationId"];
-                //var documentPathId = (Guid)row["DocumentPathId"];
+                
                 // The grid needs a the column workflow id 
                 var workflowId = (Guid)row["WorkflowId"];
                 var directoryId = (Guid)row["DirectoryId"];
@@ -326,7 +326,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid()
                 };
                 
-                workflowOperationService.DocumentCheckOut(workflowOperation);
+                workflowOperationService.DocumentCheckout(workflowOperation);
             }
             return new GridInvokeMethodResult { RefreshGrid = true };
         }

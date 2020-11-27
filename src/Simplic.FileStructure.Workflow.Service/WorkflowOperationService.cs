@@ -248,7 +248,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// Checks the document out of a workflow organization unit 
         /// </summary>
         /// <param name="workflowOperation"></param>
-        public void DocumentCheckOut(WorkflowOperation workflowOperation)
+        public void DocumentCheckout(WorkflowOperation workflowOperation)
         {
             documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganzisationId);
 

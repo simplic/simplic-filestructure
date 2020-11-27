@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Defines the method for managing the tracking for document based workflows
+    /// </summary>
     public interface IDocumentWorkflowTrackerService : IDocumentWorkflowTrackerRepository
     {
 

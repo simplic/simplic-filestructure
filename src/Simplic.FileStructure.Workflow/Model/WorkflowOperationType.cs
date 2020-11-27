@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Represents the workflow operation type 
+    /// </summary>
     public enum WorkflowOperationType
     {
         User = 0,

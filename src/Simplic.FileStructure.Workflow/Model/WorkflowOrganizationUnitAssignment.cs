@@ -28,6 +28,9 @@ namespace Simplic.FileStructure.Workflow
         /// </summary>
         public Guid WorkflowOrganisationUnitId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the stateful collection of the users
+        /// </summary>
         public StatefulCollection<WorkflowOrganizationUnitUserAssignment> Users { get; set; } = new StatefulCollection<WorkflowOrganizationUnitUserAssignment>(new WorkflowOrganizationUnitUserAssignment[] { });
     }
 }

@@ -8,6 +8,9 @@ using Simplic.FileStructure.Workflow;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Defines methods for storing organization units for document based workflows 
+    /// </summary>
     public interface IWorkflowOrganizationUnitRepository : IRepositoryBase<Guid, WorkflowOrganizationUnit>
     {
     }
