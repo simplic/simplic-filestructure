@@ -6,9 +6,18 @@
              xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              xmlns:local="clr-namespace:Simplic.FileStructure.Workflow.UI" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
-             Height="300" Width="600"
-             Title="{simplic:Localization Key=dwc_workflow}"
-    >
+             Height="600" Width="800"
+             Title="{simplic:Localization Key=dwc_workflow}">
+    <local:BaseDocumentWorkflowConfigurationWindow.Resources>
+        <DataTemplate x:Key="ApplicationDragTemplate">
+            <TextBlock Text="{Binding Header}" />
+        </DataTemplate>
+
+        <Style TargetType="telerik:RadListBoxItem">
+            <Setter Property="telerik:DragDropManager.AllowCapturedDrag" Value="True" />
+            <Setter Property="telerik:TouchManager.DragStartTrigger" Value="TapHoldAndMove"/>
+        </Style>
+    </local:BaseDocumentWorkflowConfigurationWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -20,17 +29,105 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label Content="{simplic:Localization Key=dwc_internal_name}" Grid.Row="0"/>
         <Label Content="{simplic:Localization Key=dwc_display_name}" Grid.Row="1"/>
         <Label Content="{simplic:Localization Key=dwc_state_provide}" Grid.Row="2"/>
+        <Label Content="{simplic:Localization Key=dwc_organization_unit}" Grid.Row="3"/>
 
 
         <simplic:TextBox Text="{Binding InternalName}" Grid.Row="0" Grid.Column="1" />
         <simplic:TextBox Text="{Binding DisplayName}" Grid.Row="1" Grid.Column="1"/>
         <simplic:ComboBox ItemsSource="{Binding StateProviders}"  SelectedItem="{Binding SelectedStateProvider}" Grid.Row="2" Grid.Column="1" />
+        <Grid  Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <telerik:RadMultiColumnComboBox x:Name="customerCombo" Grid.Row="2" Grid.Column="0" Margin="5"  
+                                                    NullText="{simplic:Localization Key=dwc_select_workflow_unit}"
+                                                    AutoCompleteMode="Search" SelectionMode="Single"
+                                                    KeepDropDownOpen="False" 
+                                                    DropDownMinWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                                                    DropDownWidth="600"
+                                                    DropDownMaxWidth="800"
+                                                    IsReadOnly="True"
+                                                    DropDownMinHeight="30"
+                                                    DropDownHeight="NaN"
+                                                    DropDownMaxHeight="300"                                                         
+                                                    SelectedItem="{Binding WorkflowOrganizationUnit, Mode=TwoWay}"
+                                                    DisplayMemberPath="Name">
+                <telerik:RadMultiColumnComboBox.ItemsSourceProvider>
+                    <telerik:GridViewItemsSourceProvider ItemsSource="{Binding WorkflowOrganizationUnits}" AutoGenerateColumns="False">
+                        <telerik:GridViewItemsSourceProvider.Columns>
+                            <telerik:GridViewDataColumn Header="{simplic:Localization Key=dwc_display_name}" DataMemberBinding="{Binding Name}" />
+                        </telerik:GridViewItemsSourceProvider.Columns>
+                    </telerik:GridViewItemsSourceProvider>
+                </telerik:RadMultiColumnComboBox.ItemsSourceProvider>
+            </telerik:RadMultiColumnComboBox>
+            <telerik:RadButton Width="30" Grid.Column="1" Background="Transparent" Content="+" FontSize="18" Command="{Binding AddTab}" />
+
+        </Grid>
+        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="4" SelectedItem="{Binding SelectedAssignment}" Grid.ColumnSpan="10" CloseTabsOnMouseMiddleButtonDown="True"  >
+            
+            <telerik:RadTabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <telerik:Label Content="{Binding Header}"/>
+                        <telerik:RadButton Content="x" Background="Transparent" Width="20" Padding="0" Command="{Binding Remove}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadTabControl.ItemTemplate>
+            <telerik:RadTabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <telerik:RadWatermarkTextBox MinHeight="24" Margin="2" WatermarkContent="Suche..." Grid.Row="0" Text="{Binding AllUserSearchText, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <telerik:RadListBox  Grid.Row="1" AllowDrop="True" Background="Transparent"
+                             ScrollViewer.PanningMode="None"
+                             Grid.Column="0" SelectionMode="Extended"
+                             ItemsSource="{Binding UserSource.View}" 
+                             DisplayMemberPath="Name">
+                            
+                            <telerik:RadListBox.DragVisualProvider>
+                                <telerik:ScreenshotDragVisualProvider />
+                            </telerik:RadListBox.DragVisualProvider>
+                            <telerik:RadListBox.DragDropBehavior>
+                                <telerik:ListBoxDragDropBehavior AllowReorder="True" telerik:TouchManager.DragStartTrigger="TapHoldAndMove"/>
+                            </telerik:RadListBox.DragDropBehavior>
+                        </telerik:RadListBox>
+
+                        <telerik:RadWatermarkTextBox WatermarkContent="Suche..." Grid.Row="0" Grid.Column="1" MinHeight="24" Margin="2" Text="{Binding AssignedUserSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                        
+                        <telerik:RadListBox AllowDrop="True" Background="Transparent"
+                                 ScrollViewer.PanningMode="None"
+                                 Grid.Column="1" Grid.Row="1" SelectionMode="Extended"
+                                 ItemsSource="{Binding UserAssignedSource.View}"
+                                 DisplayMemberPath="Name">
+
+                            <telerik:RadListBox.DragVisualProvider>
+                                <telerik:ScreenshotDragVisualProvider />
+                            </telerik:RadListBox.DragVisualProvider>
+                            <telerik:RadListBox.DragDropBehavior>
+                                <telerik:ListBoxDragDropBehavior AllowReorder="True" telerik:TouchManager.DragStartTrigger="TapHoldAndMove"/>
+                            </telerik:RadListBox.DragDropBehavior>
+                        </telerik:RadListBox>
+                    </Grid>
+                    
+                </DataTemplate>
+            </telerik:RadTabControl.ContentTemplate>
+        </telerik:RadTabControl>
 
     </Grid>
 </local:BaseDocumentWorkflowConfigurationWindow>

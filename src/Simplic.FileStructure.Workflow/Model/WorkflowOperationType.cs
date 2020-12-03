@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 namespace Simplic.FileStructure.Workflow
 {
     /// <summary>
-    /// Defines the method for managing the tracking for document based workflows
+    /// Represents the workflow operation type 
     /// </summary>
-    public interface IDocumentWorkflowTrackerService : IDocumentWorkflowTrackerRepository
+    public enum WorkflowOperationType
     {
-
+        User = 0,
+        WorkflowOrganizationUnit = 1
     }
 }

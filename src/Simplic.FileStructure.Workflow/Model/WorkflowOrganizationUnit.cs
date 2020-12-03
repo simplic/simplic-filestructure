@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Simplic.Collections.Generic;
@@ -9,12 +8,12 @@ using Simplic.Collections.Generic;
 namespace Simplic.FileStructure.Workflow
 {
     /// <summary>
-    /// Document workflow context to create workflows
+    /// Represents the workflow organisation unit
     /// </summary>
-    public class DocumentWorkflowConfiguration
+    public class WorkflowOrganizationUnit
     {
         /// <summary>
-        /// Gets or sets the guid
+        /// Gets or sets the guid 
         /// </summary>
         public Guid Guid { get; set; } = Guid.NewGuid();
 
@@ -29,10 +28,10 @@ namespace Simplic.FileStructure.Workflow
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Gets or sets the state provider
+        /// Gets or sets the is deleted 
+        /// Returs false if this poco is not deleted, and true if it is deleted
+        /// Purpose: Its just a flag, so we dont need to delete it physically from the storage system
         /// </summary>
-        public string StateProviderName { get; set; }
-
-        public StatefulCollection<WorkflowOrganizationUnitAssignment> OrganizationUnits { get; set; } = new StatefulCollection<WorkflowOrganizationUnitAssignment>(new WorkflowOrganizationUnitAssignment[] { });
+        public bool IsDeleted { get; set; }
     }
 }

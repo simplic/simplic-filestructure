@@ -70,7 +70,8 @@ namespace Simplic.FileStructure.UI
                     lastDirectory = Directory;
                     integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
                     integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
-
+                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", Directory?.WorkflowId.ToString());
+                    
                     integratedGridView.EmbeddedGridView.SelectionChanged += (sender, args) =>
                     {
                         if (args.AddedItems.Count > 0)
@@ -117,6 +118,7 @@ namespace Simplic.FileStructure.UI
                 {
                     grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
+                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString());
                     grid.integratedGridView.RefreshData();
 
                     grid.lastDirectory = currentDirectory;

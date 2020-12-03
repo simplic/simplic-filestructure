@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Defines method for managing the <see cref="WorkflowOperation"/>
+    /// </summary>
     public interface IWorkflowOperationService 
 
     {
@@ -19,6 +22,10 @@ namespace Simplic.FileStructure.Workflow
         /// </summary>
         void ForwardCopyTo(WorkflowOperation workflowOperation);
 
+        /// <summary>
+        /// Checks a document out of the <see cref="WorkflowOrganizationUnit"/> and assigns it to the user
+        /// </summary>
+        void DocumentCheckout(WorkflowOperation workflowOperation);
 
         /// <summary>
         /// Sets the state of the document to complete

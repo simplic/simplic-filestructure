@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Simplic.FileStructure.Workflow
 {
     /// <summary>
-    /// Represent the workflow app settings
+    /// Represents the assignment between the user and <see cref="WorkflowOrganizationUnitAssignment"/>
     /// </summary>
-    public class DocumentWorkflowAppSettings
+    public class WorkflowOrganizationUnitUserAssignment
     {
         /// <summary>
         /// Gets or sets the guid
@@ -17,13 +17,14 @@ namespace Simplic.FileStructure.Workflow
         public Guid Guid { get; set; } = Guid.NewGuid();
 
         /// <summary>
-        /// Gets or sets the internal name
+        /// Gets or sets the workflow organization assignment id 
+        /// <see cref="WorkflowOrganizationUnitAssignment"/>
         /// </summary>
-        public string InternalName { get; set; }
+        public Guid WorkflowOrganzitionAssignmentId{ get; set; }
 
         /// <summary>
-        /// Gets or sets the public name
+        /// Gets or sets the user id
         /// </summary>
-        public string PublicName { get; set; }
+        public int UserId { get; set; }
     }
 }
