@@ -25,6 +25,18 @@ namespace Simplic.FileStructure.Workflow.UI
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Override the on save methode for the viewmodel to save the all assignments
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnSave(WindowSaveEventArg e)
+        {
+            if (DataContext is DocumentWorkflowConfigurationViewModel viewModel)
+                viewModel.PrepareSaving();
+
+            base.OnSave(e);
+        }
     }
     public abstract class BaseDocumentWorkflowConfigurationWindow : ApplicationWindow<Guid, DocumentWorkflowConfiguration, DocumentWorkflowConfigurationViewModel, IDocumentWorkflowConfigurationService>, IDocumentWorkflowConfigurationWindow
     {
