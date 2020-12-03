@@ -18,7 +18,10 @@ pool:
   vmImage: "windows-latest"
 
 variables:
-  buildConfiguration: "Release"
+- group: simplic-deployment
+- group: simplic-deployment-dev02
+- name: buildConfiguration
+  value: "Release"
 
 resources:
   repositories:
@@ -39,11 +42,11 @@ steps:
       vstsFeed: "f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e"
 
   - ${{ if not(eq(variables['Build.Reason'], 'PullRequest')) }}:
-      - template: version-number-update-template.yml@infrastructure
+      - template: version-number-update-token-template.yml@infrastructure
         parameters:
           connection_string: $(connection_string)
           git_user: $(git_user)
-          git_pass: $(git_pass)
+          git_token: $(git_token)
           branch_name: ${{ replace(variables['Build.SourceBranch'], 'refs/heads/', '') }}
 
   - task: MSBuild@1
