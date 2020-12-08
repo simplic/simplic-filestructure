@@ -59,7 +59,7 @@ namespace Simplic.FileStructure.UI
 
                     if (selectFromTemplateResult == MessageBoxResult.No)
                     {
-                        // Create new, maybe from template?
+                        // Create new, maybe from template? 
                         fileStructure = new FileStructure
                         {
                             InstanceDataGuid = InstanceDataGuid,

@@ -20,7 +20,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Returns a bool which is true if the delete based on an obj is executed
+        /// Returns a bool which is true if the delete based on an obj is executed 
         /// </summary>
         /// <param name="obj">document workflow context</param>
         /// <returns></returns>

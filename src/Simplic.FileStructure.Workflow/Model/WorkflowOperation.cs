@@ -14,7 +14,7 @@ namespace Simplic.FileStructure.Workflow
         public Guid Guid { get; set; }
 
         /// <summary>
-        /// Gets or sets the workflow id
+        /// Gets or sets the workflow id 
         /// </summary>
         public Guid WorkflowId { get; set; }
 
