@@ -13,7 +13,7 @@ namespace Simplic.FileStructure.Workflow.UI
     public interface IDocumentWorkflowAppSettingsWindow : IWindow<Guid, DocumentWorkflowAppSettings, DocumentWorkflowAppSettingsViewModel>
     {
         /// <summary>
-        /// Gets or sets the actual db intern page instance
+        /// Gets or sets the actual db intern page instance 
         /// </summary>
         DBInternPage DBInternPage { get; set; }
     }
