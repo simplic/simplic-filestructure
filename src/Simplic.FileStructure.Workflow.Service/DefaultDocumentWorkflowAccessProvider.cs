@@ -73,7 +73,7 @@ namespace Simplic.FileStructure.Workflow.Service
         {
             bool accessChanged = false;
 
-            var userAssignments = workflowOrganizationUnitUserAssignmentRepository.GetByAssignmentId(organizationUnitId);
+            var userAssignments = workflowOrganizationUnitUserAssignmentRepository.GetForOrganizationByConfigurationId(configuration.Guid, organizationUnitId);
             var access = authorizationService.GetAccessRights("IT_Document", "Guid", documentId);
 
             if (access == null)
