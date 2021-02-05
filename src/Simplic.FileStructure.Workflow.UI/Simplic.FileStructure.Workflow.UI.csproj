@@ -56,14 +56,14 @@
     <Compile Include="Controls\Window_DocumentWorkflow.xaml.cs">
       <DependentUpon>Window_DocumentWorkflow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationApplicationHelper.cs" />
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationViewModel.cs" />
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml.cs">
-      <DependentUpon>DocumentWorkflowContextWindow.xaml</DependentUpon>
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationApplicationHelper.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationViewModel.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationWindow.xaml.cs">
+      <DependentUpon>DocumentWorkflowConfigurationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\DragVisualProvider.cs" />
-    <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
-    <Compile Include="DocumentWorkflowContext\WorkflowOrganizationUnitAssignmentViewModel.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DragVisualProvider.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\IDocumentWorkflowConfigurationWindow.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\WorkflowOrganizationUnitAssignmentViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
@@ -123,7 +123,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml">
+    <Page Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

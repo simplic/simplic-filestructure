@@ -33,6 +33,11 @@ namespace Simplic.FileStructure.Workflow
         /// </summary>
         public string StateProviderName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current access provider
+        /// </summary>
+        public string AccessProviderName { get; set; } = "none";
+
         public StatefulCollection<WorkflowOrganizationUnitAssignment> OrganizationUnits { get; set; } = new StatefulCollection<WorkflowOrganizationUnitAssignment>(new WorkflowOrganizationUnitAssignment[] { });
     }
 }

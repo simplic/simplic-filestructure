@@ -1,6 +1,6 @@
 {
     "settings": {
-        "connectionString": "server=sc-dev02;dbn=simplic;links=tcpip;charset=UTF-8;uid=admin;pwd=school"
+        "connectionString": "server=setup;dbn=simplic;links=tcpip;charset=UTF-8;uid=admin;pwd=school"
     },
     "commands": [
         {

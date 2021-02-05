@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Unity;
 
 namespace Simplic.FileStructure.Workflow.Service
 {
@@ -12,13 +13,14 @@ namespace Simplic.FileStructure.Workflow.Service
     /// </summary>
     public class WorkflowOperationService : IWorkflowOperationService
     {
+        private readonly IUnityContainer unityContainer;
         private readonly IFileStructureService fileStructureService;
         private readonly IDocumentWorkflowAppSettingsService documentWorkflowAppSettingsService;
         private readonly IDocumentWorkflowUserService documentWorkflowUserService;
         private readonly IFileStructureDocumentPathService fileStructureDocumentPathService;
         private readonly IDocumentWorkflowTrackerService documentWorkflowTrackerService;
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
-
+        private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
 
         /// <summary>
         /// Constructor for dependency injection 
@@ -34,7 +36,9 @@ namespace Simplic.FileStructure.Workflow.Service
                                         IDocumentWorkflowUserService documentWorkflowUserService,
                                         IFileStructureDocumentPathService fileStructureDocumentPathService,
                                         IDocumentWorkflowTrackerService documentWorkflowTrackerService,
-                                        IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService)
+                                        IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService,
+                                        IDocumentWorkflowConfigurationService documentWorkflowConfigurationService,
+                                        IUnityContainer unityContainer)
         {
             this.fileStructureService = fileStructureService;
             this.documentWorkflowAppSettingsService = documentWorkflowAppSettingsService;
@@ -42,6 +46,8 @@ namespace Simplic.FileStructure.Workflow.Service
             this.fileStructureDocumentPathService = fileStructureDocumentPathService;
             this.documentWorkflowTrackerService = documentWorkflowTrackerService;
             this.documentWorkflowOrganizationUnitAssignmentService = documentWorkflowOrganizationUnitAssignmentService;
+            this.unityContainer = unityContainer;
+            this.documentWorkflowConfigurationService = documentWorkflowConfigurationService;
         }
 
         private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId)
@@ -61,6 +67,9 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <param name="workflowOperation"></param>
         public void ForwardTo(WorkflowOperation workflowOperation)
         {
+            var configuration = documentWorkflowConfigurationService.Get(workflowOperation.WorkflowId);
+            var accessProvider = unityContainer.Resolve<IDocumentWorkflowAccessProvider>(configuration.AccessProviderName);
+
             if (workflowOperation.OperationType == WorkflowOperationType.User)
             {
                 // Add path to forwarded user
@@ -124,10 +133,16 @@ namespace Simplic.FileStructure.Workflow.Service
 
                 documentWorkflowTrackerService.Save(tracker);
                 fileStructureDocumentPathService.Save(targetPath);
+
+                if (accessProvider != null)
+                    accessProvider.SetUserAccess(workflowOperation.TargetUserId, workflowOperation.DocumentId, targetPath.Id, targetStructure.Id, configuration);
             }
             else
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation);
+
+                if (accessProvider != null && workflowOperation.WorkflowOrganzisationId.HasValue)
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganzisationId.Value, workflowOperation.DocumentId, configuration);
             }
 
             //immer
@@ -142,9 +157,15 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <param name="workflowOperation"></param>
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
         {
+            var configuration = documentWorkflowConfigurationService.Get(workflowOperation.WorkflowId);
+            var accessProvider = unityContainer.Resolve< IDocumentWorkflowAccessProvider>(configuration.AccessProviderName);
+
             if (workflowOperation.OperationType == WorkflowOperationType.WorkflowOrganizationUnit)
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation);
+
+                if (accessProvider != null && workflowOperation.WorkflowOrganzisationId.HasValue)
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganzisationId.Value, workflowOperation.DocumentId, configuration);
             }
             else
             {
@@ -209,6 +230,9 @@ namespace Simplic.FileStructure.Workflow.Service
 
                 documentWorkflowTrackerService.Save(tracker);
                 fileStructureDocumentPathService.Save(targetPath);
+
+                if (accessProvider != null)
+                    accessProvider.SetUserAccess(workflowOperation.TargetUserId, workflowOperation.DocumentId, targetPath.Id, targetStructure.Id, configuration);
             }
         }
 
