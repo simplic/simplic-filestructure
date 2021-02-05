@@ -84,6 +84,8 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
+            Checkout(parameter);
+
             if (parameter.SelectedRows.Count == 0)
             {
                 return GridInvokeMethodResult.NoGridRefresh();
@@ -168,9 +170,11 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
+            Checkout(parameter);
+
             Guid? workflowOrganzisationId = null;
             int targetUserId = 0;
-            
+
             if (parameter.SelectedRows.Count == 0)
             {
                 return GridInvokeMethodResult.NoGridRefresh();
@@ -183,7 +187,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.SelectedItem == null)
                 return new GridInvokeMethodResult { RefreshGrid = false };
 
-            
+
 
             var comment = new Framework.Extension.InstanceDataCommentModel
             {
@@ -258,6 +262,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
         public static GridInvokeMethodResult Complete(GridFunctionParameter parameter)
         {
+            Checkout(parameter);
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -297,37 +302,50 @@ namespace Simplic.FileStructure.Workflow.UI
         }
 
         /// <summary>
+        /// Tries to checkout a document if required
+        /// </summary>
+        /// <param name="parameter">Grid parameter</param>
+        private static void Checkout(GridFunctionParameter parameter)
+        {
+            foreach (var row in parameter.GetSelectedRowsAsDataRow())
+            {
+                if (row["OrganizationId"] != null)
+                {
+                    var documentId = (Guid)row["Guid"];
+                    var organizationUnitId = (Guid)row["OrganizationId"];
+
+                    // The grid needs a the column workflow id 
+                    var workflowId = (Guid)row["WorkflowId"];
+                    var directoryId = (Guid)row["DirectoryId"];
+
+                    var workflowOperation = new WorkflowOperation
+                    {
+                        DocumentId = documentId,
+                        UserId = sessionService.CurrentSession.UserId,
+                        TargetUserId = sessionService.CurrentSession.UserId,
+                        CreateDateTime = DateTime.Now,
+                        UpdateDateTime = DateTime.Now,
+                        ActionName = "forward",
+                        WorkflowId = workflowId,
+                        WorkflowOrganzisationId = organizationUnitId,
+                        DirectoryId = directoryId,
+                        Guid = Guid.NewGuid()
+                    };
+
+                    workflowOperationService.DocumentCheckout(workflowOperation);
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks the document out for the <see cref="WorkflowOrganizationUnit"/> and puts it in the user path
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         public static GridInvokeMethodResult DocumentCheckout(GridFunctionParameter parameter)
         {
-            foreach (var row in parameter.GetSelectedRowsAsDataRow())
-            {
-                var documentId = (Guid)row["Guid"];
-                var organizationUnitId = (Guid)row["OrganizationId"];
-                
-                // The grid needs a the column workflow id 
-                var workflowId = (Guid)row["WorkflowId"];
-                var directoryId = (Guid)row["DirectoryId"];
-                
-                var workflowOperation = new WorkflowOperation
-                {
-                    DocumentId = documentId,
-                    UserId = sessionService.CurrentSession.UserId,
-                    TargetUserId = sessionService.CurrentSession.UserId,
-                    CreateDateTime = DateTime.Now,
-                    UpdateDateTime = DateTime.Now,
-                    ActionName = "forward",
-                    WorkflowId = workflowId,
-                    WorkflowOrganzisationId = organizationUnitId,
-                    DirectoryId = directoryId,
-                    Guid = Guid.NewGuid()
-                };
-                
-                workflowOperationService.DocumentCheckout(workflowOperation);
-            }
+            Checkout(parameter);
+
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
