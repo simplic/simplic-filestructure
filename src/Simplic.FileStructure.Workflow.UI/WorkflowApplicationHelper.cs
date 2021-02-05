@@ -332,7 +332,8 @@ namespace Simplic.FileStructure.Workflow.UI
                         Guid = Guid.NewGuid()
                     };
 
-                    workflowOperationService.DocumentCheckout(workflowOperation);
+                    var documentPath = workflowOperationService.DocumentCheckout(workflowOperation);
+                    row["DocumentPathId"] = documentPath;
                 }
             }
         }
