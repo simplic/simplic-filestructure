@@ -29,19 +29,24 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label Content="{simplic:Localization Key=dwc_internal_name}" Grid.Row="0"/>
-        <Label Content="{simplic:Localization Key=dwc_display_name}" Grid.Row="1"/>
-        <Label Content="{simplic:Localization Key=dwc_state_provide}" Grid.Row="2"/>
-        <Label Content="{simplic:Localization Key=dwc_organization_unit}" Grid.Row="3"/>
-
-
         <simplic:TextBox Text="{Binding InternalName}" Grid.Row="0" Grid.Column="1" />
+
+        <Label Content="{simplic:Localization Key=dwc_display_name}" Grid.Row="1"/>
         <simplic:TextBox Text="{Binding DisplayName}" Grid.Row="1" Grid.Column="1"/>
+
+        <Label Content="{simplic:Localization Key=dwc_state_provide}" Grid.Row="2"/>
         <simplic:ComboBox ItemsSource="{Binding StateProviders}"  SelectedItem="{Binding SelectedStateProvider}" Grid.Row="2" Grid.Column="1" />
-        <Grid  Grid.Row="3" Grid.Column="1">
+
+        <Label Content="{simplic:Localization Key=dwc_access_provide}" Grid.Row="3"/>
+        <simplic:ComboBox ItemsSource="{Binding AccessProviders}"  SelectedItem="{Binding SelectedAccessProvider}" Grid.Row="3" Grid.Column="1" />
+
+        <Label Content="{simplic:Localization Key=dwc_organization_unit}" Grid.Row="4"/>
+        <Grid  Grid.Row="4" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -70,7 +75,7 @@
             <telerik:RadButton Width="30" Grid.Column="1" Background="Transparent" Content="+" FontSize="18" Command="{Binding AddTab}" />
 
         </Grid>
-        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="4" SelectedItem="{Binding SelectedAssignment}" Grid.ColumnSpan="10" CloseTabsOnMouseMiddleButtonDown="True"  >
+        <telerik:RadTabControl ItemsSource="{Binding Tabs}" Grid.Row="5" SelectedItem="{Binding SelectedAssignment}" Grid.ColumnSpan="10" CloseTabsOnMouseMiddleButtonDown="True"  >
             
             <telerik:RadTabControl.ItemTemplate>
                 <DataTemplate>

@@ -23,6 +23,7 @@ namespace Simplic.FileStructure.Workflow.UI
     {
         #region [Fields]
         private ObservableCollection<string> stateProviders = new ObservableCollection<string>();
+        private ObservableCollection<string> accessProviders = new ObservableCollection<string>();
         private ObservableCollection<SelectWorkflowOrganizationUnitViewModel> workflowOrganizationUnits;
         private IWorkflowOrganizationUnitService workflowOrganizationUnitService;
         private ICommand addTab;
@@ -46,13 +47,20 @@ namespace Simplic.FileStructure.Workflow.UI
             }
 
             Model = model;
-            var providerList = CommonServiceLocator.ServiceLocator.Current.GetAllInstances<IDocumentWorkflowStateProvider>();
+            var stateProviderList = CommonServiceLocator.ServiceLocator.Current.GetAllInstances<IDocumentWorkflowStateProvider>();
+            var accessProviderList = CommonServiceLocator.ServiceLocator.Current.GetAllInstances<IDocumentWorkflowAccessProvider>();
             userService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IUserService>();
 
-            foreach (var provider in providerList)
+            foreach (var provider in stateProviderList)
                 stateProviders.Add(provider.Name);
 
             RaisePropertyChanged(nameof(StateProviders));
+
+            foreach (var provider in accessProviderList)
+                accessProviders.Add(provider.Name);
+
+            RaisePropertyChanged(nameof(AccessProviders));
+
             workflowOrganizationUnits = new ObservableCollection<SelectWorkflowOrganizationUnitViewModel>(workflowOrganizationUnitService.GetAll().Select(x => new SelectWorkflowOrganizationUnitViewModel(x) { Parent = this }).ToList());
             assignments = new ObservableCollection<WorkflowOrganizationUnitAssignmentViewModel>(Model.OrganizationUnits.GetAsObservableCollection().Select(y => new WorkflowOrganizationUnitAssignmentViewModel(y, this) { }));
             CollectionNotifyPropertyChanged(assignments, model.OrganizationUnits, x => x.Model);
@@ -163,7 +171,7 @@ namespace Simplic.FileStructure.Workflow.UI
         }
 
         /// <summary>
-        /// Gets or sets the state providers 
+        /// Gets the state providers 
         /// </summary>
         public ObservableCollection<string> StateProviders => stateProviders;
 
@@ -176,6 +184,23 @@ namespace Simplic.FileStructure.Workflow.UI
             set => PropertySetter(value, newValue =>
             {
                 Model.StateProviderName = newValue;
+            });
+        }
+
+        /// <summary>
+        /// Gets a list of access providers
+        /// </summary>
+        public ObservableCollection<string> AccessProviders => accessProviders;
+
+        /// <summary>
+        /// Gets or sets the selected access provider
+        /// </summary>
+        public string SelectedAccessProvider
+        {
+            get => Model.AccessProviderName;
+            set => PropertySetter(value, newValue =>
+            {
+                Model.AccessProviderName = newValue;
             });
         }
 

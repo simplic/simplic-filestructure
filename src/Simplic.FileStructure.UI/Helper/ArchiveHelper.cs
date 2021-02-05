@@ -79,9 +79,10 @@ namespace Simplic.FileStructure.UI.Helper
             var documentWin = win as StackBasedWindow;
             Console.WriteLine($"Window instance: {documentWin.Title}");
 
+            FileStructureDocumenPath newPath = null;
             documentWin.Loaded += (s, e) =>
             {
-                var newPath = new FileStructureDocumenPath
+                newPath = new FileStructureDocumenPath
                 {
                     DirectoryGuid = directory.Id,
                     WorkflowId = directory.WorkflowId,
@@ -98,6 +99,23 @@ namespace Simplic.FileStructure.UI.Helper
                 {
                     Parent = overViewControl.ViewModel
                 });
+            };
+
+            documentWin.Closed += (s, e) =>
+            {
+                if (directory.WorkflowId != null)
+                {
+                    if (documentWin.WindowMode == WindowMode.Edit)
+                    {
+                        var configurationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowConfigurationService>();
+                        var workflow = configurationService.Get(directory.WorkflowId.Value);
+                        if (!string.IsNullOrWhiteSpace(workflow.AccessProviderName))
+                        {
+                            var accessProvider = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowAccessProvider>(workflow.AccessProviderName);
+                            accessProvider.SetUserAccess(GlobalSettings.UserId, documentWin.GetInstanceDataGuid(), newPath.Id, fileStructure.Id, workflow);
+                        }
+                    }
+                }
             };
 
             win.Show();

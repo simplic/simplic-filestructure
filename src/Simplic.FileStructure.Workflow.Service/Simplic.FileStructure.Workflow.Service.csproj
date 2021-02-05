@@ -49,6 +49,8 @@
     <Compile Include="DocumentWorkflowTrackerService.cs" />
     <Compile Include="DocumentWorkflowUserService.cs" />
     <Compile Include="DocumentWorkflowAppSettingsService.cs" />
+    <Compile Include="DefaultDocumentWorkflowAccessProvider.cs" />
+    <Compile Include="NoneDocumentWorkflowAccessProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkflowOperationService.cs" />
     <Compile Include="WorkflowOrganizationUnitService.cs" />
@@ -64,8 +66,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Simplic.Authorization">
+      <Version>6.3.20.322</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Data">
       <Version>1.6.120.322</Version>
+    </PackageReference>
+    <PackageReference Include="Unity.Abstractions">
+      <Version>5.11.5</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

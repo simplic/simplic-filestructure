@@ -16,21 +16,27 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         {
             this.sqlService = sqlService;
         }
-        
+
 
         public bool IsDocumentInWorkflowCompleted(Guid documentId, Guid workflowId)
         {
-            
-                return sqlService.OpenConnection((connection) =>
-                {
-                    return connection.QueryFirst<bool>($"SELECT CASE WHEN EXISTS(SELECT * FROM FileStructure_DocumentPath where(workflowId = :workflowId " +
-                        " and documentGuid = :documentId)and WorkflowState != 10) THEN 0 ELSE 1 END",
-                        new
-                        {
-                            workflowId, documentId
-                        });
-                });
-            
+            return sqlService.OpenConnection((connection) =>
+            {
+                var isCompletedForUser = connection.QueryFirst<bool>($"SELECT CASE WHEN EXISTS(SELECT * FROM FileStructure_DocumentPath where(workflowId = :workflowId " +
+                    " and documentGuid = :documentId)and WorkflowState != 10) THEN 0 ELSE 1 END",
+                    new
+                    {
+                        workflowId,
+                        documentId
+                    });
+
+
+                if (!isCompletedForUser)
+                    return isCompletedForUser;
+
+                return connection.QueryFirst<int>("SELECT COUNT(*) FROM IT_Document_WorkflowOrganizationUnit_Assignment WHERE DocumentId = :documentId AND WorkflowId = :workflowId",
+                    new { documentId, workflowId }) == 0;
+            });
         }
     }
 }
