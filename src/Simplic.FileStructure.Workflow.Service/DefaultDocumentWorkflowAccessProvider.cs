@@ -47,12 +47,12 @@ namespace Simplic.FileStructure.Workflow.Service
                 accessChanged = true;
             }
 
-            if (access.UserWriteAccess == null)
-                access.UserWriteAccess = new List<int>();
+            if (access.UserFullAccess == null)
+                access.UserFullAccess = new List<int>();
 
-            if (!access.UserWriteAccess.Contains(userId))
+            if (!access.UserFullAccess.Contains(userId))
             {
-                access.UserWriteAccess.Add(userId);
+                access.UserFullAccess.Add(userId);
                 accessChanged = true;
             }
 
@@ -82,14 +82,14 @@ namespace Simplic.FileStructure.Workflow.Service
             if (userAssignments == null || !userAssignments.Any())
                 return;
 
-            if (access.UserWriteAccess == null)
-                access.UserWriteAccess = new List<int>();
+            if (access.UserFullAccess == null)
+                access.UserFullAccess = new List<int>();
 
             foreach (var assignment in userAssignments)
             {
-                if (!access.UserWriteAccess.Contains(assignment.UserId))
+                if (!access.UserFullAccess.Contains(assignment.UserId))
                 {
-                    access.UserWriteAccess.Add(assignment.UserId);
+                    access.UserFullAccess.Add(assignment.UserId);
                     accessChanged = true;
                 }
             }
