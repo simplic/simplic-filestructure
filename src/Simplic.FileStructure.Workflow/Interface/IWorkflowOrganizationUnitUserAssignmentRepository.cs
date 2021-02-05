@@ -18,5 +18,13 @@ namespace Simplic.FileStructure.Workflow
         /// <param name="guid">The guid that is passed through</param>
         /// <returns>A list of <see cref="WorkflowOrganizationUnitUserAssignment"/></returns>
         IEnumerable<WorkflowOrganizationUnitUserAssignment> GetByAssignmentId(Guid guid);
+
+        /// <summary>
+        /// Gets all user assignments for a specific workflow and organization
+        /// </summary>
+        /// <param name="workflowConfigurationId">Unique workflow id</param>
+        /// <param name="organizationUnitId">Unique organization id</param>
+        /// <returns>List of user-assignments</returns>
+        IEnumerable<WorkflowOrganizationUnitUserAssignment> GetForOrganizationByConfigurationId(Guid workflowConfigurationId, Guid organizationUnitId);
     }
 }

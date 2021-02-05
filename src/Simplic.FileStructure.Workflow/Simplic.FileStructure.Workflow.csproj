@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\DocumentWorkflowException.cs" />
+    <Compile Include="Interface\IDocumentWorkflowAccessProvider.cs" />
     <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentService.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateProvider.cs" />

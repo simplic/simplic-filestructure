@@ -49,6 +49,18 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return unitAssignment;
         }
 
+
+        /// <summary>
+        /// Gets all user assignments for a specific workflow and organization
+        /// </summary>
+        /// <param name="workflowConfigurationId">Unique workflow id</param>
+        /// <param name="organizationUnitId">Unique organization id</param>
+        /// <returns>List of user-assignments</returns>
+        public IEnumerable<WorkflowOrganizationUnitUserAssignment> GetForOrganizationByConfigurationId(Guid workflowConfigurationId, Guid organizationUnitId)
+        {
+            return workflowOrganizationUnitUserAssignmentRepository.GetForOrganizationByConfigurationId(workflowConfigurationId, organizationUnitId);
+        }
+
         public override bool Save(WorkflowOrganizationUnitAssignment obj)
         {
             base.Save(obj);

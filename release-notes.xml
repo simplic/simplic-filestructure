@@ -5,4 +5,13 @@
   <ChangeSet guid="2ff4ee77-6a85-4c6c-bba1-414f652f8201" version="4.1.20.1001" date="2020-10-02">
     <Change type="bug">Fixes a bug, that removes the workflow id when forwarding a document.</Change>
   </ChangeSet>
+  <ChangeSet guid="a05bdee5-8d32-4874-a0a3-36192e703ca5">
+    <Change type="enhancement">If a document is in an workflow-organization, it will not be set to state completed anymore and will stay in in-progress.</Change>
+    <Change type="enhancement">Documents can be completed, forwareded and copy-forwarded even if they are not checked-out. The check-out will be done automatically.</Change>
+    <Change type="feature">Adds the possibility to set access-provider.</Change>
+    <Change type="feature">Adds a default access-provider that does the follwoting things:
+1. When adding a document to the workflow, only the given user has access
+2. When forwarding a document to an user, the forwarded user gets access too
+3. When fowrading a document to an oranization-unit, all users in the unit gets access</Change> 
+</ChangeSet>
 </ReleaseNotes>
