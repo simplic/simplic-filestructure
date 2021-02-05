@@ -309,10 +309,9 @@ namespace Simplic.FileStructure.Workflow.UI
         {
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
-                if (row["OrganizationId"] != null)
+                if (Guid.TryParse(row["OrganizationId"]?.ToString(), out Guid organizationUnitId))
                 {
                     var documentId = (Guid)row["Guid"];
-                    var organizationUnitId = (Guid)row["OrganizationId"];
 
                     // The grid needs a the column workflow id 
                     var workflowId = (Guid)row["WorkflowId"];
