@@ -14,7 +14,12 @@
 2. When forwarding a document to an user, the forwarded user gets access too
 3. When fowrading a document to an oranization-unit, all users in the unit gets access</Change> 
 </ChangeSet>
-  <ChangeSet guid="5e6377fb-a652-47f7-92f1-a5b997a89e4d">
-    <Change type="bug">Fixes a misspelling in the WorkflowOrganzisationId =&gt; WorkflowOrganizationId</Change>
+    <ChangeSet guid="5e6377fb-a652-47f7-92f1-a5b997a89e4d">
+      Fixes a misspelling in the WorkflowOrganzisationId => WorkflowOrganizationId
+      We've renamed the property WorkflowOrganzisationId => WorkflowOrganzisationId Please check your custom code for the misspelled property. The following SQL-Statement
+      will return all scripts, that contains a misspelled property.
+
+      `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
+    </Change>
   </ChangeSet>
 </ReleaseNotes>
