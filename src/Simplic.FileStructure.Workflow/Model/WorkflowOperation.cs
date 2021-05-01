@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Represents the workflow operation
+    /// </summary>
     public class WorkflowOperation
     {
         /// <summary>

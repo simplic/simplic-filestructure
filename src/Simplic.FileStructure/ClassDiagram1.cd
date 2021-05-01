@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Simplic.FileStructure.Directory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAAAAAgAAAQAQAAAAAAIAAAAAAAAABAAA=</HashCode>
+      <FileName>Model\Directory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Simplic.FileStructure.DirectoryClassification" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAgAAAAAQAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\DirectoryClassification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.DirectoryClassificationField">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAA=</HashCode>
+      <FileName>Model\DirectoryClassificationField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.DirectoryField" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAAAACAAAAAAAAAAAgAAAAgAAAgAEAAAAA=</HashCode>
+      <FileName>Model\DirectoryField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.DirectoryType" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAACAEgAAAAAAAQAAAAAAgAAAAAAAAAAKAg=</HashCode>
+      <FileName>Model\DirectoryType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.DirectoryTypeClassification" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Model\DirectoryTypeClassification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.FieldType">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAggAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\FieldType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.FileStructure" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAQAAAAAAAAAABgAAAARAAoAAAAAAgAAAAAAAEAA=</HashCode>
+      <FileName>Model\FileStructure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.FileStructureDocumenPath" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAQAAAAgAIAAAACAAAAAAAEgIEAAAACAAAAAAA=</HashCode>
+      <FileName>Model\FileStructureDocumenPath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.FileStructureDocumenPathTracking" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\FileStructureDocumenPathTracking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.SyncQueueEntry" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAQAAEAAIAEAAAQAAAAAAAAQAAAABAAAA=</HashCode>
+      <FileName>Sync\SyncQueueEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simplic.FileStructure.Model.DirectoryFunction" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\DirectoryFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Simplic.FileStructure.IDirectoryClassificationFieldRepository" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryClassificationFieldRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryClassificationFieldService" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryClassificationFieldService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryClassificationRepository" Collapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryClassificationRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryClassificationService" Collapsed="true">
+    <Position X="6.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryClassificationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryFieldRepository" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryFieldRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryFieldService" Collapsed="true">
+    <Position X="3.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryFieldService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryTypeClassificationRepository">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryTypeClassificationRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryTypeClassificationService">
+    <Position X="6.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryTypeClassificationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryTypeRepository" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryTypeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IDirectoryTypeService" Collapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IDirectoryTypeService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFieldTypeRepository" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFieldTypeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFieldTypeService" Collapsed="true">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFieldTypeService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFileStructureDocumentPathRepository" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFileStructureDocumentPathRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFileStructureDocumentPathService" Collapsed="true">
+    <Position X="3.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFileStructureDocumentPathService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFileStructureDocumentPathTrackingRepository" Collapsed="true">
+    <Position X="12" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFileStructureDocumentPathTrackingRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFileStructureRepository" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAA=</HashCode>
+      <FileName>Interface\IFileStructureRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IFileStructureService" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFileStructureService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.IRenderingService" Collapsed="true">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Interface\IRenderingService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.ISyncQueueRepository" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sync\ISyncQueueRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.ISyncQueueService" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sync\ISyncQueueService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.ISyncStorageHashService" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAACAAACBAAAAAAAAAAAAAACgAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Sync\ISyncStorageHashService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.ISyncStorageService" Collapsed="true">
+    <Position X="17.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAACAAAACBAAAAAAAAAAQAQAAEAAAAEAAChAAAA=</HashCode>
+      <FileName>Sync\ISyncStorageService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simplic.FileStructure.ISyncStorageWatcherService" Collapsed="true">
+    <Position X="12" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sync\ISyncStorageWatcherService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Simplic.FileStructure.ChangeLocation" Collapsed="true">
+    <Position X="12" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Sync\ChangeLocation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Simplic.FileStructure.ChangeType" Collapsed="true">
+    <Position X="13.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAgAAAAAAAAAEAIACQAAAAAAAEAAAAAABA=</HashCode>
+      <FileName>Sync\ChangeType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Simplic.FileStructure.Model.DirectoryFunctionType" Collapsed="true">
+    <Position X="15.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\DirectoryFunctionType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Lucida Sans" Size="9.75" />
+</ClassDiagram>
