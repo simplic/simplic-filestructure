@@ -139,7 +139,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                    workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
+                    workflowOperation.WorkflowOrganizationId = workflowOrganzisationId;
                 }
                 try
                 {
@@ -178,7 +178,7 @@ namespace Simplic.FileStructure.Workflow.UI
         {
             Checkout(parameter);
 
-            Guid? workflowOrganzisationId = null;
+            Guid? workflowOrganizationId = null;
             int targetUserId = 0;
 
             if (parameter.SelectedRows.Count == 0)
@@ -209,7 +209,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
-                workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
+                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid");
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -232,7 +232,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                    workflowOperation.WorkflowOrganzisationId = workflowOrganzisationId;
+                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId;
                 }
 
                 try
@@ -343,7 +343,7 @@ namespace Simplic.FileStructure.Workflow.UI
                         UpdateDateTime = DateTime.Now,
                         ActionName = "forward",
                         WorkflowId = workflowId,
-                        WorkflowOrganzisationId = organizationUnitId,
+                        WorkflowOrganizationId = organizationUnitId,
                         DirectoryId = directoryId,
                         Guid = Guid.NewGuid()
                     };
