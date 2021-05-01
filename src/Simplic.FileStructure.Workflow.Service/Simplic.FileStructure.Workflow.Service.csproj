@@ -45,6 +45,7 @@
     <Compile Include="DocumentWorkflowConfigurationService.cs" />
     <Compile Include="DefaultDocumentWorkflowStateProvider.cs" />
     <Compile Include="DocumentWorkflowOrganizationUnitAssignmentService.cs" />
+    <Compile Include="DocumentWorkflowService.cs" />
     <Compile Include="DocumentWorkflowStateService.cs" />
     <Compile Include="DocumentWorkflowTrackerService.cs" />
     <Compile Include="DocumentWorkflowUserPermissionService.cs" />
