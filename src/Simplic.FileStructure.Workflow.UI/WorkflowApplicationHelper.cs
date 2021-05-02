@@ -203,7 +203,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
-                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid");
+                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid"); 
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -226,7 +226,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId;
+                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId; 
                 }
 
                 try

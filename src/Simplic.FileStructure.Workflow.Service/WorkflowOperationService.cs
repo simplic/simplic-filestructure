@@ -164,7 +164,7 @@ namespace Simplic.FileStructure.Workflow.Service
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation);
 
-                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
+                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue) 
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
             else
@@ -241,7 +241,7 @@ namespace Simplic.FileStructure.Workflow.Service
             var documentWorkflowOrganzitionUnitAssignment = new DocumentWorkflowOrganizationUnitAssignment
             {
                 DocumentId = workflowOperation.DocumentId,
-                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId,
+                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId, 
                 WorkflowId = workflowOperation.WorkflowId
             };
             documentWorkflowOrganizationUnitAssignmentService.Save(documentWorkflowOrganzitionUnitAssignment);
@@ -275,7 +275,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <returns>Document path id</returns>
         public Guid DocumentCheckout(WorkflowOperation workflowOperation)
         {
-            documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId);
+            documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId); 
 
             // Add path to forwarded user
             var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
