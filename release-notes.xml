@@ -23,5 +23,4 @@
 
     `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
   </ChangeSet>
-  </ChangeSet>
 </ReleaseNotes>

@@ -142,7 +142,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation);
 
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
             }
 
             //immer
@@ -165,7 +165,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation);
 
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue) 
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
             }
             else
             {

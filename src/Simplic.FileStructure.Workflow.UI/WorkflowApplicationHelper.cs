@@ -225,7 +225,7 @@ namespace Simplic.FileStructure.Workflow.UI
                 };
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
-                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit; 
                     workflowOperation.WorkflowOrganizationId = workflowOrganizationId; 
                 }
 
