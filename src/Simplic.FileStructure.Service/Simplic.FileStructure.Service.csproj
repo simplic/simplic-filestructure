@@ -67,10 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Log">
-      <Version>7.2.120.329</Version>
+      <Version>7.2.421.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Session">
       <Version>6.4.20.322</Version>
