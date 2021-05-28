@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="Exception\DocumentWorkflowException.cs" />
     <Compile Include="Interface\IDocumentWorkflowAccessProvider.cs" />
-    <Compile Include="Interface\IDocumentWorkflowContextRepository.cs" />
-    <Compile Include="Interface\IDocumentWorkflowContextService.cs" />
     <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentService.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateProvider.cs" />
@@ -56,8 +54,6 @@
     <Compile Include="Interface\IDocumentWorkflowStateService.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowTrackerService.cs" />
-    <Compile Include="Interface\IDocumentWorkflowUserPermissionRepository.cs" />
-    <Compile Include="Interface\IDocumentWorkflowUserPermissionService.cs" />
     <Compile Include="Interface\IDocumentWorkflowUserRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowUserService.cs" />
     <Compile Include="Interface\IDocumentWorkflowConfigurationRepository.cs" />
