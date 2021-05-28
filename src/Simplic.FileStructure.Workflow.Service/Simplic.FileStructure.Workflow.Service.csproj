@@ -72,7 +72,7 @@
       <Version>6.3.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
     <PackageReference Include="Unity.Abstractions">
       <Version>5.11.5</Version>

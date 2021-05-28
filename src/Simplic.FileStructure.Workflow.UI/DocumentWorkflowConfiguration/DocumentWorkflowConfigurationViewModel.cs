@@ -12,7 +12,6 @@ using Simplic.User;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Data;
 using Telerik.Windows.Persistence.Services;
-using Unity;
 
 namespace Simplic.FileStructure.Workflow.UI
 {

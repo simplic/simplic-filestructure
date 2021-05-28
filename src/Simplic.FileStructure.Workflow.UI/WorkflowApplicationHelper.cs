@@ -209,7 +209,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
-                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid");
+                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid"); 
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -231,8 +231,8 @@ namespace Simplic.FileStructure.Workflow.UI
                 };
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
-                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId;
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit; 
+                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId; 
                 }
 
                 try
@@ -260,6 +260,7 @@ namespace Simplic.FileStructure.Workflow.UI
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
+        // TODO: Why is here an never used method?
         private static AsyncItemBox ShowWorkflowUser()
         {
             var itembox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
