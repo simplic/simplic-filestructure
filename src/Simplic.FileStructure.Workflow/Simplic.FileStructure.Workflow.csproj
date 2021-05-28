@@ -82,10 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Simplic.CoreLib">
-      <Version>6.17.20.322</Version>
+      <Version>7.3.121.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
