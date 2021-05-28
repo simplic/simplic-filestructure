@@ -25,4 +25,5 @@
     `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
     ]]>
   </ChangeSet>
+  <Change type="bug">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
 </ReleaseNotes>

@@ -21,6 +21,8 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowTrackerService documentWorkflowTrackerService;
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
         private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
+        private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
+        private readonly IDocumentWorkflowStateProvider documentWorkflowStateProvider;
 
         /// <summary>
         /// Constructor for dependency injection 
@@ -38,7 +40,9 @@ namespace Simplic.FileStructure.Workflow.Service
                                         IDocumentWorkflowTrackerService documentWorkflowTrackerService,
                                         IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService,
                                         IDocumentWorkflowConfigurationService documentWorkflowConfigurationService,
-                                        IUnityContainer unityContainer)
+                                        IUnityContainer unityContainer,
+                                        IDocumentWorkflowAssignmentService documentWorkflowAssignmentService,
+                                        IDocumentWorkflowStateProvider documentWorkflowStateProvider)
         {
             this.fileStructureService = fileStructureService;
             this.documentWorkflowAppSettingsService = documentWorkflowAppSettingsService;
@@ -48,6 +52,8 @@ namespace Simplic.FileStructure.Workflow.Service
             this.documentWorkflowOrganizationUnitAssignmentService = documentWorkflowOrganizationUnitAssignmentService;
             this.unityContainer = unityContainer;
             this.documentWorkflowConfigurationService = documentWorkflowConfigurationService;
+            this.documentWorkflowAssignmentService = documentWorkflowAssignmentService;
+            this.documentWorkflowStateProvider = documentWorkflowStateProvider;
         }
 
         private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId)
@@ -145,7 +151,6 @@ namespace Simplic.FileStructure.Workflow.Service
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
             }
 
-            //immer
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
             path.WorkflowState = DocumentWorkflowStateType.Completed;
             fileStructureDocumentPathService.Save(path);
@@ -238,6 +243,14 @@ namespace Simplic.FileStructure.Workflow.Service
 
         private void SaveWorkflowOrganizationUnitAssignment(WorkflowOperation workflowOperation)
         {
+            var state = documentWorkflowStateProvider.ResolveDocumentWorkflowState(workflowOperation.DocumentId, workflowOperation.WorkflowId);
+            documentWorkflowAssignmentService.Save(new DocumentWorkflowAssignment
+            {
+                DocumentId = workflowOperation.DocumentId,
+                StateId = state.Guid,
+                WorkflowId = workflowOperation.WorkflowId
+            });
+
             var documentWorkflowOrganzitionUnitAssignment = new DocumentWorkflowOrganizationUnitAssignment
             {
                 DocumentId = workflowOperation.DocumentId,
