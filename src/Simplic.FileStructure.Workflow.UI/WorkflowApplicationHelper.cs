@@ -168,6 +168,12 @@ namespace Simplic.FileStructure.Workflow.UI
 
         }
 
+
+        /// <summary>
+        /// Forwards a copy to the user that will be shown in the itembox
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
             Checkout(parameter);
@@ -261,6 +267,12 @@ namespace Simplic.FileStructure.Workflow.UI
             return itembox;
         }
 
+
+        /// <summary>
+        /// Sets the state to complete 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult Complete(GridFunctionParameter parameter)
         {
             Checkout(parameter);
@@ -288,7 +300,12 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
-
+        
+        /// <summary>
+        /// Shows  the tracking for the parameter which is a document
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult ShowTracking(GridFunctionParameter parameter)
         {
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
