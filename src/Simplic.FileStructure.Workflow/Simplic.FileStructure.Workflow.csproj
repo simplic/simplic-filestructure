@@ -66,7 +66,6 @@
     <Compile Include="Interface\IWorkflowOrganizationUnitService.cs" />
     <Compile Include="Interface\IWorkflowOrganizationUnitUserAssignmentRepository.cs" />
     <Compile Include="Model\DocumentWorkflowAssignment.cs" />
-    <Compile Include="Model\DocumentWorkflowContext.cs" />
     <Compile Include="Model\DocumentWorkflowOrganizationUnitAssignment.cs" />
     <Compile Include="Model\DocumentWorkflowState.cs" />
     <Compile Include="Model\DocumentWorkflowTracker.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="Model\DocumentWorkflowAppSettings.cs" />
     <Compile Include="Model\DocumentWorkflowStateType.cs" />
     <Compile Include="Model\DocumentWorkflowConfiguration.cs" />
-    <Compile Include="Model\DocumentWorkflowUserPermission.cs" />
     <Compile Include="Model\WorkflowOperation.cs" />
     <Compile Include="Model\WorkflowOperationType.cs" />
     <Compile Include="Model\WorkflowOrganizationUnitUserAssignment.cs" />
