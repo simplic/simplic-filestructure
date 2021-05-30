@@ -26,4 +26,7 @@
     
   </ChangeSet>
   <Change type="bug" guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
+  <Change type="bug">
+    Fixes a bug when resolving worklow state-provider.
+  </Change>
 </ReleaseNotes>
