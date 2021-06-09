@@ -19,5 +19,13 @@ namespace Simplic.FileStructure.Workflow
         /// <param name="organizationId"></param>
         /// <returns></returns>
         bool DeleteByIds(Guid documentId, Guid organizationId);
+
+        /// <summary>
+        /// Gets a <see cref="DocumentWorkflowOrganizationUnitAssignment"/> based on the tuple between document id and organization id
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        DocumentWorkflowOrganizationUnitAssignment GetByIds(Guid documentId, Guid organizationId);
     }
 }

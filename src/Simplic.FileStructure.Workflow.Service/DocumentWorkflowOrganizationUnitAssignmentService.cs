@@ -25,6 +25,8 @@ namespace Simplic.FileStructure.Workflow.Service
 
         public IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetAll() => repository.GetAll();
 
+        public DocumentWorkflowOrganizationUnitAssignment GetByIds(Guid documentId, Guid organizationId) => repository.GetByIds(documentId, organizationId);
+
         public bool Save(DocumentWorkflowOrganizationUnitAssignment obj) => repository.Save(obj);
     }
 }

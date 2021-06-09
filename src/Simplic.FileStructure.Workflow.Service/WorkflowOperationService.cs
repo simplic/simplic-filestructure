@@ -275,6 +275,12 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <returns>Document path id</returns>
         public Guid DocumentCheckout(WorkflowOperation workflowOperation)
         {
+            //Check if the document is still inside 
+            if (documentWorkflowOrganizationUnitAssignmentService.GetByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId) != null)
+            {
+
+
+
             documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId);
 
             // Add path to forwarded user
@@ -313,6 +319,8 @@ namespace Simplic.FileStructure.Workflow.Service
             fileStructureDocumentPathService.Save(targetPath);
 
             return targetPath.Id;
+            }
+            throw new Exception();
         }
     }
 }

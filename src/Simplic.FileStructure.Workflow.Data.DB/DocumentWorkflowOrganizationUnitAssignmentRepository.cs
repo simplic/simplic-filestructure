@@ -33,6 +33,15 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return true;
         }
 
+        public DocumentWorkflowOrganizationUnitAssignment GetByIds(Guid documentId, Guid organizationId)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+               return connection.QueryFirstOrDefault<DocumentWorkflowOrganizationUnitAssignment>($"Select * from {TableName} where DocumentId =:documentId and WorkflowOrganizationUnitId = :organizationId",
+                    new { documentId, organizationId });
+            });
+        }
+
         public override Guid GetId(DocumentWorkflowOrganizationUnitAssignment obj) => obj.Guid;
     }
 }
