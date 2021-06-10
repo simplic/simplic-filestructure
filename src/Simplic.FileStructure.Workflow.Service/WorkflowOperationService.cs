@@ -158,7 +158,7 @@ namespace Simplic.FileStructure.Workflow.Service
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
         {
             var configuration = documentWorkflowConfigurationService.Get(workflowOperation.WorkflowId);
-            var accessProvider = unityContainer.Resolve< IDocumentWorkflowAccessProvider>(configuration.AccessProviderName);
+            var accessProvider = unityContainer.Resolve<IDocumentWorkflowAccessProvider>(configuration.AccessProviderName);
 
             if (workflowOperation.OperationType == WorkflowOperationType.WorkflowOrganizationUnit)
             {
@@ -278,49 +278,46 @@ namespace Simplic.FileStructure.Workflow.Service
             //Check if the document is still inside 
             if (documentWorkflowOrganizationUnitAssignmentService.GetByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId) != null)
             {
+                documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId);
 
+                // Add path to forwarded user
+                var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
+                if (workflow == null)
+                {
+                    throw new DocumentWorkflowException("workflow is null");
+                }
+                var targetStructure = fileStructureService.GetByInstanceDataGuid(workflow.Guid);
+                if (targetStructure == null)
+                {
+                    throw new DocumentWorkflowException("targetStructure is null");
+                }
 
+                var targetPath = new FileStructureDocumenPath
+                {
+                    DirectoryGuid = (Guid)workflowOperation.DirectoryId,
+                    WorkflowId = workflowOperation.WorkflowId,
+                    FileStructureGuid = targetStructure.Id,
+                    Id = Guid.NewGuid(),
+                    DocumentGuid = workflowOperation.DocumentId,
+                    IsProtectedPath = false,
+                    WorkflowState = DocumentWorkflowStateType.InReview
+                };
 
-            documentWorkflowOrganizationUnitAssignmentService.DeleteByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId);
+                var tracker = new DocumentWorkflowTracker
+                {
+                    ActionName = DocumentWorkflowStateType.ForwardedCopy,
+                    CreateDateTime = DateTime.Now,
+                    DocumentId = targetPath.DocumentGuid,
+                    TargetUserId = workflowOperation.TargetUserId,
+                    UserId = workflowOperation.UserId
+                };
 
-            // Add path to forwarded user
-            var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
-            if (workflow == null)
-            {
-                throw new DocumentWorkflowException("workflow is null");
+                documentWorkflowTrackerService.Save(tracker);
+                fileStructureDocumentPathService.Save(targetPath);
+
+                return targetPath.Id;
             }
-            var targetStructure = fileStructureService.GetByInstanceDataGuid(workflow.Guid);
-            if (targetStructure == null)
-            {
-                throw new DocumentWorkflowException("targetStructure is null");
-            }
-
-            var targetPath = new FileStructureDocumenPath
-            {
-                DirectoryGuid = (Guid)workflowOperation.DirectoryId,
-                WorkflowId = workflowOperation.WorkflowId,
-                FileStructureGuid = targetStructure.Id,
-                Id = Guid.NewGuid(),
-                DocumentGuid = workflowOperation.DocumentId,
-                IsProtectedPath = false,
-                WorkflowState = DocumentWorkflowStateType.InReview
-            };
-
-            var tracker = new DocumentWorkflowTracker
-            {
-                ActionName = DocumentWorkflowStateType.ForwardedCopy,
-                CreateDateTime = DateTime.Now,
-                DocumentId = targetPath.DocumentGuid,
-                TargetUserId = workflowOperation.TargetUserId,
-                UserId = workflowOperation.UserId
-            };
-
-            documentWorkflowTrackerService.Save(tracker);
-            fileStructureDocumentPathService.Save(targetPath);
-
-            return targetPath.Id;
-            }
-            throw new Exception();
+            throw new CoreException("S-0000009", "9ae836fb-40e8-43d3-9d57-85c17647684a", ExceptionType.Expected);
         }
     }
 }
