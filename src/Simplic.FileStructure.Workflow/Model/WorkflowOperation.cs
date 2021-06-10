@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+    /// <summary>
+    /// Represents the workflow operation
+    /// </summary>
     public class WorkflowOperation
     {
         /// <summary>
@@ -66,7 +69,7 @@ namespace Simplic.FileStructure.Workflow
         /// <summary>
         /// Gets or sets the workflow organization id, its based on the guid of <see cref="WorkflowOrganizationUnit.Guid"/>
         /// </summary>
-        public Guid? WorkflowOrganizationId { get; set; }
+        public Guid? WorkflowOrganizationId { get; set; }  
 
         /// <summary>
         /// Gets or sets the directory id

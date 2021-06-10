@@ -168,6 +168,12 @@ namespace Simplic.FileStructure.Workflow.UI
 
         }
 
+
+        /// <summary>
+        /// Forwards a copy to the user that will be shown in the itembox
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
             Checkout(parameter);
@@ -203,7 +209,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
-                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid");
+                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid"); 
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -225,8 +231,8 @@ namespace Simplic.FileStructure.Workflow.UI
                 };
                 if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
                 {
-                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId;
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit; 
+                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId; 
                 }
 
                 try
@@ -254,12 +260,19 @@ namespace Simplic.FileStructure.Workflow.UI
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
+        // TODO: Why is here an never used method?
         private static AsyncItemBox ShowWorkflowUser()
         {
             var itembox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
             return itembox;
         }
 
+
+        /// <summary>
+        /// Sets the state to complete 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult Complete(GridFunctionParameter parameter)
         {
             Checkout(parameter);
@@ -287,7 +300,12 @@ namespace Simplic.FileStructure.Workflow.UI
 
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
-
+        
+        /// <summary>
+        /// Shows  the tracking for the parameter which is a document
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public static GridInvokeMethodResult ShowTracking(GridFunctionParameter parameter)
         {
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
