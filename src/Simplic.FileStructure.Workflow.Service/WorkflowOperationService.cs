@@ -240,13 +240,6 @@ namespace Simplic.FileStructure.Workflow.Service
         private void SaveWorkflowOrganizationUnitAssignment(WorkflowOperation workflowOperation, string stateProvider)
         {
             var documentWorkflowStateProvider = unityContainer.Resolve<IDocumentWorkflowStateProvider>(stateProvider);
-            var state = documentWorkflowStateProvider.ResolveDocumentWorkflowState(workflowOperation.DocumentId, workflowOperation.WorkflowId);
-            documentWorkflowAssignmentService.Save(new DocumentWorkflowAssignment
-            {
-                DocumentId = workflowOperation.DocumentId,
-                StateId = state.Guid,
-                WorkflowId = workflowOperation.WorkflowId
-            });
 
             var documentWorkflowOrganzitionUnitAssignment = new DocumentWorkflowOrganizationUnitAssignment
             {
@@ -255,6 +248,14 @@ namespace Simplic.FileStructure.Workflow.Service
                 WorkflowId = workflowOperation.WorkflowId
             };
             documentWorkflowOrganizationUnitAssignmentService.Save(documentWorkflowOrganzitionUnitAssignment);
+
+            var state = documentWorkflowStateProvider.ResolveDocumentWorkflowState(workflowOperation.DocumentId, workflowOperation.WorkflowId);
+            documentWorkflowAssignmentService.Save(new DocumentWorkflowAssignment
+            {
+                DocumentId = workflowOperation.DocumentId,
+                StateId = state.Guid,
+                WorkflowId = workflowOperation.WorkflowId
+            });
         }
 
         /// <summary>
