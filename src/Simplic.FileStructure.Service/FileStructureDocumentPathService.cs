@@ -141,11 +141,11 @@ namespace Simplic.FileStructure.Service
 						if (workflow == null) throw new Exception($"Could not find workflow: {workflowId}");
 
 						var stateProvider = unityContainer.Resolve<IDocumentWorkflowStateProvider>(workflow.StateProviderName);
+						var state = stateProvider.ResolveDocumentWorkflowState(obj.DocumentGuid, workflowId);
+						if (state == null) throw new Exception($"Could not resolve initial state for document: {obj.DocumentGuid}");
 
 						if (!documentWorkflowAssignmentService.Exists(obj.DocumentGuid, workflowId))
 						{
-							var state = stateProvider.ResolveDocumentWorkflowState(obj.DocumentGuid, workflowId);
-							if (state == null) throw new Exception($"Could not resolve initial state for document: {obj.DocumentGuid}");
 
 							var assignment = new DocumentWorkflowAssignment
 							{
@@ -158,9 +158,6 @@ namespace Simplic.FileStructure.Service
 						}
 						else
 						{
-							var state = stateProvider.ResolveDocumentWorkflowState(obj.DocumentGuid, workflowId);
-							if (state == null) throw new Exception($"Could not resolve initial state for document: {obj.DocumentGuid}");
-
 							documentWorkflowAssignmentService.SetState(obj.DocumentGuid, workflowId, state.Guid);
 						}
 					}
