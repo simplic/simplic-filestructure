@@ -29,4 +29,8 @@
   <Change type="bug" guid="a567caa4-af73-4221-8b2d-dcf0a8d3d391">
     Fixes a bug when resolving worklow state-provider.
   </Change>
+  <Change type="bug">
+    Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
+    if they are still in an organization unit.
+  </Change>
 </ReleaseNotes>
