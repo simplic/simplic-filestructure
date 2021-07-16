@@ -32,5 +32,7 @@
   <Change type="bug" guid="3d7bda73-54bb-451a-9900-bdd9bdda20d1">
     Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
     if they are still in an organization unit.
-  </Change>
+  </Change>  
+  <Change type="bug">
+    Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".</Change>
 </ReleaseNotes>
