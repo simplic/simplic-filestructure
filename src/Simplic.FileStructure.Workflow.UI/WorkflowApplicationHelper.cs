@@ -206,7 +206,7 @@ namespace Simplic.FileStructure.Workflow.UI
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
 
-            if (itemBox.GetSelectedItemCell("InternalType").ToString() == "USer")
+            if (itemBox.GetSelectedItemCell("InternalType").ToString() == "User")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid"); 
