@@ -100,7 +100,7 @@ namespace Simplic.FileStructure.Workflow.UI
             if (itemBox.SelectedItem == null)
                 return new GridInvokeMethodResult { RefreshGrid = false };
 
-            if ((string)itemBox.GetSelectedItemCell("Type") == "Benutzer")
+            if ((string)itemBox.GetSelectedItemCell("InternalType") == "User")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganzisationId = (Guid)itemBox.GetSelectedItemCell("Guid");
@@ -136,7 +136,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid(),
                 };
 
-                if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
+                if (itemBox.GetSelectedItemCell("InternalType").ToString() == "Group")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                     workflowOperation.WorkflowOrganizationId = workflowOrganzisationId;
@@ -206,7 +206,7 @@ namespace Simplic.FileStructure.Workflow.UI
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
 
-            if (itemBox.GetSelectedItemCell("Type").ToString() == "Benutzer")
+            if (itemBox.GetSelectedItemCell("InternalType").ToString() == "USer")
                 targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
             else
                 workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid"); 
@@ -229,7 +229,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     WorkflowId = workflowId,
                     Guid = Guid.NewGuid()
                 };
-                if (itemBox.GetSelectedItemCell("Type").ToString() == "Gruppe")
+                if (itemBox.GetSelectedItemCell("InternalType").ToString() == "Group")
                 {
                     workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit; 
                     workflowOperation.WorkflowOrganizationId = workflowOrganizationId; 
