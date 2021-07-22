@@ -19,5 +19,17 @@ namespace Simplic.FileStructure.Workflow
         /// <param name="organizationId"></param>
         /// <returns></returns>
         bool DeleteByIds(Guid documentId, Guid organizationId);
+
+        /// <summary>
+        /// Gets a enumerable of the model based on a document id and a user id
+        /// <para>
+        /// It is primarly used for the workflow operation service checkout method
+        /// Look at <see cref="IWorkflowOperationService.DocumentCheckout(WorkflowOperation)"/> for more information
+        /// </para>
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId);
     }
 }

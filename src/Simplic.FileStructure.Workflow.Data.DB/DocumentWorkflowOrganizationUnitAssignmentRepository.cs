@@ -33,6 +33,19 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return true;
         }
 
+        public IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                string sql = $"SELECT docas.*, wouser.UserId FROM IT_Document_WorkflowOrganizationUnit_Assignment docas join FileStructure_WorkflowOrganizationUnit_Assignment wouas on docas.WorkflowOrganizationUnitId = wouas.WorkflowOrganisationUnitId and wouas.WorkflowId = docas.WorkflowId join FileStructure_WorkflowOrganizationUnit_UserAssignment wouser on wouser.WorkflowOrganzitionAssignmentId = wouas.Guid " +
+                    $"Where 1 = 1 " +
+                    $"And wouser.UserId = :userId " +
+                    $"AND docas.DocumentId = :documentId ";
+                return connection.Query<DocumentWorkflowOrganizationUnitAssignment>(sql,
+                    new { documentId = documentId, userId = userId});
+            });
+        }
+
         public override Guid GetId(DocumentWorkflowOrganizationUnitAssignment obj) => obj.Guid;
     }
 }
