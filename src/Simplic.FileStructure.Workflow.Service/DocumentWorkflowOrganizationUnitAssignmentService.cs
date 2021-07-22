@@ -28,8 +28,8 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="documentId"></param>
-        /// <param name="userId"></param>
+        /// <param name="documentId"><inheritdoc/></param>
+        /// <param name="userId"><inheritdoc/></param>
         /// <returns></returns>
         public IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId) => repository.GetByIds(documentId, userId);
 
