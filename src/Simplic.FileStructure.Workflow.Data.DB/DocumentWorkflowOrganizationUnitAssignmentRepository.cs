@@ -36,14 +36,16 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="documentId"></param>
-        /// <param name="userId"></param>
+        /// <param name="documentId"><inheritdoc/></param>
+        /// <param name="userId"><inheritdoc/></param>
         /// <returns></returns>
         public IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId)
         {
             return sqlService.OpenConnection((connection) =>
             {
-                string sql = $"SELECT docas.*, wouser.UserId FROM IT_Document_WorkflowOrganizationUnit_Assignment docas join FileStructure_WorkflowOrganizationUnit_Assignment wouas on docas.WorkflowOrganizationUnitId = wouas.WorkflowOrganisationUnitId and wouas.WorkflowId = docas.WorkflowId join FileStructure_WorkflowOrganizationUnit_UserAssignment wouser on wouser.WorkflowOrganzitionAssignmentId = wouas.Guid " +
+                string sql = $"SELECT docas.*, wouser.UserId FROM IT_Document_WorkflowOrganizationUnit_Assignment docas" +
+                $" join FileStructure_WorkflowOrganizationUnit_Assignment wouas on docas.WorkflowOrganizationUnitId = wouas.WorkflowOrganisationUnitId and wouas.WorkflowId = docas.WorkflowId " +
+                $"join FileStructure_WorkflowOrganizationUnit_UserAssignment wouser on wouser.WorkflowOrganzitionAssignmentId = wouas.Guid " +
                     $"Where 1 = 1 " +
                     $"And wouser.UserId = :userId " +
                     $"AND docas.DocumentId = :documentId ";
