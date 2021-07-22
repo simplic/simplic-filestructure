@@ -50,7 +50,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
                     $"And wouser.UserId = :userId " +
                     $"AND docas.DocumentId = :documentId ";
                 return connection.Query<DocumentWorkflowOrganizationUnitAssignment>(sql,
-                    new { documentId = documentId, userId = userId});
+                    new { documentId = documentId, userId = userId });
             });
         }
 
