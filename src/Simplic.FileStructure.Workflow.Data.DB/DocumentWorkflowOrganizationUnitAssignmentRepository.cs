@@ -33,6 +33,12 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return true;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId)
         {
             return sqlService.OpenConnection((connection) =>
