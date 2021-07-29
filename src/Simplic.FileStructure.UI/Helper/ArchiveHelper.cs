@@ -1,6 +1,7 @@
 ﻿using Simplic.Base;
 using Simplic.DataStack;
 using Simplic.Document;
+using Simplic.Document.UI;
 using Simplic.Framework.DynamicUI;
 using Simplic.Framework.Extension;
 using Simplic.Framework.Extension.UI;
@@ -73,8 +74,10 @@ namespace Simplic.FileStructure.UI.Helper
             var iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
 
             // Show document
-            var win = DynamicUIManager.Singleton.GetNew("Win_Document");
-            win.NewFile(filePath, stackService.GetStackId("STACK_Document"), 1, 1, 1);
+            //var win = DynamicUIManager.Singleton.GetNew("Win_Document");
+            //win.NewFile(filePath, stackService.GetStackId("STACK_Document"), 1, 1, 1);
+            var win = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWindow>();
+            win.NewDocumentFromDragAndDrop(filePath, stackService.GetStackId("STACK_Document"));
 
             var documentWin = win as StackBasedWindow;
             Console.WriteLine($"Window instance: {documentWin.Title}");

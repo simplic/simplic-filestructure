@@ -5,4 +5,7 @@
   <ChangeSet guid="2ff4ee77-6a85-4c6c-bba1-414f652f8201" version="4.1.20.1001" date="2020-10-02">
     <Change type="bug">Fixes a bug, that removes the workflow id when forwarding a document.</Change>
   </ChangeSet>
+  <ChangeSet>
+    <Change type="enhancement">Replaced all old python document windows with new c# ones.</Change>
+  </ChangeSet>
 </ReleaseNotes>
