@@ -27,5 +27,17 @@ namespace Simplic.FileStructure.Workflow
         /// <param name="organizationId"></param>
         /// <returns></returns>
         DocumentWorkflowOrganizationUnitAssignment GetByIds(Guid documentId, Guid organizationId);
+
+        /// Gets an enumerable of the model based on a document id and a user id
+        /// <para>
+        /// It is primarly used for the workflow operation service checkout method
+        /// Look at <see cref="IWorkflowOperationService.DocumentCheckout(WorkflowOperation)"/> for more information
+        /// </para>
+        /// </summary>
+        /// <param name="documentId">An unique identifier for a document</param>
+        /// <param name="userId">An identifier that represents the key of the user in the database</param>
+        /// <returns></returns>
+        IEnumerable<DocumentWorkflowOrganizationUnitAssignment> GetByIds(Guid documentId, long userId);
+
     }
 }
