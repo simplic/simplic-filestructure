@@ -90,10 +90,10 @@
       <Version>2.0.5</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
-      <Version>7.3.521.503</Version>
+      <Version>7.3.921.705</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Base">
-      <Version>7.5.921.505</Version>
+      <Version>7.5.1421.622</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization.Service">
       <Version>6.2.121.318</Version>
@@ -102,13 +102,13 @@
       <Version>6.4.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Studio.UI">
-      <Version>1.6.421.429</Version>
+      <Version>1.6.621.718</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Studio.UI.Input">
-      <Version>1.5.721.417</Version>
+      <Version>1.5.821.718</Version>
     </PackageReference>
     <PackageReference Include="Simplic.UI">
-      <Version>7.2.821.426</Version>
+      <Version>7.2.1021.718</Version>
     </PackageReference>
     <PackageReference Include="Simplic.User">
       <Version>6.3.20.1025</Version>
