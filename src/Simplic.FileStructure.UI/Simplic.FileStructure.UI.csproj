@@ -36,9 +36,6 @@
     <Reference Include="Simplic.Base">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Document.UI">
-      <HintPath>..\..\..\simplic-document\src\Simplic.Document.UI\obj\Debug\Simplic.Document.UI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -163,7 +160,10 @@
       <Version>7.0.20.328</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Document">
-      <Version>3.1.20.54</Version>
+      <Version>3.1.3720.54</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Document.UI">
+      <Version>3.1.2821.716</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
       <Version>7.2.120.329</Version>
