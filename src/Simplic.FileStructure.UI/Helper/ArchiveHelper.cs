@@ -77,7 +77,7 @@ namespace Simplic.FileStructure.UI.Helper
             //var win = DynamicUIManager.Singleton.GetNew("Win_Document");
             //win.NewFile(filePath, stackService.GetStackId("STACK_Document"), 1, 1, 1);
             var win = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWindow>();
-            win.NewFileFromBlob(filePath, stackService.GetStackId("STACK_Document"));
+            win.NewFileFromPath(filePath, stackService.GetStackId("STACK_Document"));
 
             var documentWin = win as StackBasedWindow;
             Console.WriteLine($"Window instance: {documentWin.Title}");

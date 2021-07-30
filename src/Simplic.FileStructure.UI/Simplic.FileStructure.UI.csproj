@@ -163,7 +163,7 @@
       <Version>3.1.3720.54</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Document.UI">
-      <Version>3.1.2821.716</Version>
+      <Version>3.1.3221.716</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
       <Version>7.2.120.329</Version>
