@@ -65,6 +65,8 @@
     <Compile Include="Interface\IWorkflowOrganizationUnitRepository.cs" />
     <Compile Include="Interface\IWorkflowOrganizationUnitService.cs" />
     <Compile Include="Interface\IWorkflowOrganizationUnitUserAssignmentRepository.cs" />
+    <Compile Include="Interface\IWorkflowSubstitutionRepository.cs" />
+    <Compile Include="Interface\IWorkflowSubstitutionService.cs" />
     <Compile Include="Model\DocumentWorkflowAssignment.cs" />
     <Compile Include="Model\DocumentWorkflowOrganizationUnitAssignment.cs" />
     <Compile Include="Model\DocumentWorkflowState.cs" />
