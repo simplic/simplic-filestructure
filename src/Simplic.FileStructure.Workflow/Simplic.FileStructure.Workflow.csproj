@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\DocumentWorkflowException.cs" />
+    <Compile Include="Interface\IDocumentWorkflowAccessProvider.cs" />
+    <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentRepository.cs" />
+    <Compile Include="Interface\IDocumentWorkflowOrganizationUnitAssignmentService.cs" />
     <Compile Include="Interface\IDocumentWorkflowStateProvider.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="Interface\IDocumentWorkflowAppSettingsService.cs" />
@@ -58,7 +61,12 @@
     <Compile Include="Interface\IDocumentWorkflowAssignmentService.cs" />
     <Compile Include="Interface\IWorkflowOperationRepository.cs" />
     <Compile Include="Interface\IWorkflowOperationService.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitAssignmentRepository.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitRepository.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitService.cs" />
+    <Compile Include="Interface\IWorkflowOrganizationUnitUserAssignmentRepository.cs" />
     <Compile Include="Model\DocumentWorkflowAssignment.cs" />
+    <Compile Include="Model\DocumentWorkflowOrganizationUnitAssignment.cs" />
     <Compile Include="Model\DocumentWorkflowState.cs" />
     <Compile Include="Model\DocumentWorkflowTracker.cs" />
     <Compile Include="Model\DocumentWorkflowUser.cs" />
@@ -66,11 +74,18 @@
     <Compile Include="Model\DocumentWorkflowStateType.cs" />
     <Compile Include="Model\DocumentWorkflowConfiguration.cs" />
     <Compile Include="Model\WorkflowOperation.cs" />
+    <Compile Include="Model\WorkflowOperationType.cs" />
+    <Compile Include="Model\WorkflowOrganizationUnitUserAssignment.cs" />
+    <Compile Include="Model\WorkflowOrganizationUnit.cs" />
+    <Compile Include="Model\WorkflowOrganizationUnitAssignment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Simplic.CoreLib">
+      <Version>7.3.121.426</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

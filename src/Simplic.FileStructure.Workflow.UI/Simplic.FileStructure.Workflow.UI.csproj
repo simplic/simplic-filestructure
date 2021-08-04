@@ -56,18 +56,28 @@
     <Compile Include="Controls\Window_DocumentWorkflow.xaml.cs">
       <DependentUpon>Window_DocumentWorkflow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationApplicationHelper.cs" />
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowConfigurationViewModel.cs" />
-    <Compile Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml.cs">
-      <DependentUpon>DocumentWorkflowContextWindow.xaml</DependentUpon>
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationApplicationHelper.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationViewModel.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationWindow.xaml.cs">
+      <DependentUpon>DocumentWorkflowConfigurationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DocumentWorkflowContext\IDocumentWorkflowConfigurationWindow.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\DragVisualProvider.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\IDocumentWorkflowConfigurationWindow.cs" />
+    <Compile Include="DocumentWorkflowConfiguration\WorkflowOrganizationUnitAssignmentViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectWorkflowOrganizationUnitViewModel.cs" />
+    <Compile Include="UserViewModel.cs" />
     <Compile Include="ViewModel\DocumentWorkflowAppSettingsViewModel.cs" />
     <Compile Include="WorkflowApplicationHelper.cs" />
+    <Compile Include="WorkflowOrganizationUnit\IWorkflowOrganizationUnitWindow.cs" />
+    <Compile Include="WorkflowOrganizationUnit\WorkflowOrganizationUnitApplicationHelper.cs" />
+    <Compile Include="WorkflowOrganizationUnit\WorkflowOrganizationUnitViewModel.cs" />
+    <Compile Include="WorkflowOrganizationUnit\WorkflowOrganizationUnitWindow.xaml.cs">
+      <DependentUpon>WorkflowOrganizationUnitWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -80,25 +90,31 @@
       <Version>2.0.5</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
-      <Version>7.2.120.329</Version>
+      <Version>7.3.521.503</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Base">
-      <Version>7.2.120.329</Version>
+      <Version>7.5.921.505</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization.Service">
-      <Version>6.1.18.917</Version>
+      <Version>6.2.121.318</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Session">
       <Version>6.4.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Studio.UI">
-      <Version>1.5.20.328</Version>
+      <Version>1.6.421.429</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Studio.UI.Input">
+      <Version>1.5.721.417</Version>
     </PackageReference>
     <PackageReference Include="Simplic.UI">
-      <Version>7.2.120.329</Version>
+      <Version>7.2.821.426</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.User">
+      <Version>6.3.20.1025</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -110,7 +126,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DocumentWorkflowContext\DocumentWorkflowContextWindow.xaml">
+    <Page Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowOrganizationUnit\WorkflowOrganizationUnitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

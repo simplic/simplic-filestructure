@@ -17,18 +17,20 @@ using Simplic.Framework.UI;
 namespace Simplic.FileStructure.Workflow.UI
 {
     /// <summary>
-    /// Interaction logic for DocumentWorkflowContextWindow.xaml
+    /// Interaction logic for WorkflowOrganizationUnitWindow.xaml
     /// </summary>
-    public partial class DocumentWorkflowConfigurationWindow : BaseDocumentWorkflowConfigurationWindow
+    
+    public partial class WorkflowOrganizationUnitWindow : BaseWorkflowOrganizationUnitWindow
     {
-        public DocumentWorkflowConfigurationWindow(IDocumentWorkflowConfigurationService service) : base(service)
+        public WorkflowOrganizationUnitWindow(IWorkflowOrganizationUnitService service) : base(service)
         {
+            
             InitializeComponent();
         }
     }
-    public abstract class BaseDocumentWorkflowConfigurationWindow : ApplicationWindow<Guid, DocumentWorkflowConfiguration, DocumentWorkflowConfigurationViewModel, IDocumentWorkflowConfigurationService>, IDocumentWorkflowConfigurationWindow
+    public abstract class BaseWorkflowOrganizationUnitWindow : ApplicationWindow<Guid, WorkflowOrganizationUnit, WorkflowOrganizationUnitViewModel, IWorkflowOrganizationUnitService>, IWorkflowOrganizationUnitWindow
     {
-        public BaseDocumentWorkflowConfigurationWindow(IDocumentWorkflowConfigurationService service)
+        public BaseWorkflowOrganizationUnitWindow(IWorkflowOrganizationUnitService service)
             : base(service)
         {
         }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Simplic.Collections.Generic;
 
 namespace Simplic.FileStructure.Workflow
 {
@@ -30,5 +32,12 @@ namespace Simplic.FileStructure.Workflow
         /// Gets or sets the state provider
         /// </summary>
         public string StateProviderName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current access provider
+        /// </summary>
+        public string AccessProviderName { get; set; } = "none";
+
+        public StatefulCollection<WorkflowOrganizationUnitAssignment> OrganizationUnits { get; set; } = new StatefulCollection<WorkflowOrganizationUnitAssignment>(new WorkflowOrganizationUnitAssignment[] { });
     }
 }

@@ -36,7 +36,6 @@ namespace Simplic.FileStructure.UI
         private static IFileStructureService fielStructureService;
         private static IFileStructureDocumentPathService fileStructureDocumentPathService;
 
-
         /// <summary>
         /// Initialize control
         /// </summary>
@@ -84,11 +83,13 @@ namespace Simplic.FileStructure.UI
                 searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+
                 };
 
                 searchOverviewGrid.GridView.Loaded += (s, e) =>
                 {
                     searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+
                 };
             }
 
@@ -301,6 +302,17 @@ namespace Simplic.FileStructure.UI
                         path.FileStructureGuid = targetDirectory.StructureViewModel.Model.Id;
 
                         service.Save(path);
+                    }
+
+                    if (targetDirectory.Model.WorkflowId != null)
+                    {
+                        var configurationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowConfigurationService>();
+                        var workflow = configurationService.Get(targetDirectory.Model.WorkflowId.Value);
+                        if (!string.IsNullOrWhiteSpace(workflow.AccessProviderName))
+                        {
+                            var accessProvider = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowAccessProvider>(workflow.AccessProviderName);
+                            accessProvider.SetUserAccess(GlobalSettings.UserId, path.DocumentGuid, path.Id, path.FileStructureGuid, workflow);
+                        }
                     }
                 }
 

@@ -148,13 +148,13 @@
       <Version>2.0.5</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Base">
-      <Version>7.2.120.329</Version>
+      <Version>7.2.621.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.CoreLib">
-      <Version>6.17.20.322</Version>
+      <Version>7.3.121.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
     <PackageReference Include="Simplic.DataStack">
       <Version>7.0.20.328</Version>
@@ -166,64 +166,70 @@
       <Version>3.1.3221.716</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
-      <Version>7.2.120.329</Version>
+      <Version>7.3.521.503</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Base">
-      <Version>7.2.120.329</Version>
+      <Version>7.5.921.505</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.DBUI">
-      <Version>7.3.20.622</Version>
+      <Version>7.5.1121.502</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.DocumentProcessing">
-      <Version>7.2.120.329</Version>
+      <Version>7.3.421.505</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Extension">
-      <Version>7.5.20.621</Version>
+      <Version>7.5.220.1007</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.Office">
-      <Version>7.2.120.329</Version>
+      <Version>7.3.321.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Icon">
-      <Version>6.0.18.620</Version>
+      <Version>6.0.120.1005</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Icon.UI">
-      <Version>6.1.18.917</Version>
+      <Version>6.1.220.1018</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization">
       <Version>6.1.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Localization.UI">
-      <Version>1.0.0.2</Version>
+      <Version>1.1.20.1208</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Log">
-      <Version>7.2.120.329</Version>
+      <Version>7.2.421.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Studio.UI">
-      <Version>1.5.20.328</Version>
+      <Version>1.6.421.429</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Studio.UI.Input">
+      <Version>1.5.721.417</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Studio.UI.Navigation">
       <Version>1.3.20.328</Version>
     </PackageReference>
     <PackageReference Include="Simplic.UI">
-      <Version>7.2.120.329</Version>
+      <Version>7.2.821.426</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Data.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.GanttView.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.GridView.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.Input.for.Wpf.Xaml">
+      <Version>2021.1.223</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
-      <Version>2020.1.218</Version>
+      <Version>2021.1.223</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

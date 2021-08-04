@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DocumentWorkflowAppSettingsRepository.cs" />
     <Compile Include="DocumentWorkflowAssignmentRepository.cs" />
+    <Compile Include="DocumentWorkflowOrganizationUnitAssignmentRepository.cs" />
     <Compile Include="DocumentWorkflowStateProviderRepository.cs" />
     <Compile Include="DocumentWorkflowStateRepository.cs" />
     <Compile Include="DocumentWorkflowTrackerRepository.cs" />
@@ -50,6 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentWorkflowConfigurationRepository.cs" />
     <Compile Include="WorkflowOperationRepository.cs" />
+    <Compile Include="WorkflowOrganizationUnitAssignmentRepository.cs" />
+    <Compile Include="WorkflowOrganizationUnitRepository.cs" />
+    <Compile Include="WorkflowOrganizationUnitUserAssignmentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj">
@@ -62,7 +66,7 @@
       <Version>6.1.20.217</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.120.322</Version>
+      <Version>1.7.21.325</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data.Sql">
       <Version>1.14.220.427</Version>

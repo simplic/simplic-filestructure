@@ -1,0 +1,30 @@
+﻿<local:BaseWorkflowOrganizationUnitWindow x:Class="Simplic.FileStructure.Workflow.UI.WorkflowOrganizationUnitWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Simplic.FileStructure.Workflow.UI" xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                                          mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="{simplic:Localization Key=dwc_internal_name}" Grid.Row="0"/>
+        <Label Content="{simplic:Localization Key=dwc_display_name}" Grid.Row="1"/>
+        
+
+        <simplic:TextBox Text="{Binding InternalName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
+        <simplic:TextBox Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+        
+    </Grid>
+</local:BaseWorkflowOrganizationUnitWindow>

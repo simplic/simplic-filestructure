@@ -29,7 +29,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
         {
             return sqlService.OpenConnection((connection) =>
             {
-                // TODO: Maybe it is better, to return an enumerable here.......
+                // TODO: Maybe it is better, to return an enumerable here....... 
                 return connection.QueryFirstOrDefault<DocumentWorkflowUser>($"SELECT * FROM {TableName} WHERE UserId = :userId",
                     new { userId });
             });
