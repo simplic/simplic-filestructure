@@ -48,7 +48,7 @@
     <Compile Include="DocumentWorkflowStateRepository.cs" />
     <Compile Include="DocumentWorkflowTrackerRepository.cs" />
     <Compile Include="DocumentWorkflowUserRepository.cs" />
-    <Compile Include="IWorkflowSubstitutionRepository.cs" />
+    <Compile Include="WorkflowSubstitutionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentWorkflowConfigurationRepository.cs" />
     <Compile Include="WorkflowOperationRepository.cs" />

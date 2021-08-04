@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simplic.FileStructure.Workflow
+namespace Simplic.FileStructure.Workflow.Data.DB
 {
     public class WorkflowSubstitutionRepository : IWorkflowSubstitutionRepository
     {
@@ -21,7 +21,7 @@ namespace Simplic.FileStructure.Workflow
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS(SELECT * FROM ESS_MS_Intern_User where " +
-                    "Ident = :userId" +
+                    "Ident = :userId " +
                     "SubstituteUserId = :substituteUserId " +
                     "and SubstitutionIsActive = 1) " +
                     "THEN 1 " +

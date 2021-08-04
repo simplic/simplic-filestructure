@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Simplic.FileStructure.Workflow
 {
+
     public interface IWorkflowSubstitutionService : IWorkflowSubstitutionRepository
     {
     }
