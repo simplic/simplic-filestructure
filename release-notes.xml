@@ -17,25 +17,38 @@
     </Change>
   </ChangeSet>
   <ChangeSet guid="5e6377fb-a652-47f7-92f1-a5b997a89e4d">
+    <Change type="bug">
+        Fixes a misspelling in the WorkflowOrganzisationId =&gt; WorkflowOrganizationId
+        We've renamed the property WorkflowOrganzisationId =&gt; WorkflowOrganzisationId Please check your custom code for the misspelled property. The following SQL-Statement
+        will return all scripts, that contains a misspelled property.
 
-    Fixes a misspelling in the WorkflowOrganzisationId =&gt; WorkflowOrganizationId
-    We've renamed the property WorkflowOrganzisationId =&gt; WorkflowOrganzisationId Please check your custom code for the misspelled property. The following SQL-Statement
-    will return all scripts, that contains a misspelled property.
-
-    `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
-
-  </ChangeSet>
-  <Change type="bug" guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
-  <Change type="bug" guid="a567caa4-af73-4221-8b2d-dcf0a8d3d391">
-    Fixes a bug when resolving worklow state-provider.
-  </Change>
-  <Change type="bug" guid="3d7bda73-54bb-451a-9900-bdd9bdda20d1">
-    Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
-    if they are still in an organization unit.
-  </Change>
-  <Change type="bug" guid="2318533f-41f6-4b42-ab60-e50393ed5ce8">
-    Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".</Change>
-  <ChangeSet guid="fdb20a9f-060b-4509-8ffe-ae71e26983b4">
+        `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
+      </Change>
+    </ChangeSet>
+    <ChangeSet guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">
+      <Change type="bug">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
+      <Change type="bug">Fixes a bug when resolving worklow state-provider.</Change>
+      <Change type="bug">
+        Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
+        if they are still in an organization unit.
+      </Change>
+      <Change type="bug">
+        Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
+      </Change>
+      <Change type="enhancement">Replaced all old python document windows with new c# ones.</Change>
+      <Change type="bug" guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
+      <Change type="bug" guid="a567caa4-af73-4221-8b2d-dcf0a8d3d391">
+        Fixes a bug when resolving worklow state-provider.
+      </Change>
+      <Change type="bug" guid="3d7bda73-54bb-451a-9900-bdd9bdda20d1">
+        Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
+        if they are still in an organization unit.
+      </Change>
+      <Change type="bug" guid="2318533f-41f6-4b42-ab60-e50393ed5ce8">
+        Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
+      </Change>
+    </ChangeSet>
+    <ChangeSet guid="fdb20a9f-060b-4509-8ffe-ae71e26983b4">
     <Change type="feature">Adds a method to get a workflow-document from a substitute user.</Change>
   </ChangeSet>
 </ReleaseNotes>
