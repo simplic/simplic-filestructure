@@ -367,6 +367,53 @@ namespace Simplic.FileStructure.Workflow.UI
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
+        /// <summary>
+        /// Forwards the document into the substitute folder
+        /// </summary>
+        /// <param name="gridFunctionParameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult ForwardToSubstitute(GridFunctionParameter gridFunctionParameter)
+        {
+            var documentId = Guid.Empty;
+            var pathService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureDocumentPathService>();
+
+            foreach (var documentRow in gridFunctionParameter.GetSelectedRowsAsDataRow())
+            {
+                documentId = (Guid)documentRow["Guid"];
+
+                if (documentId.Equals(Guid.Empty))
+                    continue;
+
+                var workflowId = (Guid)documentRow["WorkflowId"];
+                var targetUserId = (int)documentRow["UserId"];
+                var sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
+                var currentUserId = sessionService.CurrentSession.UserId;
+                var paths = pathService.GetByDocumentId(documentId);
+                var pathId = paths.FirstOrDefault(x => x.WorkflowState != DocumentWorkflowStateType.Completed).Id;
+                if (pathId == null)
+                    continue;
+
+                //The User is authorized to take the document
+                var workflowOperationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IWorkflowOperationService>();
+
+                workflowOperationService.ForwardTo(new WorkflowOperation
+                {
+                    DocumentId = documentId,
+                    UserId = currentUserId,
+                    TargetUserId = currentUserId,
+                    ActionName = "Forward",
+                    WorkflowId = workflowId,
+                    DocumentPath = pathId,
+                    OperationType = WorkflowOperationType.User,
+                });
+            }
+
+            return new GridInvokeMethodResult()
+            {
+                RefreshGrid = true,
+            };
+        }
+
         #endregion
     }
 }
