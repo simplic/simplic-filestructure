@@ -9,6 +9,8 @@ using Simplic.Framework.UI;
 using Simplic.Icon;
 using System;
 using System.Windows;
+using Prism.Events;
+using Simplic.Document.UI.Event;
 
 namespace Simplic.FileStructure.UI.Helper
 {
@@ -72,10 +74,16 @@ namespace Simplic.FileStructure.UI.Helper
             var fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             var directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
             var iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
+            
+            var eventAggregator = CommonServiceLocator.ServiceLocator.Current.GetInstance<IEventAggregator>();
+            var createDocumentEvent = eventAggregator.GetEvent<Document.UI.Event.CreateDocumentEvent>();
+
+            createDocumentEvent.Publish(new CreateDocumentEventArgs
+            {
+                
+            });
 
             // Show document
-            //var win = DynamicUIManager.Singleton.GetNew("Win_Document");
-            //win.NewFile(filePath, stackService.GetStackId("STACK_Document"), 1, 1, 1);
             var win = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWindow>();
             win.NewFileFromPath(filePath, stackService.GetStackId("STACK_Document"));
 

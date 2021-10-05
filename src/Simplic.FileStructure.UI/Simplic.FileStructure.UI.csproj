@@ -147,6 +147,9 @@
     <PackageReference Include="CommonServiceLocator">
       <Version>2.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Prism.Core">
+      <Version>7.2.0.1422</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Base">
       <Version>7.2.721.621</Version>
     </PackageReference>
@@ -164,6 +167,9 @@
     </PackageReference>
     <PackageReference Include="Simplic.Document.UI">
       <Version>3.1.2821.729</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Document.UI.Event">
+      <Version>1.0.100</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework">
       <Version>7.3.921.705</Version>
