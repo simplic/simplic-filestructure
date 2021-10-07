@@ -69,67 +69,22 @@ namespace Simplic.FileStructure.UI.Helper
         /// <param name="filePath">Path to the file to archvie</param>
         public static void ArchiveFile(FileStructure fileStructure, Directory directory, string filePath)
         {
-            var documentService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentService>();
-            var stackService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IStackService>();
-            var fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
-            var directoryTypeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDirectoryTypeService>();
-            var iconService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IIconService>();
-            
             var eventAggregator = CommonServiceLocator.ServiceLocator.Current.GetInstance<IEventAggregator>();
             var createDocumentEvent = eventAggregator.GetEvent<Document.UI.Event.CreateDocumentEvent>();
 
-            createDocumentEvent.Publish(new CreateDocumentEventArgs
+            var args = new CreateDocumentEventArgs
             {
-                
+                Path = filePath
+            };
+
+            args.DocumentPaths.Add(new CreateDocumentFileStructurePath
+            {
+                DirectoryId = directory.Id,
+                WorkflowId = directory.WorkflowId.Value,
+                FileStructureGuid = fileStructure.Id
             });
 
-            // Show document
-            var win = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWindow>();
-            win.NewFileFromPath(filePath, stackService.GetStackId("STACK_Document"));
-
-            var documentWin = win as StackBasedWindow;
-            Console.WriteLine($"Window instance: {documentWin.Title}");
-
-            FileStructureDocumenPath newPath = null;
-            documentWin.Loaded += (s, e) =>
-            {
-                newPath = new FileStructureDocumenPath
-                {
-                    DirectoryGuid = directory.Id,
-                    WorkflowId = directory.WorkflowId,
-                    FileStructureGuid = fileStructure.Id,
-                    DocumentGuid = documentWin.GetInstanceDataGuid()
-                };
-
-                Console.WriteLine("Path created");
-
-                var overViewControl = WPFVisualTreeHelper.FindChild<DocumentPathOverview>(documentWin);
-                Console.WriteLine($"Control: {overViewControl?.ToString() ?? "NULL"}");
-
-                overViewControl.ViewModel.Paths.Add(new DocumentPathViewModel(newPath, fileStructureService, directoryTypeService, iconService, stackService)
-                {
-                    Parent = overViewControl.ViewModel
-                });
-            };
-
-            documentWin.Closed += (s, e) =>
-            {
-                if (directory.WorkflowId != null)
-                {
-                    if (documentWin.WindowMode == WindowMode.Edit)
-                    {
-                        var configurationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowConfigurationService>();
-                        var workflow = configurationService.Get(directory.WorkflowId.Value);
-                        if (!string.IsNullOrWhiteSpace(workflow.AccessProviderName))
-                        {
-                            var accessProvider = CommonServiceLocator.ServiceLocator.Current.GetInstance<Workflow.IDocumentWorkflowAccessProvider>(workflow.AccessProviderName);
-                            accessProvider.SetUserAccess(GlobalSettings.UserId, documentWin.GetInstanceDataGuid(), newPath.Id, fileStructure.Id, workflow);
-                        }
-                    }
-                }
-            };
-
-            win.Show();
+            createDocumentEvent.Publish(args);
         }
     }
 }
