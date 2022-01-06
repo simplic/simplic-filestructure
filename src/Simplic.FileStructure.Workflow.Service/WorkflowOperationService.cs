@@ -86,9 +86,8 @@ namespace Simplic.FileStructure.Workflow.Service
             }
         }
 
-
         /// <summary>
-        /// Sends the document to the target user id user
+        /// Sends the document to the target user id user.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void ForwardTo(WorkflowOperation workflowOperation)
@@ -168,7 +167,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
                 TrackChanges(workflowOperation);
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
 
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
@@ -177,7 +176,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Sends a copy to the target user
+        /// Sends a copy to the target user.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
@@ -190,8 +189,8 @@ namespace Simplic.FileStructure.Workflow.Service
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
                 TrackChanges(workflowOperation);
 
-                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue) 
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
+                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
             else
             {
@@ -269,7 +268,7 @@ namespace Simplic.FileStructure.Workflow.Service
             var documentWorkflowOrganzitionUnitAssignment = new DocumentWorkflowOrganizationUnitAssignment
             {
                 DocumentId = workflowOperation.DocumentId,
-                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId, 
+                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId,
                 WorkflowId = workflowOperation.WorkflowId
             };
             documentWorkflowOrganizationUnitAssignmentService.Save(documentWorkflowOrganzitionUnitAssignment);
