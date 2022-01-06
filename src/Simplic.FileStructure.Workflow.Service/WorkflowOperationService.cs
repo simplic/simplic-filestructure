@@ -9,7 +9,7 @@ using Unity;
 namespace Simplic.FileStructure.Workflow.Service
 {
     /// <summary>
-    /// Represents the default implementation of the <see cref="IWorkflowOperationService"/>
+    /// Represents the default implementation of the <see cref="IWorkflowOperationService"/>.
     /// </summary>
     public class WorkflowOperationService : IWorkflowOperationService
     {
@@ -22,8 +22,9 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
         private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
         private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
+
         /// <summary>
-        /// Constructor for dependency injection 
+        /// Constructor for dependency injection.
         /// </summary>
         /// <param name="fileStructureService"></param>
         /// <param name="documentWorkflowAppSettingsService"></param>
@@ -283,7 +284,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Sets the state to complete
+        /// Sets the state to complete.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void Complete(WorkflowOperation workflowOperation)
@@ -304,7 +305,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Checks the document out of a workflow organization unit 
+        /// Checks the document out of a workflow organization unit.
         /// </summary>
         /// <param name="workflowOperation"></param>
         /// <returns>Document path id</returns>
