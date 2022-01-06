@@ -62,6 +62,11 @@ namespace Simplic.FileStructure.Workflow.Service
             // found for the specific user instance
             return null;
         }
+
+        /// <summary>
+        /// Tracks the changes a workflow operation creates.
+        /// </summary>
+        /// <param name="workflowOperation">The workflow operation that contains the operation that needs to be tracked</param>
         private void TrackChanges(WorkflowOperation workflowOperation)
         {
             DocumentWorkflowUser workflow = null;
