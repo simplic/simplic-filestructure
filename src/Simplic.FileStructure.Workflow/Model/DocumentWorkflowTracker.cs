@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Simplic.FileStructure.Workflow
 {
     /// <summary>
-    /// Represents a document workflow tracker
+    /// Represents a document workflow tracker.
     /// </summary>
     public class DocumentWorkflowTracker
     {
