@@ -62,6 +62,25 @@ namespace Simplic.FileStructure.Workflow.Service
             // found for the specific user instance
             return null;
         }
+        private void TrackChanges(WorkflowOperation workflowOperation)
+        {
+            DocumentWorkflowUser workflow = null;
+            if (workflowOperation.WorkflowOrganizationId != null)
+            {
+                var tracker = new DocumentWorkflowTracker
+                {
+                    ActionName = DocumentWorkflowStateType.Forwarded,
+                    CreateDateTime = DateTime.Now,
+                    DocumentId = workflowOperation.DocumentId,
+                    TargetUserId = workflowOperation.TargetUserId,
+                    UserId = workflowOperation.UserId,
+                    WorkflowOrganizationId = workflowOperation.WorkflowOrganizationId,
+                };
+
+                documentWorkflowTrackerService.Save(tracker);
+            }
+        }
+
 
         /// <summary>
         /// Sends the document to the target user id user
@@ -142,7 +161,7 @@ namespace Simplic.FileStructure.Workflow.Service
             else
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
-
+                TrackChanges(workflowOperation);
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
             }
@@ -164,6 +183,7 @@ namespace Simplic.FileStructure.Workflow.Service
             if (workflowOperation.OperationType == WorkflowOperationType.WorkflowOrganizationUnit)
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
+                TrackChanges(workflowOperation);
 
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue) 
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
