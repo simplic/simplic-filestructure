@@ -68,14 +68,13 @@ namespace Simplic.FileStructure.Workflow.Service
         /// Tracks the changes a workflow operation creates.
         /// </summary>
         /// <param name="workflowOperation">The workflow operation that contains the operation that needs to be tracked</param>
-        private void TrackChanges(WorkflowOperation workflowOperation)
+        private void TrackChanges(WorkflowOperation workflowOperation, DocumentWorkflowStateType documentWorkflowStateType)
         {
-            DocumentWorkflowUser workflow = null;
             if (workflowOperation.WorkflowOrganizationId != null)
             {
                 var tracker = new DocumentWorkflowTracker
                 {
-                    ActionName = DocumentWorkflowStateType.Forwarded,
+                    ActionName = documentWorkflowStateType,
                     CreateDateTime = DateTime.Now,
                     DocumentId = workflowOperation.DocumentId,
                     TargetUserId = workflowOperation.TargetUserId,
@@ -166,7 +165,7 @@ namespace Simplic.FileStructure.Workflow.Service
             else
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
-                TrackChanges(workflowOperation);
+                TrackChanges(workflowOperation, DocumentWorkflowStateType.Forwarded);
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
@@ -188,7 +187,7 @@ namespace Simplic.FileStructure.Workflow.Service
             if (workflowOperation.OperationType == WorkflowOperationType.WorkflowOrganizationUnit)
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
-                TrackChanges(workflowOperation);
+                TrackChanges(workflowOperation, DocumentWorkflowStateType.ForwardedCopy);
 
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
                     accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
