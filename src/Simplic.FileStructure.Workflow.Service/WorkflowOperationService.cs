@@ -9,7 +9,7 @@ using Unity;
 namespace Simplic.FileStructure.Workflow.Service
 {
     /// <summary>
-    /// Represents the default implementation of the <see cref="IWorkflowOperationService"/>
+    /// Represents the default implementation of the <see cref="IWorkflowOperationService"/>.
     /// </summary>
     public class WorkflowOperationService : IWorkflowOperationService
     {
@@ -22,8 +22,9 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
         private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
         private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
+
         /// <summary>
-        /// Constructor for dependency injection 
+        /// Constructor for dependency injection.
         /// </summary>
         /// <param name="fileStructureService"></param>
         /// <param name="documentWorkflowAppSettingsService"></param>
@@ -64,7 +65,29 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Sends the document to the target user id user
+        /// Tracks the changes a workflow operation creates.
+        /// </summary>
+        /// <param name="workflowOperation">The workflow operation that contains the operation that needs to be tracked</param>
+        private void TrackChanges(WorkflowOperation workflowOperation, DocumentWorkflowStateType documentWorkflowStateType)
+        {
+            if (workflowOperation.WorkflowOrganizationId != null)
+            {
+                var tracker = new DocumentWorkflowTracker
+                {
+                    ActionName = documentWorkflowStateType,
+                    CreateDateTime = DateTime.Now,
+                    DocumentId = workflowOperation.DocumentId,
+                    TargetUserId = workflowOperation.TargetUserId,
+                    UserId = workflowOperation.UserId,
+                    WorkflowOrganizationId = workflowOperation.WorkflowOrganizationId,
+                };
+
+                documentWorkflowTrackerService.Save(tracker);
+            }
+        }
+
+        /// <summary>
+        /// Sends the document to the target user id user.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void ForwardTo(WorkflowOperation workflowOperation)
@@ -142,9 +165,9 @@ namespace Simplic.FileStructure.Workflow.Service
             else
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
-
+                TrackChanges(workflowOperation, DocumentWorkflowStateType.Forwarded);
                 if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
 
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
@@ -153,7 +176,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Sends a copy to the target user
+        /// Sends a copy to the target user.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void ForwardCopyTo(WorkflowOperation workflowOperation)
@@ -164,9 +187,10 @@ namespace Simplic.FileStructure.Workflow.Service
             if (workflowOperation.OperationType == WorkflowOperationType.WorkflowOrganizationUnit)
             {
                 SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
+                TrackChanges(workflowOperation, DocumentWorkflowStateType.ForwardedCopy);
 
-                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue) 
-                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration); 
+                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
             }
             else
             {
@@ -244,7 +268,7 @@ namespace Simplic.FileStructure.Workflow.Service
             var documentWorkflowOrganzitionUnitAssignment = new DocumentWorkflowOrganizationUnitAssignment
             {
                 DocumentId = workflowOperation.DocumentId,
-                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId, 
+                WorkflowOrganizationUnitId = (Guid)workflowOperation.WorkflowOrganizationId,
                 WorkflowId = workflowOperation.WorkflowId
             };
             documentWorkflowOrganizationUnitAssignmentService.Save(documentWorkflowOrganzitionUnitAssignment);
@@ -259,7 +283,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Sets the state to complete
+        /// Sets the state to complete.
         /// </summary>
         /// <param name="workflowOperation"></param>
         public void Complete(WorkflowOperation workflowOperation)
@@ -280,7 +304,7 @@ namespace Simplic.FileStructure.Workflow.Service
         }
 
         /// <summary>
-        /// Checks the document out of a workflow organization unit 
+        /// Checks the document out of a workflow organization unit.
         /// </summary>
         /// <param name="workflowOperation"></param>
         /// <returns>Document path id</returns>
