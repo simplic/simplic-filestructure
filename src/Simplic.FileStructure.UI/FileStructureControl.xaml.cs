@@ -82,13 +82,13 @@ namespace Simplic.FileStructure.UI
                 // Set file-structure variable
                 searchOverviewGrid.GridView.SelectedProfileChanged += (s, e) =>
                 {
-                    searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                    searchOverviewGrid.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
 
                 };
 
                 searchOverviewGrid.GridView.Loaded += (s, e) =>
                 {
-                    searchOverviewGrid.GridView.EmbeddedGridView.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
+                    searchOverviewGrid.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", fileStructure.Id.ToString());
 
                 };
             }
