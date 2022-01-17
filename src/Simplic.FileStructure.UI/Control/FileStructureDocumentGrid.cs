@@ -1,5 +1,6 @@
 ﻿using Simplic.Framework.DBUI;
 using Simplic.Framework.Extension;
+using Simplic.Framework.Extension.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,11 @@ namespace Simplic.FileStructure.UI
     /// </summary>
     public class FileStructureDocumentGrid : UserControl
     {
-        private IntegratedGridView integratedGridView;
+        private InstanceDataGrid integratedGridView;
         private Directory lastDirectory;
         private DirectoryType lastDirectoryType;
         private IDictionary<Guid, DirectoryType> typeCache = new Dictionary<Guid, DirectoryType>();
-        private IList<IntegratedGridView> grids = new List<IntegratedGridView>();
+        private IList<InstanceDataGrid> grids = new List<InstanceDataGrid>();
 
         /// <summary>
         /// Directory id binding property
@@ -46,7 +47,7 @@ namespace Simplic.FileStructure.UI
 
         private void SetGrid(string configurationName)
         {
-            integratedGridView = grids.FirstOrDefault(x => x.Configuration.Name == configurationName);
+            integratedGridView = grids.FirstOrDefault(x => x.GridView.Configuration.Name == configurationName);
 
             if (integratedGridView != null)
                 Content = integratedGridView;
@@ -56,40 +57,24 @@ namespace Simplic.FileStructure.UI
                 if (string.IsNullOrWhiteSpace(configurationName))
                     configurationName = "Grid_Document_FileStructure";
 
-                integratedGridView = new IntegratedGridView();
+                integratedGridView = new InstanceDataGrid();
+                integratedGridView.SetBlobSettings(true, true);
+                integratedGridView.FillOnProfileChanged = false;
                 Content = integratedGridView;
 
                 // Handle additional script parameter
-                integratedGridView.MenuHandler.RequestScriptParameter += OnRequestScriptParameter;
-
-                integratedGridView.LoadConfiguration(configurationName);
+                integratedGridView.GridView.MenuHandler.RequestScriptParameter += OnRequestScriptParameter;
 
                 // Profile changed
-                integratedGridView.SelectedProfileChanged += (s, e) =>
+                integratedGridView.GridView.SelectedProfileChanged += (s, e) =>
                 {
                     lastDirectory = Directory;
-                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
-                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
-                    integratedGridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", Directory?.WorkflowId.ToString());
-                    
-                    integratedGridView.EmbeddedGridView.SelectionChanged += (sender, args) =>
-                    {
-                        if (args.AddedItems.Count > 0)
-                        {
-#pragma warning disable CS0618 // Type or member is obsolete
-                        var blob = ArchivManager.Singleton.GetBlobByObjectDictionary("STACK_Document", integratedGridView.EmbeddedGridView.GetItemAsDictionary(args.AddedItems.First()));
-#pragma warning restore CS0618 // Type or member is obsolete
-
-                        if (blob != null)
-                            {
-                                var blobId = (Guid)integratedGridView.EmbeddedGridView.SelectedItemAsDictionary["BlobGuid"];
-                                Framework.Extension.UI.ViewerHelper.ShowDocument(blob, integratedGridView.EmbeddedGridView.SelectedItemAsDictionary, blobId, "default");
-                            }
-                        }
-                    };
-
-                    integratedGridView.RefreshData();
+                    integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
+                    integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
+                    integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", Directory?.WorkflowId.ToString());
+                    integratedGridView.GridView.RefreshData();
                 };
+                integratedGridView.SetConfig(configurationName, String.Empty, StackHelper.Singleton.GetStackGuidByName("STACK_Document"), Guid.Empty, new List<Guid>());
 
                 grids.Add(integratedGridView);
             }
@@ -116,18 +101,18 @@ namespace Simplic.FileStructure.UI
 
                 if (grid.lastDirectory != null && grid.lastDirectory != currentDirectory && currentDirectory != null)
                 {
-                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
-                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
-                    grid.integratedGridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString());
-                    grid.integratedGridView.RefreshData();
+                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
+                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
+                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString());
+                    grid.integratedGridView.GridView.RefreshData();
 
                     grid.lastDirectory = currentDirectory;
                     grid.lastDirectoryType = currentDirectoryType;
                 }
                 if (currentDirectory == null || currentDirectory.Id == Guid.Empty)
                 {
-                    grid.integratedGridView.CancelLoading();
-                    grid.integratedGridView.EmbeddedGridView.Clear();
+                    grid.integratedGridView.GridView.CancelLoading();
+                    grid.integratedGridView.GridView.EmbeddedGridView.Clear();
 
                     grid.lastDirectory = currentDirectory;
                     grid.lastDirectoryType = currentDirectoryType;
