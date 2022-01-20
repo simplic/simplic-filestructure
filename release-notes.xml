@@ -51,4 +51,7 @@
     <ChangeSet guid="fdb20a9f-060b-4509-8ffe-ae71e26983b4">
     <Change type="feature">Adds a method to get a workflow-document from a substitute user.</Change>
   </ChangeSet>
+  <ChangeSet>
+	  <Change type="enhancement">Changes filestructure control to instancedatagrid.</Change>	
+  </ChangeSet>
 </ReleaseNotes>
