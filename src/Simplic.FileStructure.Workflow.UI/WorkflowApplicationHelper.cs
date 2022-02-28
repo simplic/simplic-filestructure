@@ -115,6 +115,11 @@ namespace Simplic.FileStructure.Workflow.UI
 
             var commentWindow = new Framework.Extension.NewCommentWindow(comment);
             commentWindow.ShowDialog();
+            if (commentWindow.WindowMode != Framework.UI.WindowMode.Edit)
+            {
+                return new GridInvokeMethodResult { RefreshGrid =false };
+            }
+
 
             foreach (var row in parameter.GetSelectedRowsAsDataRow())
             {
@@ -167,6 +172,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
 
         }
+
 
 
         /// <summary>
