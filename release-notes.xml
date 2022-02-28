@@ -54,10 +54,10 @@
   <ChangeSet guid="18940032-b267-4137-863a-910c7c53f61b">
 	  <Change type="enhancement">Changes filestructure control to instancedatagrid.</Change>	
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="973bb912-cc0c-4d15-b254-e08ff57d7867">
 	  <Change type="bug">Fixes a bug where the archive method through clipbard would throw a nullpointer exception.</Change>
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="dc3d3b49-684b-4c2e-b3da-9cf7a547c8a0">
 	  <Change type="feature">If the comment window gets canceld while forwarding a document, the document will not be forwarded.</Change>
   </ChangeSet>
 </ReleaseNotes>
