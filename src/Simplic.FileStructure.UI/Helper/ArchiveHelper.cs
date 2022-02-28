@@ -80,7 +80,7 @@ namespace Simplic.FileStructure.UI.Helper
             args.DocumentPaths.Add(new CreateDocumentFileStructurePath
             {
                 DirectoryId = directory.Id,
-                WorkflowId = directory.WorkflowId.Value,
+                WorkflowId = directory.WorkflowId.GetValueOrDefault(),
                 FileStructureGuid = fileStructure.Id
             });
 
