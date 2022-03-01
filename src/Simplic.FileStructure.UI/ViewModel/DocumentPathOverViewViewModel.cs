@@ -227,7 +227,6 @@ namespace Simplic.FileStructure.UI
                 var fileStructure = fileStructureService.Get(path.Model.FileStructureGuid);
                 
                 if (path.Model.WorkflowId != null && path.Model.WorkflowId == Guid.Empty)
-
                     path.Model.WorkflowId = null;
 
                 documentPathService.Save(path.Model);
