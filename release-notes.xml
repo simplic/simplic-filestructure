@@ -60,4 +60,7 @@
   <ChangeSet guid="dc3d3b49-684b-4c2e-b3da-9cf7a547c8a0">
 	  <Change type="feature">If the comment window gets canceld while forwarding a document, the document will not be forwarded.</Change>
   </ChangeSet>
+  <ChangeSet guid="9b42c2de-4501-4b8c-950a-a6327760a54b">
+	  <Change type="bug">Added a new exception handling for archiving a document. The exception happend while dropping a document on a folder.</Change>
+  </ChangeSet>
 </ReleaseNotes>
