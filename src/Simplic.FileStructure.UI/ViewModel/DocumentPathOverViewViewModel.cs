@@ -225,6 +225,10 @@ namespace Simplic.FileStructure.UI
             foreach (var path in paths)
             {
                 var fileStructure = fileStructureService.Get(path.Model.FileStructureGuid);
+                
+                if (path.Model.WorkflowId != null && path.Model.WorkflowId == Guid.Empty )
+                    path.Model.WorkflowId = null;
+
                 documentPathService.Save(path.Model);
             }
 
