@@ -253,5 +253,21 @@ namespace Simplic.FileStructure.UI
                 catch { return "Error loading Tooltip"; }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the status if this directory, is the return directory.
+        /// </summary>
+        public bool IsReturnDirectory
+        {
+            get
+            {
+                return model.IsReturnDirectory;
+            }
+
+            set
+            {
+                PropertySetter(value, (newValue) => { model.IsReturnDirectory = newValue; });
+            }
+        }
     }
 }
