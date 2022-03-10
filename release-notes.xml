@@ -63,7 +63,7 @@
   <ChangeSet guid="9b42c2de-4501-4b8c-950a-a6327760a54b">
 	  <Change type="bug">Added a new exception handling for archiving a document. The exception happend while dropping a document on a folder.</Change>
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="29e96273-1949-47ac-b0cc-6a84e66654c4">
 	  <Change type="feature">Add a return-directory and a method to get the name.</Change>	
   </ChangeSet>
 </ReleaseNotes>
