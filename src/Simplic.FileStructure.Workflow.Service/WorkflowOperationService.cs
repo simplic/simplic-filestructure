@@ -355,5 +355,22 @@ namespace Simplic.FileStructure.Workflow.Service
             }
             throw new CoreException("S-0000009", "9ae836fb-40e8-43d3-9d57-85c17647684a", ExceptionType.Expected);
         }
+
+        /// <summary>
+        /// Gets the name of the return-directory, the default is always the first directory.
+        /// </summary>
+        /// <param name="workflowOperation">The current workflow-operation.</param>
+        /// <returns></returns>
+        public string GetReturnDirectoryName(WorkflowOperation workflowOperation)
+        {
+            var fileStructure = fileStructureService.Get(workflowOperation.FileStructureId.GetValueOrDefault());
+            foreach (var directory in fileStructure.Directories)
+            {
+                if (directory.IsReturnDirectory)
+                    return directory.Name;
+
+            }
+            return fileStructure.Directories.FirstOrDefault().Name;
+        }
     }
 }
