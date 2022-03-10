@@ -43,6 +43,7 @@ namespace Simplic.FileStructure.UI
         private ICommand editMetaDataCommand;
         private ICommand renameDirectoryCommand;
         private ICommand assignWorkflowCommand;
+        private ICommand setReturnDirectory;
 
         private readonly ILocalizationService localizationService;
         private readonly IIconService iconService;
@@ -210,6 +211,19 @@ namespace Simplic.FileStructure.UI
                     return;
 
                 Helper.ArchiveHelper.ArchiveFromScanClient(model, selectedDirectory.Model);
+            }, (e) => { return selectedDirectory != null; });
+
+            setReturnDirectory = new RelayCommand((e) =>
+            {
+                var parentDirectory = selectedDirectory.StructureViewModel.Directories.FirstOrDefault(x =>
+                { 
+                    return x == selectedDirectory.Parent; 
+                });
+                foreach (var directory in parentDirectory.Directories)
+                {
+                    directory.IsReturnDirectory = false;
+                }
+                selectedDirectory.IsReturnDirectory = true;
             }, (e) => { return selectedDirectory != null; });
         }
 
@@ -771,6 +785,14 @@ namespace Simplic.FileStructure.UI
             }
         }
 
+        public ICommand SetReturnDirectory
+        {
+            get { return setReturnDirectory; }
+            set
+            {
+                setReturnDirectory = value;
+            }
+        }
         /// <summary>
         /// Gets a visibility falg based on <see cref="IsTemplate"/>
         /// </summary>

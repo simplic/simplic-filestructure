@@ -93,5 +93,10 @@ namespace Simplic.FileStructure
         /// Gets or sets the workflow id. The id will be used to identify the workflow configuration for specific directory.
         /// </summary>
         public Guid? WorkflowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status if this directory, is the return directory.
+        /// </summary>
+        public bool IsReturnDirectory { get; set; }
     }
 }
