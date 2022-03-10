@@ -7,6 +7,7 @@ using System.IO;
 using Simplic.Localization;
 using Simplic.Icon;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace Simplic.FileStructure.UI
 {
@@ -47,6 +48,7 @@ namespace Simplic.FileStructure.UI
 
 
             directories = new ObservableCollection<DirectoryViewModel>();
+
 
             this.structureViewModel = structureViewModel;
             this.model = model;
@@ -267,6 +269,15 @@ namespace Simplic.FileStructure.UI
             set
             {
                 PropertySetter(value, (newValue) => { model.IsReturnDirectory = newValue; });
+                RaisePropertyChanged(nameof(ReturnDirectoryVisibility));
+            }
+        }
+
+        public Visibility ReturnDirectoryVisibility
+        {
+            get
+            {
+                return IsReturnDirectory ? Visibility.Visible : Visibility.Collapsed;
             }
         }
     }
