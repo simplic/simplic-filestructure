@@ -93,7 +93,11 @@ namespace Simplic.FileStructure.Workflow.UI
 
             var itemBox = (AsyncGridItemBox)ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
             itemBox.SetPlaceholder("WorkflowId", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
-            itemBox.ShowDialog();
+            //itemBox.ShowDialog();
+
+            var win = new MultiItemBox();
+            win.ShowDialog();  
+
             int targetUserId = 0;
             Guid? workflowOrganzisationId = null;
 

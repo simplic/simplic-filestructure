@@ -217,25 +217,25 @@
       <Version>7.2.1021.718</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Data.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.GanttView.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.GridView.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Input.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
-      <Version>2021.1.223</Version>
+      <Version>2022.1.222</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
