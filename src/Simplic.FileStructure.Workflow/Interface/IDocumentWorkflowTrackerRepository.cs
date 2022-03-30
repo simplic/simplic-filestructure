@@ -12,6 +12,13 @@ namespace Simplic.FileStructure.Workflow
     /// </summary>
     public interface IDocumentWorkflowTrackerRepository : IRepositoryBase<Guid, DocumentWorkflowTracker>
     {
-
+        /// <summary>
+        /// Gets a bool value if the user has already sent this document within the specific workflow.
+        /// </summary>
+        /// <param name="documentId">The document id.</param>
+        /// <param name="workflowId">The workflow id.</param>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        bool IsDocumentUserAssigned(Guid documentId, int userId);
     }
 }

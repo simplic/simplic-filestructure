@@ -23,6 +23,7 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
         private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
 
+
         /// <summary>
         /// Constructor for dependency injection.
         /// </summary>
@@ -53,16 +54,33 @@ namespace Simplic.FileStructure.Workflow.Service
             this.documentWorkflowAssignmentService = documentWorkflowAssignmentService;
         }
 
-        private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId)
+        private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId, Guid documentId, int targetUserId)
         {
-            foreach (var directory in fileStructure.Directories)
-                if (directory.WorkflowId == workflowId)
-                    return directory;
+            var returnDirectory = GetReturnDirectory(fileStructure.Id);
+            var userDocument = documentWorkflowTrackerService.IsDocumentUserAssigned(documentId, targetUserId);
+
+
+            if (returnDirectory == null)
+            {
+                foreach (var directory in fileStructure.Directories)
+                    if (directory.WorkflowId == workflowId)
+                        return directory;
+            }
+            if (userDocument)
+            {
+                foreach (var directory in fileStructure.Directories)
+                    if (directory.WorkflowId == workflowId && directory.IsReturnDirectory)
+                        return directory;
+            }
+
+
 
             // TODO: Add exception handling, a workflow is not configurated/existing, if no directory was
             // found for the specific user instance
             return null;
         }
+
+
 
         /// <summary>
         /// Tracks the changes a workflow operation creates.
@@ -128,7 +146,13 @@ namespace Simplic.FileStructure.Workflow.Service
                 }
                 else
                 {
-                    var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
+                    var firstDirectory = FindWorkflowDirectory
+                        (
+                        targetStructure,
+                        workflowOperation.WorkflowId,
+                        workflowOperation.DocumentId,
+                        workflowOperation.TargetUserId
+                        );
 
                     if (firstDirectory == null)
                     {
@@ -174,6 +198,7 @@ namespace Simplic.FileStructure.Workflow.Service
             path.WorkflowState = DocumentWorkflowStateType.Completed;
             fileStructureDocumentPathService.Save(path);
         }
+
 
         /// <summary>
         /// Sends a copy to the target user.
@@ -225,7 +250,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 }
                 else
                 {
-                    var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId);
+                    var firstDirectory = FindWorkflowDirectory(targetStructure, workflowOperation.WorkflowId, workflowOperation.DocumentId, workflowOperation.TargetUserId);
 
                     if (firstDirectory == null)
                     {
@@ -361,16 +386,18 @@ namespace Simplic.FileStructure.Workflow.Service
         /// </summary>
         /// <param name="workflowOperation">The current workflow-operation.</param>
         /// <returns></returns>
-        public string GetReturnDirectoryName(WorkflowOperation workflowOperation)
+        public Directory GetReturnDirectory(Guid fileStructureId)
         {
-            var fileStructure = fileStructureService.Get(workflowOperation.FileStructureId.GetValueOrDefault());
+            var fileStructure = fileStructureService.Get(fileStructureId);
             foreach (var directory in fileStructure.Directories)
             {
                 if (directory.IsReturnDirectory)
-                    return directory.Name;
+                    return directory;
 
             }
-            return fileStructure.Directories.FirstOrDefault().Name;
+            return fileStructure.Directories.FirstOrDefault();
         }
+
+
     }
 }

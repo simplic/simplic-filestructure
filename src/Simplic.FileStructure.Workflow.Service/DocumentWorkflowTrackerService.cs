@@ -35,6 +35,12 @@ namespace Simplic.FileStructure.Workflow.Service
             return repository.GetAll();
         }
 
+        ///<inheritdoc/>
+        public bool IsDocumentUserAssigned(Guid documentId, int userId)
+        {
+            return repository.IsDocumentUserAssigned(documentId, userId);
+        }
+
         public bool Save(DocumentWorkflowTracker obj)
         {
             return repository.Save(obj);
