@@ -376,11 +376,8 @@ namespace Simplic.FileStructure.Workflow.Service
             var fileStructure = fileStructureService.Get(fileStructureId);
             
             foreach (var directory in fileStructure.Directories)
-            {
                 if (directory.IsReturnDirectory)
                     return directory;
-
-            }
 
             return fileStructure.Directories.FirstOrDefault();
         }
