@@ -66,7 +66,7 @@
   <ChangeSet guid="29e96273-1949-47ac-b0cc-6a84e66654c4">
 	  <Change type="feature">Add a return-directory and a method to get the name.</Change>	
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="4f405467-cea8-461a-b87e-bdc622cbb6fe">
     <Change type="feature">Adds an api to return the document inside a workflow to the selected return folder.</Change>	
   </ChangeSet>
 </ReleaseNotes>
