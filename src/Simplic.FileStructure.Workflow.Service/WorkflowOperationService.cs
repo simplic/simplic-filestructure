@@ -117,31 +117,24 @@ namespace Simplic.FileStructure.Workflow.Service
                 var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
 
                 if (workflow == null)
-                {
                     throw new DocumentWorkflowException("workflow is null");
-                }
 
                 var targetStructure = fileStructureService.GetByInstanceDataGuid(workflow.Guid);
 
                 if (targetStructure == null)
-                {
                     throw new DocumentWorkflowException("targetStructure is null");
-                }
 
                 var existingStructures = fileStructureDocumentPathService.GetByDocumentId(workflowOperation.DocumentId)
                                                                          .ToList();
 
                 if (existingStructures == null)
-                {
                     throw new DocumentWorkflowException("existingStructures is null");
-                }
 
                 var targetPath = existingStructures.FirstOrDefault(x => x.FileStructureGuid == targetStructure.Id);
 
                 if (targetPath != null)
-                {
                     targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
-                }
+
                 else
                 {
                     var firstDirectory = FindWorkflowDirectory(
@@ -320,7 +313,6 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <returns>Document path id</returns>
         public Guid DocumentCheckout(WorkflowOperation workflowOperation)
         {
-
             //Check if the document is still inside 
             if (documentWorkflowOrganizationUnitAssignmentService.GetByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId) != null)
             {
@@ -370,7 +362,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// Gets the name of the return-directory, the default is always the first directory.
         /// </summary>
         /// <param name="workflowOperation">The current workflow-operation.</param>
-        /// <returns></returns>
+        /// <returns>The directory that is either the return directory or the first directory of this specific filestructure.</returns>
         public Directory GetReturnDirectory(Guid fileStructureId)
         {
             var fileStructure = fileStructureService.Get(fileStructureId);
