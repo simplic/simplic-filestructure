@@ -29,7 +29,6 @@ namespace Simplic.FileStructure.Workflow.Data.DB
                     $"and UserId = :userId) Then '1' Else '0' End as Result ",
                     new { documentId, userId }).FirstOrDefault();
             });
-
         }
 
         public DocumentWorkflowTrackerRepository(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService) : base(sqlService, sqlColumnService, cacheService)

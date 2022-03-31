@@ -67,6 +67,6 @@
 	  <Change type="feature">Add a return-directory and a method to get the name.</Change>	
   </ChangeSet>
   <ChangeSet>
-	  <Change type="feature">Add api to return the document inside a workflow to the selected return folder.</Change>	
+	  <Change type="feature">Adds an api to return the document inside a workflow to the selected return folder.</Change>	
   </ChangeSet>
 </ReleaseNotes>

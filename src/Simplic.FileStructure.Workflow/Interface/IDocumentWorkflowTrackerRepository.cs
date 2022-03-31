@@ -18,7 +18,7 @@ namespace Simplic.FileStructure.Workflow
         /// <param name="documentId">The document id.</param>
         /// <param name="workflowId">The workflow id.</param>
         /// <param name="userId">The user id.</param>
-        /// <returns></returns>
+        /// <returns>A bool value to indicate if the user was assigned to the document</returns>
         bool IsDocumentUserAssigned(Guid documentId, int userId);
     }
 }
