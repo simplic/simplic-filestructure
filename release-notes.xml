@@ -1,72 +1,72 @@
 <ReleaseNotes>
-  <ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c" version="3.6.20.1001" date="2020-10-01">
-    <Change type="bug">Fixed a bug that was responsible for assigning the same workflow to each folder even if the folder was already assigned to a workflow</Change>
-  </ChangeSet>
-  <ChangeSet guid="2ff4ee77-6a85-4c6c-bba1-414f652f8201" version="4.1.20.1001" date="2020-10-02">
-    <Change type="bug">Fixes a bug, that removes the workflow id when forwarding a document.</Change>
-  </ChangeSet>
-  <ChangeSet guid="a05bdee5-8d32-4874-a0a3-36192e703ca5">
-    <Change type="enhancement">If a document is in an workflow-organization, it will not be set to state completed anymore and will stay in in-progress.</Change>
-    <Change type="enhancement">Documents can be completed, forwareded and copy-forwarded even if they are not checked-out. The check-out will be done automatically.</Change>
-    <Change type="feature">Adds the possibility to set access-provider.</Change>
-    <Change type="feature">
-      Adds a default access-provider that does the follwoting things:
-      1. When adding a document to the workflow, only the given user has access
-      2. When forwarding a document to an user, the forwarded user gets access too
-      3. When fowrading a document to an oranization-unit, all users in the unit gets access
-    </Change>
-  </ChangeSet>
-  <ChangeSet guid="5e6377fb-a652-47f7-92f1-a5b997a89e4d">
-    <Change type="bug">
-        Fixes a misspelling in the WorkflowOrganzisationId =&gt; WorkflowOrganizationId
-        We've renamed the property WorkflowOrganzisationId =&gt; WorkflowOrganzisationId Please check your custom code for the misspelled property. The following SQL-Statement
-        will return all scripts, that contains a misspelled property.
+	<ChangeSet guid="54d24eb7-2174-461d-9ea4-ee72f333540c" version="3.6.20.1001" date="2020-10-01">
+		<Change type="bug">Fixed a bug that was responsible for assigning the same workflow to each folder even if the folder was already assigned to a workflow</Change>
+	</ChangeSet>
+	<ChangeSet guid="2ff4ee77-6a85-4c6c-bba1-414f652f8201" version="4.1.20.1001" date="2020-10-02">
+		<Change type="bug">Fixes a bug, that removes the workflow id when forwarding a document.</Change>
+	</ChangeSet>
+	<ChangeSet guid="a05bdee5-8d32-4874-a0a3-36192e703ca5">
+		<Change type="enhancement">If a document is in an workflow-organization, it will not be set to state completed anymore and will stay in in-progress.</Change>
+		<Change type="enhancement">Documents can be completed, forwareded and copy-forwarded even if they are not checked-out. The check-out will be done automatically.</Change>
+		<Change type="feature">Adds the possibility to set access-provider.</Change>
+		<Change type="feature">
+			Adds a default access-provider that does the follwoting things:
+			1. When adding a document to the workflow, only the given user has access
+			2. When forwarding a document to an user, the forwarded user gets access too
+			3. When fowrading a document to an oranization-unit, all users in the unit gets access
+		</Change>
+	</ChangeSet>
+	<ChangeSet guid="5e6377fb-a652-47f7-92f1-a5b997a89e4d">
+		<Change type="bug">
+			Fixes a misspelling in the WorkflowOrganzisationId =&gt; WorkflowOrganizationId
+			We've renamed the property WorkflowOrganzisationId =&gt; WorkflowOrganzisationId Please check your custom code for the misspelled property. The following SQL-Statement
+			will return all scripts, that contains a misspelled property.
 
-        `SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
-      </Change>
-    </ChangeSet>
-    <ChangeSet guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">
-      <Change type="bug">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
-      <Change type="bug">Fixes a bug when resolving worklow state-provider.</Change>
-      <Change type="bug">
-        Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
-        if they are still in an organization unit.
-      </Change>
-      <Change type="bug">
-        Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
-      </Change>
-      <Change type="enhancement">Replaced all old python document windows with new c# ones.</Change>
-      <Change type="bug" guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
-      <Change type="bug" guid="a567caa4-af73-4221-8b2d-dcf0a8d3d391">
-        Fixes a bug when resolving worklow state-provider.
-      </Change>
-      <Change type="bug" guid="3d7bda73-54bb-451a-9900-bdd9bdda20d1">
-        Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
-        if they are still in an organization unit.
-      </Change>
-      <Change type="bug" guid="2318533f-41f6-4b42-ab60-e50393ed5ce8">
-        Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
-      </Change>
-    </ChangeSet>
-    <ChangeSet guid="fdb20a9f-060b-4509-8ffe-ae71e26983b4">
-    <Change type="feature">Adds a method to get a workflow-document from a substitute user.</Change>
-  </ChangeSet>
-  <ChangeSet guid="18940032-b267-4137-863a-910c7c53f61b">
-	  <Change type="enhancement">Changes filestructure control to instancedatagrid.</Change>	
-  </ChangeSet>
-  <ChangeSet guid="973bb912-cc0c-4d15-b254-e08ff57d7867">
-	  <Change type="bug">Fixes a bug where the archive method through clipbard would throw a nullpointer exception.</Change>
-  </ChangeSet>
-  <ChangeSet guid="dc3d3b49-684b-4c2e-b3da-9cf7a547c8a0">
-	  <Change type="feature">If the comment window gets canceld while forwarding a document, the document will not be forwarded.</Change>
-  </ChangeSet>
-  <ChangeSet guid="9b42c2de-4501-4b8c-950a-a6327760a54b">
-	  <Change type="bug">Added a new exception handling for archiving a document. The exception happend while dropping a document on a folder.</Change>
-  </ChangeSet>
-  <ChangeSet guid="29e96273-1949-47ac-b0cc-6a84e66654c4">
-	  <Change type="feature">Add a return-directory and a method to get the name.</Change>	
-  </ChangeSet>
-  <ChangeSet>
-	  <Change type="feature">Adds an api to return the document inside a workflow to the selected return folder.</Change>	
-  </ChangeSet>
+			`SELECT FullPath FROM Repository_Head WHERE Content LIKE '%WorkflowOrganzisationId%' and ContentType = 'py'`
+		</Change>
+	</ChangeSet>
+	<ChangeSet guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">
+		<Change type="bug">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
+		<Change type="bug">Fixes a bug when resolving worklow state-provider.</Change>
+		<Change type="bug">
+			Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
+			if they are still in an organization unit.
+		</Change>
+		<Change type="bug">
+			Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
+		</Change>
+		<Change type="enhancement">Replaced all old python document windows with new c# ones.</Change>
+		<Change type="bug" guid="ccfbe30a-eeb1-4146-b629-4d9ea55bc15a">Documents in the workflow that are only in one organization unit are now also displayed in the workflow overview.</Change>
+		<Change type="bug" guid="a567caa4-af73-4221-8b2d-dcf0a8d3d391">
+			Fixes a bug when resolving worklow state-provider.
+		</Change>
+		<Change type="bug" guid="3d7bda73-54bb-451a-9900-bdd9bdda20d1">
+			Fixes a bug, when resoving th workflow-state is done before adding a document to the workflow. This prevents from being set to "completed",
+			if they are still in an organization unit.
+		</Change>
+		<Change type="bug" guid="2318533f-41f6-4b42-ab60-e50393ed5ce8">
+			Fixes an issue where forwarding from the document mask does not set a document to "done". In the ItemBox IB_Document_Workflow_User the Type column has been changed to InternalType and now returns "Group" and "User".
+		</Change>
+	</ChangeSet>
+	<ChangeSet guid="fdb20a9f-060b-4509-8ffe-ae71e26983b4">
+		<Change type="feature">Adds a method to get a workflow-document from a substitute user.</Change>
+	</ChangeSet>
+	<ChangeSet guid="18940032-b267-4137-863a-910c7c53f61b">
+		<Change type="enhancement">Changes filestructure control to instancedatagrid.</Change>
+	</ChangeSet>
+	<ChangeSet guid="973bb912-cc0c-4d15-b254-e08ff57d7867">
+		<Change type="bug">Fixes a bug where the archive method through clipbard would throw a nullpointer exception.</Change>
+	</ChangeSet>
+	<ChangeSet guid="dc3d3b49-684b-4c2e-b3da-9cf7a547c8a0">
+		<Change type="feature">If the comment window gets canceld while forwarding a document, the document will not be forwarded.</Change>
+	</ChangeSet>
+	<ChangeSet guid="9b42c2de-4501-4b8c-950a-a6327760a54b">
+		<Change type="bug">Added a new exception handling for archiving a document. The exception happend while dropping a document on a folder.</Change>
+	</ChangeSet>
+	<ChangeSet guid="29e96273-1949-47ac-b0cc-6a84e66654c4">
+		<Change type="feature">Add a return-directory and a method to get the name.</Change>
+	</ChangeSet>
+	<ChangeSet>
+		<Change type="feature">Adds an api to return the document inside a workflow to the selected return folder.</Change>
+	</ChangeSet>
 </ReleaseNotes>
