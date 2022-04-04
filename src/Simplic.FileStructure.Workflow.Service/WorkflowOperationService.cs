@@ -56,15 +56,7 @@ namespace Simplic.FileStructure.Workflow.Service
 
         private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId, Guid documentId, int targetUserId)
         {
-            var returnDirectory = GetReturnDirectory(fileStructure.Id);
             var userDocument = documentWorkflowTrackerService.IsDocumentUserAssigned(documentId, targetUserId);
-
-            if (returnDirectory == null)
-            {
-                foreach (var directory in fileStructure.Directories)
-                    if (directory.WorkflowId == workflowId)
-                        return directory;
-            }
 
             if (userDocument)
             {
@@ -72,6 +64,9 @@ namespace Simplic.FileStructure.Workflow.Service
                     if (directory.WorkflowId == workflowId && directory.IsReturnDirectory)
                         return directory;
             }
+            foreach (var directory in fileStructure.Directories)
+                if (directory.WorkflowId == workflowId)
+                    return directory;
 
             // TODO: Add exception handling, a workflow is not configurated/existing, if no directory was
             // found for the specific user instance
@@ -130,10 +125,18 @@ namespace Simplic.FileStructure.Workflow.Service
                 if (existingStructures == null)
                     throw new DocumentWorkflowException("existingStructures is null");
 
+
                 var targetPath = existingStructures.FirstOrDefault(x => x.FileStructureGuid == targetStructure.Id);
 
+
+
+
                 if (targetPath != null)
+                {
+                    var returnFolder = GetReturnDirectory(targetPath.FileStructureGuid, targetPath.WorkflowId.Value);
+                    targetPath.DirectoryGuid = returnFolder.Id;
                     targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
+                }
 
                 else
                 {
@@ -226,7 +229,11 @@ namespace Simplic.FileStructure.Workflow.Service
                 var targetPath = existingStructures.FirstOrDefault(x => x.FileStructureGuid == targetStructure.Id);
 
                 if (targetPath != null)
+                {
+                    var returnFolder = GetReturnDirectory(targetPath.FileStructureGuid, targetPath.WorkflowId.Value);
+                    targetPath.DirectoryGuid = returnFolder.Id;
                     targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
+                }
 
                 else
                 {
@@ -363,12 +370,12 @@ namespace Simplic.FileStructure.Workflow.Service
         /// </summary>
         /// <param name="workflowOperation">The current workflow-operation.</param>
         /// <returns>The directory that is either the return directory or the first directory of this specific filestructure.</returns>
-        public Directory GetReturnDirectory(Guid fileStructureId)
+        public Directory GetReturnDirectory(Guid fileStructureId, Guid workflowId)
         {
             var fileStructure = fileStructureService.Get(fileStructureId);
-            
+
             foreach (var directory in fileStructure.Directories)
-                if (directory.IsReturnDirectory)
+                if (directory.IsReturnDirectory && directory.WorkflowId == workflowId)
                     return directory;
 
             return fileStructure.Directories.FirstOrDefault();

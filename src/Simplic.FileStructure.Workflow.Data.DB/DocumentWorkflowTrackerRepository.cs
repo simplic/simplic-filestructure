@@ -26,7 +26,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.Query<bool>($"Select case when Exists(Select * from {TableName} where DocumentId =:documentId " +
-                    $"and UserId = :userId) Then '1' Else '0' End as Result ",
+                    $"and UserId = :userId) Then 1 Else 0 End as Result ",
                     new { documentId, userId }).FirstOrDefault();
             });
         }
