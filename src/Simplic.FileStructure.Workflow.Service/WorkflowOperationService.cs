@@ -125,11 +125,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 if (existingStructures == null)
                     throw new DocumentWorkflowException("existingStructures is null");
 
-
                 var targetPath = existingStructures.FirstOrDefault(x => x.FileStructureGuid == targetStructure.Id);
-
-
-
 
                 if (targetPath != null)
                 {
