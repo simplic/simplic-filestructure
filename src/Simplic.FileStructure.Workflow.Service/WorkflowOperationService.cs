@@ -73,8 +73,6 @@ namespace Simplic.FileStructure.Workflow.Service
             return null;
         }
 
-
-
         /// <summary>
         /// Tracks the changes a workflow operation creates.
         /// </summary>
