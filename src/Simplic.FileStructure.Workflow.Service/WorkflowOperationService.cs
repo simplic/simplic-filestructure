@@ -370,12 +370,12 @@ namespace Simplic.FileStructure.Workflow.Service
         /// </summary>
         /// <param name="workflowOperation">The current workflow-operation.</param>
         /// <returns>The directory that is either the return directory or the first directory of this specific filestructure.</returns>
-        public Directory GetReturnDirectory(Guid fileStructureId, Guid workFlowId)
+        public Directory GetReturnDirectory(Guid fileStructureId, Guid workflowId)
         {
             var fileStructure = fileStructureService.Get(fileStructureId);
 
             foreach (var directory in fileStructure.Directories)
-                if (directory.IsReturnDirectory && directory.WorkflowId == workFlowId)
+                if (directory.IsReturnDirectory && directory.WorkflowId == workflowId)
                     return directory;
 
             return fileStructure.Directories.FirstOrDefault();
