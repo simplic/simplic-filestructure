@@ -1,0 +1,21 @@
+﻿<simplic:DefaultRibbonWindow x:Class="Simplic.FileStructure.Workflow.UI.MultiItemBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"               
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel>
+            <simplic:MultiSelectionComboBox ItemBoxParam="{Binding DictParams, Mode=TwoWay}" ItemBoxName="IB_Document_Workflow_User"
+                                          DisplayMemberPath="DisplayName" ItemsSource="{Binding MultiItemboxItems, Mode=TwoWay}"
+                                          SelectionMode="Multiple">
+                <simplic:MultiSelectionComboBox.ItemsSourceProvider>
+                    <simplic:MultiItemProvider />
+                </simplic:MultiSelectionComboBox.ItemsSourceProvider>
+            </simplic:MultiSelectionComboBox>
+        </StackPanel>
+        <simplic:SyTextBox Height="100" Width="400" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="commentTextBox" VerticalAlignment="Bottom"  />
+    </Grid>
+</simplic:DefaultRibbonWindow>

@@ -66,6 +66,10 @@
     <Compile Include="DocumentWorkflowConfiguration\WorkflowOrganizationUnitAssignmentViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
+    <Compile Include="MultiItemBox.xaml.cs">
+      <DependentUpon>MultiItemBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultiItemBoxViewModel.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectWorkflowOrganizationUnitViewModel.cs" />
@@ -108,10 +112,10 @@
       <Version>1.5.821.718</Version>
     </PackageReference>
     <PackageReference Include="Simplic.UI">
-      <Version>7.2.1021.718</Version>
+      <Version>7.2.1422.422</Version>
     </PackageReference>
     <PackageReference Include="Simplic.User">
-      <Version>6.3.20.1025</Version>
+      <Version>9.0.122.426</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
       <Version>2021.1.223</Version>
@@ -127,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DocumentWorkflowConfiguration\DocumentWorkflowConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MultiItemBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
