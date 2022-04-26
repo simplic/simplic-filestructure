@@ -112,7 +112,7 @@
       <Version>1.5.821.718</Version>
     </PackageReference>
     <PackageReference Include="Simplic.UI">
-      <Version>7.2.1422.422</Version>
+      <Version>7.2.1522.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.User">
       <Version>9.0.122.426</Version>
