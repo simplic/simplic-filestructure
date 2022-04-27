@@ -89,104 +89,23 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
-            Checkout(parameter);
-
-            if (parameter.SelectedRows.Count == 0)
+            var workflowOperationList = WorkflowOperationsGet(parameter);
+            foreach (var workflowOperation in workflowOperationList)
             {
-                return GridInvokeMethodResult.NoGridRefresh();
-            }
-
-            Dictionary<string, string> dictParams = new Dictionary<string, string>();
-            dictParams.Add("[WorkflowId]", "0a2e6fa8-2ee9-4d2e-a6e1-48cb2bf66078");
-
-            var win = new MultiItemBox(dictParams);
-            win.ShowDialog();
-
-            var test2 = win.DataContext;
-            ObservableCollection<IMultiSelectionComboBoxItem> itemList = null;
-            var commentText = "";
-
-            if (test2 is MultiItemBoxViewModel multiItemBoxViewModel)
-            {
-                itemList = multiItemBoxViewModel.MultiItemboxItems;
-                commentText = multiItemBoxViewModel.CommentText;
-            }
-
-            if (itemList == null)
-            {
-                return new GridInvokeMethodResult { RefreshGrid = false };
-            }
-
-            foreach (var item in itemList)
-            {
-                var user = userService.GetByGuid((Guid)item.Id);
-
-                int targetUserId = 0;
-                Guid? workflowOrganzisationId = null;
-
-                if (user != null)
+                try
                 {
-                    targetUserId = user.Ident;
+                    workflowOperationService.ForwardTo(workflowOperation);
                 }
-                else
-                    workflowOrganzisationId = (Guid?)item.Id;
-
-                var comment = new Framework.Extension.InstanceDataCommentModel
+                catch (DocumentWorkflowException ex)
                 {
-                    Comment = commentText,
-                    UserGroupVisibility = Visibility.Hidden,
-                    UserId = sessionService.CurrentSession.UserId,
-                    InstanceDataGuid = Guid.NewGuid(),
-                    StackGuid = Guid.Parse("12c9b95b-bd33-4fa0-9ca1-05e11122018c") // TODO: Remove magic string
-                };
+                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
 
-                foreach (var row in parameter.GetSelectedRowsAsDataRow())
-                {
-                    var documentId = (Guid)row["Guid"];
-                    var documentPathId = (Guid)row["DocumentPathId"];
-                    // The grid needs a the column workflow id 
-                    var workflowId = (Guid)fileStructureDocumentPathService.Get(documentPathId).WorkflowId;
-
-                    var workflowOperation = new WorkflowOperation
-                    {
-                        DocumentId = documentId,
-                        DocumentPath = documentPathId,
-                        UserId = sessionService.CurrentSession.UserId,
-                        TargetUserId = targetUserId,
-                        CreateDateTime = DateTime.Now,
-                        UpdateDateTime = DateTime.Now,
-                        ActionName = "forward",
-                        WorkflowId = workflowId,
-                        Guid = Guid.NewGuid(),
-                    };
-
-                    if (user == null)
-                    {
-                        workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
-                        workflowOperation.WorkflowOrganizationId = workflowOrganzisationId;
-                    }
-                    try
-                    {
-                        workflowOperationService.ForwardTo(workflowOperation);
-                    }
-                    catch (DocumentWorkflowException ex)
-                    {
-                        Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
-
-                        // TODO: Add localization
-                        MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return GridInvokeMethodResult.NoGridRefresh();
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(comment.Comment))
-                    {
-                        comment.InstanceDataGuid = documentId;
-                        comment.CommentId = Guid.NewGuid();
-
-                        Framework.Extension.InstanceDataComment.Singleton.Create(comment);
-                    }
+                    // TODO: Add localization
+                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return GridInvokeMethodResult.NoGridRefresh();
                 }
             }
+
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
@@ -197,24 +116,47 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns></returns>
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
+            var workflowOperationList = WorkflowOperationsGet(parameter);
+            foreach (var workflowOperation in workflowOperationList)
+            {
+                try
+                {
+                    workflowOperationService.ForwardCopyTo(workflowOperation);
+                }
+                catch (DocumentWorkflowException ex)
+                {
+                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+
+                    // TODO: Add localization
+                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return GridInvokeMethodResult.NoGridRefresh();
+                }
+            }
+            
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+        private static IList<WorkflowOperation> WorkflowOperationsGet(GridFunctionParameter parameter)
+        {
+            IList<WorkflowOperation> workflowOperations = new List<WorkflowOperation>();
             Checkout(parameter);
 
             if (parameter.SelectedRows.Count == 0)
             {
-                return GridInvokeMethodResult.NoGridRefresh();
+                return null;
             }
 
             Dictionary<string, string> dictParams = new Dictionary<string, string>();
-            dictParams.Add("[WorkflowId]", "0a2e6fa8-2ee9-4d2e-a6e1-48cb2bf66078");
+            dictParams.Add("[WorkflowId]", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
 
             var win = new MultiItemBox(dictParams);
             win.ShowDialog();
 
-            var test2 = win.DataContext;
+            var windowDataContext = win.DataContext;
             ObservableCollection<IMultiSelectionComboBoxItem> itemList = null;
             var commentText = "";
 
-            if (test2 is MultiItemBoxViewModel multiItemBoxViewModel)
+            if (windowDataContext is MultiItemBoxViewModel multiItemBoxViewModel)
             {
                 itemList = multiItemBoxViewModel.MultiItemboxItems;
                 commentText = multiItemBoxViewModel.CommentText;
@@ -222,7 +164,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
             if (itemList == null)
             {
-                return new GridInvokeMethodResult { RefreshGrid = false };
+                return null;
             }
 
             foreach (var item in itemList)
@@ -245,7 +187,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     UserGroupVisibility = Visibility.Hidden,
                     UserId = sessionService.CurrentSession.UserId,
                     InstanceDataGuid = Guid.NewGuid(),
-                    StackGuid = Guid.Parse("12c9b95b-bd33-4fa0-9ca1-05e11122018c") // TODO: Remove magic string
+                    StackGuid = (Guid)parameter.GridView.Configuration.SelectedStackId
                 };
 
                 foreach (var row in parameter.GetSelectedRowsAsDataRow())
@@ -273,18 +215,8 @@ namespace Simplic.FileStructure.Workflow.UI
                         workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
                         workflowOperation.WorkflowOrganizationId = workflowOrganzisationId;
                     }
-                    try
-                    {
-                        workflowOperationService.ForwardCopyTo(workflowOperation);
-                    }
-                    catch (DocumentWorkflowException ex)
-                    {
-                        Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
 
-                        // TODO: Add localization
-                        MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return GridInvokeMethodResult.NoGridRefresh();
-                    }
+                    workflowOperations.Add(workflowOperation);
 
                     if (!string.IsNullOrWhiteSpace(comment.Comment))
                     {
@@ -295,16 +227,8 @@ namespace Simplic.FileStructure.Workflow.UI
                     }
                 }
             }
-            return new GridInvokeMethodResult { RefreshGrid = true };
+            return workflowOperations;
         }
-
-        // TODO: Why is here an never used method?
-        private static AsyncItemBox ShowWorkflowUser()
-        {
-            var itembox = ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
-            return itembox;
-        }
-
 
         /// <summary>
         /// Sets the state to complete 

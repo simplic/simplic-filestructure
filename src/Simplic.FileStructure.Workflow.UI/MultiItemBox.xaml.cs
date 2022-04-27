@@ -10,6 +10,10 @@ namespace Simplic.FileStructure.Workflow.UI
     /// </summary>
     public partial class MultiItemBox : DefaultRibbonWindow
     {
+        /// <summary>
+        /// Create multi-itembox.
+        /// </summary>
+        /// <param name="dictParams">The params for the itembox settings.</param>
         public MultiItemBox(Dictionary<string, string> dictParams)
         {
             InitializeComponent();

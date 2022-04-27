@@ -3,19 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"               
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation" 
+             Title="Weiterleiten"
+             LayoutContext="Win_WorkflowForward" mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
         <StackPanel>
             <simplic:MultiSelectionComboBox ItemBoxParam="{Binding DictParams, Mode=TwoWay}" ItemBoxName="IB_Document_Workflow_User"
                                           DisplayMemberPath="DisplayName" ItemsSource="{Binding MultiItemboxItems, Mode=TwoWay}"
-                                          SelectionMode="Multiple">
+                                          SelectionMode="Multiple" Grid.Row="0" >
                 <simplic:MultiSelectionComboBox.ItemsSourceProvider>
                     <simplic:MultiItemProvider />
                 </simplic:MultiSelectionComboBox.ItemsSourceProvider>
             </simplic:MultiSelectionComboBox>
         </StackPanel>
-        <simplic:SyTextBox Height="100" Width="400" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="commentTextBox" VerticalAlignment="Bottom"  />
+        <Label Grid.Row="1" Content="Kommentar" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+        <simplic:SyTextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"
+                           Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           Name="commentTextBox"/>
     </Grid>
 </simplic:DefaultRibbonWindow>

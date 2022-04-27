@@ -5,10 +5,17 @@ using System.Collections.ObjectModel;
 
 namespace Simplic.FileStructure.Workflow.UI
 {
+    /// <summary>
+    /// Represents a viewmodel for managing multi-itembox-items.
+    /// </summary>
     public class MultiItemBoxViewModel : ViewModelBase
     {
         private Dictionary<string, string> dictParams;
 
+        /// <summary>
+        /// A Viewmodel for multi-itembox-items.
+        /// </summary>
+        /// <param name="dictParams">The params for the itembox settings.</param>
         public MultiItemBoxViewModel(Dictionary<string, string> dictParams)
         {
             RaisePropertyChanged(nameof(MultiItemboxItems));
@@ -17,8 +24,19 @@ namespace Simplic.FileStructure.Workflow.UI
             RaisePropertyChanged(nameof(CommentText));
         }
 
+        /// <summary>
+        /// Gets or sets the multi-itembox-items which are the selected items.
+        /// </summary>
         public ObservableCollection<IMultiSelectionComboBoxItem> MultiItemboxItems { get; set; } = new ObservableCollection<IMultiSelectionComboBoxItem>();
+
+        /// <summary>
+        /// Gets or sets the params which are important for the itembox settings.
+        /// </summary>
         public Dictionary<string, string> DictParams { get => dictParams; set => dictParams = value; }
+
+        /// <summary>
+        /// Gets or sets the comment text.
+        /// </summary>
         public string CommentText { get; set; }
     }
 }
