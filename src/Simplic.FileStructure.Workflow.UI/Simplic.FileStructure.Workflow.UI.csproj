@@ -66,10 +66,10 @@
     <Compile Include="DocumentWorkflowConfiguration\WorkflowOrganizationUnitAssignmentViewModel.cs" />
     <Compile Include="DocumentWorkflowInit.cs" />
     <Compile Include="IDocumentWorkflowWindow.cs" />
-    <Compile Include="MultiItemBox.xaml.cs">
-      <DependentUpon>MultiItemBox.xaml</DependentUpon>
+    <Compile Include="ForwardWindow.xaml.cs">
+      <DependentUpon>ForwardWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MultiItemBoxViewModel.cs" />
+    <Compile Include="ForwardViewModel.cs" />
     <Compile Include="PageGoverner\DocumentWorkflowPageGovernor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectWorkflowOrganizationUnitViewModel.cs" />
@@ -134,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MultiItemBox.xaml">
+    <Page Include="ForwardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,6 +2,7 @@
 using Simplic.Framework.DBUI;
 using Simplic.Localization;
 using Simplic.Session;
+using Simplic.Studio.UI;
 using Simplic.UI.Control;
 using Simplic.User;
 using System;
@@ -100,12 +101,10 @@ namespace Simplic.FileStructure.Workflow.UI
                 {
                     Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
 
-                    // TODO: Add localization
-                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("filestructure_forward_error", "filestructure_forward_error_head", MessageBoxButton.OK, MessageBoxImage.Information);
                     return GridInvokeMethodResult.NoGridRefresh();
                 }
             }
-
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
@@ -128,11 +127,11 @@ namespace Simplic.FileStructure.Workflow.UI
                     Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
 
                     // TODO: Add localization
-                    MessageBox.Show("Workflow für Zielbenutzer nicht gefunden.", "Workflow nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LocalizedMessageBox.Show("textkey", "captionKey", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("filestructure_forward_error", "filestructure_forward_error_head", MessageBoxButton.OK, MessageBoxImage.Information);
                     return GridInvokeMethodResult.NoGridRefresh();
                 }
             }
-            
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
@@ -142,30 +141,26 @@ namespace Simplic.FileStructure.Workflow.UI
             Checkout(parameter);
 
             if (parameter.SelectedRows.Count == 0)
-            {
                 return null;
-            }
 
             Dictionary<string, string> dictParams = new Dictionary<string, string>();
             dictParams.Add("[WorkflowId]", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
 
-            var win = new MultiItemBox(dictParams);
+            var win = new ForwardWindow(dictParams);
             win.ShowDialog();
 
             var windowDataContext = win.DataContext;
             ObservableCollection<IMultiSelectionComboBoxItem> itemList = null;
             var commentText = "";
 
-            if (windowDataContext is MultiItemBoxViewModel multiItemBoxViewModel)
+            if (windowDataContext is ForwardViewModel forwardViewModel)
             {
-                itemList = multiItemBoxViewModel.MultiItemboxItems;
-                commentText = multiItemBoxViewModel.CommentText;
+                itemList = forwardViewModel.MultiItemboxItems;
+                commentText = forwardViewModel.CommentText;
             }
 
             if (itemList == null)
-            {
                 return null;
-            }
 
             foreach (var item in itemList)
             {
@@ -175,9 +170,8 @@ namespace Simplic.FileStructure.Workflow.UI
                 Guid? workflowOrganzisationId = null;
 
                 if (user != null)
-                {
                     targetUserId = user.Ident;
-                }
+
                 else
                     workflowOrganzisationId = (Guid?)item.Id;
 
@@ -196,6 +190,9 @@ namespace Simplic.FileStructure.Workflow.UI
                     var documentPathId = (Guid)row["DocumentPathId"];
                     // The grid needs a the column workflow id 
                     var workflowId = (Guid)fileStructureDocumentPathService.Get(documentPathId).WorkflowId;
+
+                    if (workflowId == null)
+                        continue;
 
                     var workflowOperation = new WorkflowOperation
                     {

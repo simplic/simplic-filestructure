@@ -8,7 +8,7 @@ namespace Simplic.FileStructure.Workflow.UI
     /// <summary>
     /// Represents a viewmodel for managing multi-itembox-items.
     /// </summary>
-    public class MultiItemBoxViewModel : ViewModelBase
+    public class ForwardViewModel : ViewModelBase
     {
         private Dictionary<string, string> dictParams;
 
@@ -16,7 +16,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// A Viewmodel for multi-itembox-items.
         /// </summary>
         /// <param name="dictParams">The params for the itembox settings.</param>
-        public MultiItemBoxViewModel(Dictionary<string, string> dictParams)
+        public ForwardViewModel(Dictionary<string, string> dictParams)
         {
             RaisePropertyChanged(nameof(MultiItemboxItems));
             this.dictParams = dictParams;

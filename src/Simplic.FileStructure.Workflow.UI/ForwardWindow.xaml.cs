@@ -8,16 +8,16 @@ namespace Simplic.FileStructure.Workflow.UI
     /// <summary>
     /// Interaction logic for MultiItemBox.xaml
     /// </summary>
-    public partial class MultiItemBox : DefaultRibbonWindow
+    public partial class ForwardWindow : DefaultRibbonWindow
     {
         /// <summary>
         /// Create multi-itembox.
         /// </summary>
         /// <param name="dictParams">The params for the itembox settings.</param>
-        public MultiItemBox(Dictionary<string, string> dictParams)
+        public ForwardWindow(Dictionary<string, string> dictParams)
         {
             InitializeComponent();
-            DataContext = new MultiItemBoxViewModel(dictParams);
+            DataContext = new ForwardViewModel(dictParams);
         }
     }
 }
