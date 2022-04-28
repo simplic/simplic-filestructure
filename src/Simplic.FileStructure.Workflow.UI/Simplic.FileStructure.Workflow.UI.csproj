@@ -93,6 +93,9 @@
     <PackageReference Include="CommonServiceLocator">
       <Version>2.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Simplic.Configuration">
+      <Version>7.0.321.705</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Framework">
       <Version>7.3.921.705</Version>
     </PackageReference>

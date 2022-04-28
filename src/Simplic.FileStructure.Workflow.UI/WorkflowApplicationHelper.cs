@@ -1,4 +1,5 @@
-﻿using Simplic.Document;
+﻿using Simplic.Configuration;
+using Simplic.Document;
 using Simplic.Framework.DBUI;
 using Simplic.Localization;
 using Simplic.Session;
@@ -17,7 +18,6 @@ namespace Simplic.FileStructure.Workflow.UI
 {
     public class WorkflowApplicationHelper
     {
-
         private static IFileStructureService fileStructureService;
         private static IFileStructureDocumentPathService fileStructureDocumentPathService;
         private static ILocalizationService localizationService;
@@ -25,6 +25,8 @@ namespace Simplic.FileStructure.Workflow.UI
         private static ISessionService sessionService;
         private static IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
         private static IUserService userService;
+        private static IConfigurationService configurationService;
+        private static int forwardConfig;
 
 
         /// <summary>
@@ -39,6 +41,8 @@ namespace Simplic.FileStructure.Workflow.UI
             sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
             documentWorkflowOrganizationUnitAssignmentService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IDocumentWorkflowOrganizationUnitAssignmentService>();
             userService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IUserService>();
+            configurationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IConfigurationService>();
+            forwardConfig = configurationService.GetValue<int>("ForwardOption", "Filestructure", "");
         }
 
         /// <summary>
@@ -90,7 +94,16 @@ namespace Simplic.FileStructure.Workflow.UI
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
-            var workflowOperationList = WorkflowOperationsGet(parameter);
+            IList<WorkflowOperation> workflowOperationList;
+            if (forwardConfig == 1) 
+                workflowOperationList = WorkflowOperationsItemBoxGet(parameter);
+            
+            else
+                workflowOperationList = WorkflowOperationsGet(parameter);
+
+            if (workflowOperationList == null)
+                return GridInvokeMethodResult.NoGridRefresh();
+
             foreach (var workflowOperation in workflowOperationList)
             {
                 try
@@ -109,13 +122,22 @@ namespace Simplic.FileStructure.Workflow.UI
         }
 
         /// <summary>
-        /// Forwards a copy to the user that will be shown in the itembox
+        /// Forwards a copy to the user that will be shown in the itembox or multicolumncombobox.
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         public static GridInvokeMethodResult ForwardCopyTo(GridFunctionParameter parameter)
         {
-            var workflowOperationList = WorkflowOperationsGet(parameter);
+            IList<WorkflowOperation> workflowOperationList;
+            if (forwardConfig == 1)
+                workflowOperationList = WorkflowOperationsItemBoxGet(parameter);
+
+            else
+                workflowOperationList = WorkflowOperationsGet(parameter);
+
+            if (workflowOperationList == null)
+                return GridInvokeMethodResult.NoGridRefresh();
+
             foreach (var workflowOperation in workflowOperationList)
             {
                 try
@@ -222,6 +244,76 @@ namespace Simplic.FileStructure.Workflow.UI
 
                         Framework.Extension.InstanceDataComment.Singleton.Create(comment);
                     }
+                }
+            }
+            return workflowOperations;
+        }
+
+        private static IList<WorkflowOperation> WorkflowOperationsItemBoxGet(GridFunctionParameter parameter)
+        {
+            IList<WorkflowOperation> workflowOperations = new List<WorkflowOperation>();
+            Checkout(parameter);
+
+            Guid? workflowOrganizationId = null;
+            int targetUserId = 0;
+
+            if (parameter.SelectedRows.Count == 0)
+                return null;
+
+            var itemBox = (AsyncGridItemBox)ItemBoxManager.GetItemBoxFromDB("IB_Document_Workflow_User");
+            itemBox.SetPlaceholder("WorkflowId", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
+            itemBox.ShowDialog();
+
+            if (itemBox.SelectedItem == null)
+                return null;
+
+            var comment = new Framework.Extension.InstanceDataCommentModel
+            {
+                UserGroupVisibility = Visibility.Hidden,
+                UserId = sessionService.CurrentSession.UserId,
+                InstanceDataGuid = Guid.NewGuid(),
+                StackGuid = (Guid)parameter.GridView.Configuration.SelectedStackId
+            };
+
+            var commentWindow = new Framework.Extension.NewCommentWindow(comment);
+            commentWindow.ShowDialog();
+
+            if (itemBox.GetSelectedItemCell("InternalType").ToString() == "User")
+                targetUserId = (int)itemBox.GetSelectedItemCell("Ident");
+            else
+                workflowOrganizationId = (Guid)itemBox.GetSelectedItemCell("Guid");
+
+            foreach (var row in parameter.GetSelectedRowsAsDataRow())
+            {
+                var documentId = (Guid)row["Guid"];
+                var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
+
+                var workflowOperation = new WorkflowOperation
+                {
+                    DocumentId = documentId,
+                    DocumentPath = documentPathId,
+                    UserId = sessionService.CurrentSession.UserId,
+                    TargetUserId = targetUserId,
+                    CreateDateTime = DateTime.Now,
+                    UpdateDateTime = DateTime.Now,
+                    ActionName = "forward",
+                    WorkflowId = workflowId,
+                    Guid = Guid.NewGuid()
+                };
+                if (itemBox.GetSelectedItemCell("InternalType").ToString() == "Group")
+                {
+                    workflowOperation.OperationType = WorkflowOperationType.WorkflowOrganizationUnit;
+                    workflowOperation.WorkflowOrganizationId = workflowOrganizationId;
+                }
+                workflowOperations.Add(workflowOperation);
+
+                if (!string.IsNullOrWhiteSpace(comment.Comment))
+                {
+                    comment.InstanceDataGuid = documentId;
+                    comment.CommentId = Guid.NewGuid();
+
+                    Framework.Extension.InstanceDataComment.Singleton.Create(comment);
                 }
             }
             return workflowOperations;
