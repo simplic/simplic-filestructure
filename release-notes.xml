@@ -69,7 +69,7 @@
   <ChangeSet guid="4f405467-cea8-461a-b87e-bdc622cbb6fe">
     <Change type="feature">Adds an api to return the document inside a workflow to the selected return folder.</Change>
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="17ab4459-37e2-49fb-9c52-984dc8696c4b">
     <Change type="feature">Adds a new window to forwarded a document with the multicolumn-combobox.</Change>
   </ChangeSet>
 </ReleaseNotes>
