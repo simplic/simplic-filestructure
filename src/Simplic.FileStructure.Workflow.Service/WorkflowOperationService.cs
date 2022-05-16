@@ -322,7 +322,7 @@ namespace Simplic.FileStructure.Workflow.Service
         public void Released(WorkflowOperation workflowOperation)
         {
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
-            path.WorkflowState = DocumentWorkflowStateType.Completed;
+            path.WorkflowState = DocumentWorkflowStateType.Released;
 
             var tracker = new DocumentWorkflowTracker
             {
