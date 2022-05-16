@@ -73,6 +73,6 @@
     <Change type="feature">Adds a new window to forwarded a document with the multicolumn-combobox.</Change>
   </ChangeSet>
   <ChangeSet>
-    <Change type="feature">Invokes the `DocumentWorkflowOperationCompleted` event, that deteremines that a workflow operation is completed.</Change>
+    <Change type="feature">Invokes the `OnDocumentWorkflowOperationCompleted` event, that deteremines that a workflow operation is completed.</Change>
   </ChangeSet>
 </ReleaseNotes>
