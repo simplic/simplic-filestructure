@@ -75,7 +75,7 @@
   <ChangeSet guid="ef9f870c-a4bf-4649-ae3c-468b5d6852ca">
     <Change type="feature">Invokes the `OnDocumentWorkflowOperationCompleted` event, that deteremines that a workflow operation is completed.</Change>
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="d83de357-3886-4bdf-a2e8-8f0065cdb724">
     <Change type="feature">Add release document workflow state.</Change>
     <Change type="enhancement">Remove on document completed node.</Change>
   </ChangeSet>

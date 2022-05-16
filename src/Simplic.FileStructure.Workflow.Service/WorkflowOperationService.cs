@@ -403,7 +403,7 @@ namespace Simplic.FileStructure.Workflow.Service
                 if (directory.IsReturnDirectory && directory.WorkflowId == workflowId)
                     return directory;
 
-            return fileStructure.Directories.FirstOrDefault();
+            return fileStructure.Directories.FirstOrDefault(x=>x.WorkflowId == workflowId);
         }
     }
 }
