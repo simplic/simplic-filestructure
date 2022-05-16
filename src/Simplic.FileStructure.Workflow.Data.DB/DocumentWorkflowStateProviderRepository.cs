@@ -23,7 +23,7 @@ namespace Simplic.FileStructure.Workflow.Data.DB
             return sqlService.OpenConnection((connection) =>
             {
                 var isCompletedForUser = connection.QueryFirst<bool>($"SELECT CASE WHEN EXISTS(SELECT * FROM FileStructure_DocumentPath where(workflowId = :workflowId " +
-                    " and documentGuid = :documentId)and WorkflowState != 10) THEN 0 ELSE 1 END",
+                    " and documentGuid = :documentId) and WorkflowState not in (10, 3)) THEN 0 ELSE 1 END",
                     new
                     {
                         workflowId,
