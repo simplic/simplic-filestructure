@@ -353,6 +353,39 @@ namespace Simplic.FileStructure.Workflow.UI
         }
 
         /// <summary>
+        /// Sets the state to complete 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static GridInvokeMethodResult Release(GridFunctionParameter parameter)
+        {
+            Checkout(parameter);
+
+            foreach (var row in parameter.GetSelectedRowsAsDataRow())
+            {
+                var documentId = (Guid)row["Guid"];
+                var documentPathId = (Guid)row["DocumentPathId"];
+                var workflowId = (Guid)row["WorkflowId"];
+
+                var workflowOperation = new WorkflowOperation
+                {
+                    DocumentId = documentId,
+                    DocumentPath = documentPathId,
+                    UserId = sessionService.CurrentSession.UserId,
+                    CreateDateTime = DateTime.Now,
+                    UpdateDateTime = DateTime.Now,
+                    WorkflowId = workflowId,
+                    ActionName = "released",
+                    Guid = Guid.NewGuid()
+                };
+
+                workflowOperationService.Release(workflowOperation);
+            }
+
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+        /// <summary>
         /// Shows  the tracking for the parameter which is a document
         /// </summary>
         /// <param name="parameter"></param>

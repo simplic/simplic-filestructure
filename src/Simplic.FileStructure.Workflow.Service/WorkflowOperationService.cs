@@ -185,6 +185,8 @@ namespace Simplic.FileStructure.Workflow.Service
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
             path.WorkflowState = DocumentWorkflowStateType.Completed;
             fileStructureDocumentPathService.Save(path);
+
+            flowEventService.InvokeEvent("DocumentForwarded", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
         }
 
 
@@ -264,6 +266,8 @@ namespace Simplic.FileStructure.Workflow.Service
 
                 if (accessProvider != null)
                     accessProvider.SetUserAccess(workflowOperation.TargetUserId, workflowOperation.DocumentId, targetPath.Id, targetStructure.Id, configuration);
+
+                flowEventService.InvokeEvent("DocumentForwardedCopy", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
             }
         }
 
@@ -308,8 +312,30 @@ namespace Simplic.FileStructure.Workflow.Service
             documentWorkflowTrackerService.Save(tracker);
             fileStructureDocumentPathService.Save(path);
 
-            // Invoke an event, that a workflow operation was completed
-            flowEventService.InvokeEvent("OnDocumentWorkflowOperationCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
+            flowEventService.InvokeEvent("DocumentCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
+        }
+
+        /// <summary>
+        /// Sets the state to complete.
+        /// </summary>
+        /// <param name="workflowOperation"></param>
+        public void Release(WorkflowOperation workflowOperation)
+        {
+            var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
+            path.WorkflowState = DocumentWorkflowStateType.Released;
+
+            var tracker = new DocumentWorkflowTracker
+            {
+                ActionName = DocumentWorkflowStateType.Released,
+                CreateDateTime = DateTime.Now,
+                DocumentId = workflowOperation.DocumentId,
+                UserId = workflowOperation.UserId
+            };
+
+            documentWorkflowTrackerService.Save(tracker);
+            fileStructureDocumentPathService.Save(path);
+
+            flowEventService.InvokeEvent("DocumentReleased", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
         }
 
         /// <summary>
