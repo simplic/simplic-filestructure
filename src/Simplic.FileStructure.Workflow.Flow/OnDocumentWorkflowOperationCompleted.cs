@@ -37,7 +37,7 @@ namespace Simplic.FileStructure.Workflow.Flow
         }
 
         /// <summary>
-        /// Gets the event name `DocumentWorkflowOperationCompleted`
+        /// Gets the event name `OnDocumentWorkflowOperationCompleted`
         /// </summary>
         public override string EventName => "OnDocumentWorkflowOperationCompleted";
 
