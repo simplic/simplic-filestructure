@@ -75,6 +75,9 @@
     <PackageReference Include="Simplic.Data">
       <Version>1.7.21.325</Version>
     </PackageReference>
+    <PackageReference Include="Simplic.Flow.Event">
+      <Version>7.0.221.1227</Version>
+    </PackageReference>
     <PackageReference Include="Unity.Abstractions">
       <Version>5.11.5</Version>
     </PackageReference>

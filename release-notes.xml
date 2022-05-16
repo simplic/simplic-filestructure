@@ -72,4 +72,7 @@
   <ChangeSet guid="17ab4459-37e2-49fb-9c52-984dc8696c4b">
     <Change type="feature">Adds a new window to forwarded a document with the multicolumn-combobox.</Change>
   </ChangeSet>
+  <ChangeSet>
+    <Change type="feature">Invokes the `DocumentWorkflowOperationCompleted` event, that deteremines that a workflow operation is completed.</Change>
+  </ChangeSet>
 </ReleaseNotes>
