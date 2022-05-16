@@ -12,6 +12,7 @@ namespace Simplic.FileStructure.Workflow
         InReview = 0,
         Forwarded = 1,
         ForwardedCopy = 2,
+        Released = 3,
         Completed = 10
     }
 }
