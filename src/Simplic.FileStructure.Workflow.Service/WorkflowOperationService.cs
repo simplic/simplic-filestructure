@@ -308,7 +308,7 @@ namespace Simplic.FileStructure.Workflow.Service
             documentWorkflowTrackerService.Save(tracker);
             fileStructureDocumentPathService.Save(path);
 
-            // invoke an event, that a workflow operation was completed
+            // Invoke an event, that a workflow operation was completed
             flowEventService.InvokeEvent("DocumentWorkflowOperationCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
         }
 
