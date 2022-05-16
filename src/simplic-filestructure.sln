@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29324.140
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32414.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure", "Simplic.FileStructure\Simplic.FileStructure.csproj", "{EDFBFC8D-6BBE-4C46-BBA7-8C3423A52152}"
 EndProject
@@ -29,6 +29,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Workflow.Service", "Simplic.FileStructure.Workflow.Service\Simplic.FileStructure.Workflow.Service.csproj", "{CBA21694-52A8-4EDA-8EE4-5DD81B2657CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Workflow", "Simplic.FileStructure.Workflow\Simplic.FileStructure.Workflow.csproj", "{359A7332-9F78-4922-8594-F92DEB19E95D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.FileStructure.Workflow.Flow", "Simplic.FileStructure.Workflow.Flow\Simplic.FileStructure.Workflow.Flow.csproj", "{511FFA13-4A0B-46F8-9BCC-A4FBDEF6E038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +78,10 @@ Global
 		{359A7332-9F78-4922-8594-F92DEB19E95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359A7332-9F78-4922-8594-F92DEB19E95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359A7332-9F78-4922-8594-F92DEB19E95D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{511FFA13-4A0B-46F8-9BCC-A4FBDEF6E038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511FFA13-4A0B-46F8-9BCC-A4FBDEF6E038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511FFA13-4A0B-46F8-9BCC-A4FBDEF6E038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511FFA13-4A0B-46F8-9BCC-A4FBDEF6E038}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,7 +22,7 @@ namespace Simplic.FileStructure.Workflow.Service
         private readonly IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService;
         private readonly IDocumentWorkflowConfigurationService documentWorkflowConfigurationService;
         private readonly IDocumentWorkflowAssignmentService documentWorkflowAssignmentService;
-
+        private readonly Flow.Event.IFlowEventService flowEventService;
 
         /// <summary>
         /// Constructor for dependency injection.
@@ -41,7 +41,8 @@ namespace Simplic.FileStructure.Workflow.Service
                                         IDocumentWorkflowOrganizationUnitAssignmentService documentWorkflowOrganizationUnitAssignmentService,
                                         IDocumentWorkflowConfigurationService documentWorkflowConfigurationService,
                                         IUnityContainer unityContainer,
-                                        IDocumentWorkflowAssignmentService documentWorkflowAssignmentService)
+                                        IDocumentWorkflowAssignmentService documentWorkflowAssignmentService,
+                                        Flow.Event.IFlowEventService flowEventService)
         {
             this.fileStructureService = fileStructureService;
             this.documentWorkflowAppSettingsService = documentWorkflowAppSettingsService;
@@ -52,6 +53,7 @@ namespace Simplic.FileStructure.Workflow.Service
             this.unityContainer = unityContainer;
             this.documentWorkflowConfigurationService = documentWorkflowConfigurationService;
             this.documentWorkflowAssignmentService = documentWorkflowAssignmentService;
+            this.flowEventService = flowEventService;
         }
 
         private Directory FindWorkflowDirectory(FileStructure fileStructure, Guid workflowId, Guid documentId, int targetUserId)
@@ -305,6 +307,9 @@ namespace Simplic.FileStructure.Workflow.Service
 
             documentWorkflowTrackerService.Save(tracker);
             fileStructureDocumentPathService.Save(path);
+
+            // Invoke an event, that a workflow operation was completed
+            flowEventService.InvokeEvent("OnDocumentWorkflowOperationCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
         }
 
         /// <summary>
