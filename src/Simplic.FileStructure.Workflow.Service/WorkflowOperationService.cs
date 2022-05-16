@@ -309,7 +309,7 @@ namespace Simplic.FileStructure.Workflow.Service
             fileStructureDocumentPathService.Save(path);
 
             // Invoke an event, that a workflow operation was completed
-            flowEventService.InvokeEvent("DocumentWorkflowOperationCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
+            flowEventService.InvokeEvent("OnDocumentWorkflowOperationCompleted", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
         }
 
         /// <summary>
