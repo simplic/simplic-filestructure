@@ -319,7 +319,7 @@ namespace Simplic.FileStructure.Workflow.Service
         /// Sets the state to complete.
         /// </summary>
         /// <param name="workflowOperation"></param>
-        public void Released(WorkflowOperation workflowOperation)
+        public void Release(WorkflowOperation workflowOperation)
         {
             var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
             path.WorkflowState = DocumentWorkflowStateType.Released;

@@ -357,7 +357,7 @@ namespace Simplic.FileStructure.Workflow.UI
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static GridInvokeMethodResult Released(GridFunctionParameter parameter)
+        public static GridInvokeMethodResult Release(GridFunctionParameter parameter)
         {
             Checkout(parameter);
 
@@ -379,7 +379,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Guid = Guid.NewGuid()
                 };
 
-                workflowOperationService.Released(workflowOperation);
+                workflowOperationService.Release(workflowOperation);
             }
 
             return new GridInvokeMethodResult { RefreshGrid = true };

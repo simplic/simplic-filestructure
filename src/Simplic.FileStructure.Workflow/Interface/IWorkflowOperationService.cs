@@ -36,6 +36,6 @@ namespace Simplic.FileStructure.Workflow
         /// <summary>
         /// Sets the state of the document to released
         /// </summary>
-        void Released(WorkflowOperation workflowOperation);
+        void Release(WorkflowOperation workflowOperation);
     }
 }
