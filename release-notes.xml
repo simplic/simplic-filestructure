@@ -79,7 +79,7 @@
     <Change type="feature">Add release document workflow state.</Change>
     <Change type="enhancement">Remove on document completed node.</Change>
   </ChangeSet>
-  <ChangeSet>
+  <ChangeSet guid="907902a9-6a1c-4117-8b19-bcd72168abe3">
     <Change type="feature">Enables the usage of [TenantId] in workflow grids.</Change>
   </ChangeSet>
 </ReleaseNotes>
