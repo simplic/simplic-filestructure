@@ -1,6 +1,7 @@
 ﻿using Simplic.Framework.DBUI;
 using Simplic.Framework.Extension;
 using Simplic.Framework.Extension.UI;
+using Simplic.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,7 @@ namespace Simplic.FileStructure.UI
 
         private void SetGrid(string configurationName)
         {
+            var sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
             integratedGridView = grids.FirstOrDefault(x => x.GridView.Configuration.Name == configurationName);
 
             if (integratedGridView != null)
@@ -72,6 +74,8 @@ namespace Simplic.FileStructure.UI
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", Directory?.WorkflowId.ToString());
+                    integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]", sessionService.CurrentSession.Organizations[0].Id.ToString());
+
                     integratedGridView.GridView.RefreshData();
                 };
                 integratedGridView.SetConfig(configurationName, String.Empty, StackHelper.Singleton.GetStackGuidByName("STACK_Document"), Guid.Empty, new List<Guid>());
@@ -87,6 +91,8 @@ namespace Simplic.FileStructure.UI
         /// <param name="e"></param>
         private static void DirectoryIdChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
+
             var grid = d as FileStructureDocumentGrid;
             if (grid.isLoaded)
             {
@@ -104,6 +110,8 @@ namespace Simplic.FileStructure.UI
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString());
+                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]", sessionService.CurrentSession.Organizations[0].Id.ToString());
+
                     grid.integratedGridView.GridView.RefreshData();
 
                     grid.lastDirectory = currentDirectory;
