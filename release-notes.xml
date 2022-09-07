@@ -82,4 +82,7 @@
   <ChangeSet guid="907902a9-6a1c-4117-8b19-bcd72168abe3">
     <Change type="feature">Enables the usage of [TenantId] in workflow grids.</Change>
   </ChangeSet>
+  <ChangeSet>
+    <Change type="bug">Fixes a bug when no organization is present in the current session.</Change>
+  </ChangeSet>
 </ReleaseNotes>
