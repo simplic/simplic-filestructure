@@ -81,6 +81,7 @@ namespace Simplic.FileStructure.UI
 
                     integratedGridView.GridView.RefreshData();
                 };
+
                 integratedGridView.SetConfig(configurationName, String.Empty, StackHelper.Singleton.GetStackGuidByName("STACK_Document"), Guid.Empty, new List<Guid>());
 
                 grids.Add(integratedGridView);
@@ -95,8 +96,9 @@ namespace Simplic.FileStructure.UI
         private static void DirectoryIdChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sessionService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISessionService>();
-
+            
             var grid = d as FileStructureDocumentGrid;
+
             if (grid.isLoaded)
             {
                 if (e.NewValue == null)
@@ -108,7 +110,7 @@ namespace Simplic.FileStructure.UI
                 if (grid.lastDirectoryType?.GridName != currentDirectoryType.GridName)
                     grid.SetGrid(currentDirectoryType.GridName);
 
-                if (grid.lastDirectory != null && grid.lastDirectory != currentDirectory && currentDirectory != null)
+                if (grid.lastDirectory != currentDirectory && currentDirectory != null)
                 {
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
