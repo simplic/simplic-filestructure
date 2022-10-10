@@ -74,7 +74,10 @@ namespace Simplic.FileStructure.UI
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", Directory?.Id.ToString());
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", FileStructureId.ToString());
                     integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", Directory?.WorkflowId.ToString());
-                    integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]", sessionService.CurrentSession.Organizations[0].Id.ToString());
+
+                    if(sessionService.CurrentSession.Organizations.Any())
+                        integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]", 
+                            sessionService.CurrentSession.Organizations[0].Id.ToString());
 
                     integratedGridView.GridView.RefreshData();
                 };
@@ -109,8 +112,10 @@ namespace Simplic.FileStructure.UI
                 {
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[DirectoryId]", currentDirectory.Id.ToString());
                     grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[FileStructureId]", grid.FileStructureId.ToString());
-                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString());
-                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]", sessionService.CurrentSession.Organizations[0].Id.ToString());
+                    grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[WorkflowId]", currentDirectory.WorkflowId.ToString()); 
+                    if (sessionService.CurrentSession.Organizations.Any())
+                        grid.integratedGridView.GridView.EmbeddedGridView?.SetPlaceholder("[TenantId]",
+                            sessionService.CurrentSession.Organizations[0].Id.ToString());
 
                     grid.integratedGridView.GridView.RefreshData();
 
