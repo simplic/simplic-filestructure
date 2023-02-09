@@ -46,5 +46,10 @@ namespace Simplic.FileStructure.Workflow
         /// Gets or sets a nullable workflow organization id.
         /// </summary>
         public Guid? WorkflowOrganizationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path.
+        /// </summary>
+        public string Path { get; set; }
     }
 }

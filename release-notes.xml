@@ -85,4 +85,7 @@
   <ChangeSet guid="bd9c5116-cb24-43db-a56e-64a3fa22ce50">
     <Change type="bug">Fixes a bug when no organization is present in the current session.</Change>
   </ChangeSet>
+  <ChangeSet guid="a9c7056d-fba1-4f64-9b81-42900eb71059">
+    <Change type="bug">Extens the DocumentWorkflowTracker by path.</Change>
+  </ChangeSet>
 </ReleaseNotes>

@@ -81,6 +81,8 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <param name="workflowOperation">The workflow operation that contains the operation that needs to be tracked</param>
         private void TrackChanges(WorkflowOperation workflowOperation, DocumentWorkflowStateType documentWorkflowStateType)
         {
+            var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
+
             if (workflowOperation.WorkflowOrganizationId != null)
             {
                 var tracker = new DocumentWorkflowTracker
@@ -91,6 +93,7 @@ namespace Simplic.FileStructure.Workflow.Service
                     TargetUserId = workflowOperation.TargetUserId,
                     UserId = workflowOperation.UserId,
                     WorkflowOrganizationId = workflowOperation.WorkflowOrganizationId,
+                    Path = path.Path
                 };
 
                 documentWorkflowTrackerService.Save(tracker);
@@ -165,7 +168,8 @@ namespace Simplic.FileStructure.Workflow.Service
                     CreateDateTime = DateTime.Now,
                     DocumentId = targetPath.DocumentGuid,
                     TargetUserId = workflowOperation.TargetUserId,
-                    UserId = workflowOperation.UserId
+                    UserId = workflowOperation.UserId,
+                    Path = targetPath.Path
                 };
 
                 documentWorkflowTrackerService.Save(tracker);
@@ -258,7 +262,8 @@ namespace Simplic.FileStructure.Workflow.Service
                     CreateDateTime = DateTime.Now,
                     DocumentId = targetPath.DocumentGuid,
                     TargetUserId = workflowOperation.TargetUserId,
-                    UserId = workflowOperation.UserId
+                    UserId = workflowOperation.UserId,
+                    Path = targetPath.Path
                 };
 
                 documentWorkflowTrackerService.Save(tracker);
@@ -306,7 +311,8 @@ namespace Simplic.FileStructure.Workflow.Service
                 ActionName = DocumentWorkflowStateType.Completed,
                 CreateDateTime = DateTime.Now,
                 DocumentId = workflowOperation.DocumentId,
-                UserId = workflowOperation.UserId
+                UserId = workflowOperation.UserId,
+                Path = path.Path
             };
 
             documentWorkflowTrackerService.Save(tracker);
@@ -329,7 +335,8 @@ namespace Simplic.FileStructure.Workflow.Service
                 ActionName = DocumentWorkflowStateType.Released,
                 CreateDateTime = DateTime.Now,
                 DocumentId = workflowOperation.DocumentId,
-                UserId = workflowOperation.UserId
+                UserId = workflowOperation.UserId,
+                Path = path.Path
             };
 
             documentWorkflowTrackerService.Save(tracker);
@@ -345,6 +352,8 @@ namespace Simplic.FileStructure.Workflow.Service
         /// <returns>Document path id</returns>
         public Guid DocumentCheckout(WorkflowOperation workflowOperation)
         {
+            var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
+
             //Check if the document is still inside 
             if (documentWorkflowOrganizationUnitAssignmentService.GetByIds(workflowOperation.DocumentId, (Guid)workflowOperation.WorkflowOrganizationId) != null)
             {
@@ -379,7 +388,8 @@ namespace Simplic.FileStructure.Workflow.Service
                     CreateDateTime = DateTime.Now,
                     DocumentId = targetPath.DocumentGuid,
                     TargetUserId = workflowOperation.TargetUserId,
-                    UserId = workflowOperation.UserId
+                    UserId = workflowOperation.UserId,
+                    Path = path.Path
                 };
 
                 documentWorkflowTrackerService.Save(tracker);
