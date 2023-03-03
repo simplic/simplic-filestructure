@@ -160,7 +160,7 @@ namespace Simplic.FileStructure.Workflow.UI
         private static IList<WorkflowOperation> WorkflowOperationsGet(GridFunctionParameter parameter)
         {
             IList<WorkflowOperation> workflowOperations = new List<WorkflowOperation>();
-            Checkout(parameter);
+            
 
             if (parameter.SelectedRows.Count == 0)
                 return null;
@@ -174,6 +174,9 @@ namespace Simplic.FileStructure.Workflow.UI
             var windowDataContext = win.DataContext;
             ObservableCollection<IMultiSelectionComboBoxItem> itemList = null;
             var commentText = "";
+
+            if (!win.IsSave)
+                return null;
 
             if (windowDataContext is ForwardViewModel forwardViewModel)
             {
@@ -246,13 +249,14 @@ namespace Simplic.FileStructure.Workflow.UI
                     }
                 }
             }
+            Checkout(parameter);
             return workflowOperations;
         }
 
         private static IList<WorkflowOperation> WorkflowOperationsItemBoxGet(GridFunctionParameter parameter)
         {
             IList<WorkflowOperation> workflowOperations = new List<WorkflowOperation>();
-            Checkout(parameter);
+            
 
             Guid? workflowOrganizationId = null;
             int targetUserId = 0;
@@ -316,6 +320,7 @@ namespace Simplic.FileStructure.Workflow.UI
                     Framework.Extension.InstanceDataComment.Singleton.Create(comment);
                 }
             }
+            Checkout(parameter);
             return workflowOperations;
         }
 
