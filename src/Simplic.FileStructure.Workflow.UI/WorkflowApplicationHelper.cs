@@ -88,36 +88,46 @@ namespace Simplic.FileStructure.Workflow.UI
 
         #region [ContextMenuStuff]
         /// <summary>
-        /// Forwards the document to all user who installed the Workflow
+        /// Forwards the document to all user who installed the Workflow.
         /// </summary>
         /// <param name="parameter">Grid parameter</param>
         /// <returns>Grid invoke result, to control grid refresh</returns>
         public static GridInvokeMethodResult ForwardTo(GridFunctionParameter parameter)
         {
             IList<WorkflowOperation> workflowOperationList;
-            if (forwardConfig == 1) 
-                workflowOperationList = WorkflowOperationsItemBoxGet(parameter);
-            
-            else
-                workflowOperationList = WorkflowOperationsGet(parameter);
-
-            if (workflowOperationList == null)
-                return GridInvokeMethodResult.NoGridRefresh();
-
-            foreach (var workflowOperation in workflowOperationList)
+            try
             {
-                try
-                {
-                    workflowOperationService.ForwardTo(workflowOperation);
-                }
-                catch (DocumentWorkflowException ex)
-                {
-                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+                if (forwardConfig == 1)
+                    workflowOperationList = WorkflowOperationsItemBoxGet(parameter);
 
-                    MessageBox.Show("filestructure_forward_error", "filestructure_forward_error_head", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    workflowOperationList = WorkflowOperationsGet(parameter);
+
+                if (workflowOperationList == null)
                     return GridInvokeMethodResult.NoGridRefresh();
+
+                foreach (var workflowOperation in workflowOperationList)
+                {
+                    try
+                    {
+                        workflowOperationService.ForwardTo(workflowOperation);
+                    }
+                    catch (DocumentWorkflowException ex)
+                    {
+                        Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+
+                        MessageBox.Show("filestructure_forward_error", "filestructure_forward_error_head", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return GridInvokeMethodResult.NoGridRefresh();
+                    }
                 }
+            } 
+            catch(CoreException ex)
+            {
+                Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+                MessageBox.Show("Das Dokument wurde bereits bearbeitet.");
+                return GridInvokeMethodResult.NoGridRefresh();
             }
+
             return new GridInvokeMethodResult { RefreshGrid = true };
         }
 
