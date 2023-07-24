@@ -87,5 +87,7 @@
   </ChangeSet>
   <ChangeSet>
     <Change type="enhancement">Gave user information if document is already processed.</Change>
+  <ChangeSet guid="a9c7056d-fba1-4f64-9b81-42900eb71059">
+    <Change type="bug">Extens the DocumentWorkflowTracker by path.</Change>
   </ChangeSet>
 </ReleaseNotes>
