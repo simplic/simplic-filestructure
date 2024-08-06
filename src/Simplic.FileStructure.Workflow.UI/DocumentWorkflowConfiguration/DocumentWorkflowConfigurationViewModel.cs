@@ -10,6 +10,7 @@ using Simplic.Studio.UI;
 using Simplic.UI.MVC;
 using Simplic.User;
 using Telerik.Windows.Controls;
+using Telerik.Windows.Core;
 using Telerik.Windows.Data;
 using Telerik.Windows.Persistence.Services;
 
@@ -133,7 +134,7 @@ namespace Simplic.FileStructure.Workflow.UI
         public DocumentWorkflowConfiguration Model { get; set; }
 
         /// <summary>
-        /// Gets a list of al users
+        /// Gets a list of all users and filter them by their active state ( User -> IsActive )
         /// </summary>
         public IList<User.User> Users
         {
@@ -141,7 +142,7 @@ namespace Simplic.FileStructure.Workflow.UI
             {
                 if (users == null || !users.Any())
                     users = userService.GetAll().ToList();
-                return users;
+                return users.Where(u => u.IsActive).ToList();
             }
         }
 
