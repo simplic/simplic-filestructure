@@ -48,7 +48,7 @@ namespace Simplic.FileStructure.Workflow.UI
 
             //Todo:Expect the user that are already loaded in
             allUsers = new ObservableCollection<UserViewModel>((Parent as DocumentWorkflowConfigurationViewModel).Users.Select(x => new UserViewModel(x, new WorkflowOrganizationUnitUserAssignment(), this) { }));
-            assignedUsers = new ObservableCollection<UserViewModel>(Model.Users.GetAsObservableCollection().Select(x => new UserViewModel(userService.GetById(x.UserId), x,this)));
+            assignedUsers = new ObservableCollection<UserViewModel>(Model.Users.GetAsObservableCollection().Select(x => new UserViewModel(userService.Get(x.UserId), x,this)));
             var list = workflowOrganizationUnit.Users.GetItems();
            
             //TODO: Improve because of performance issues, maybe?
