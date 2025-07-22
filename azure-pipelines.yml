@@ -31,9 +31,13 @@ resources:
       endpoint: simplic-bot
 
 steps:
+  - checkout: self 
+    persistCredentials: true
+
   - task: NuGetToolInstaller@1
     inputs:
       versionSpec: "5.x"
+
   - task: NuGetCommand@2
     inputs:
       command: "restore"
@@ -51,7 +55,7 @@ steps:
 
   - task: MSBuild@1
     inputs:
-      solution: "**/*.sln"
+      solution: "src/**/*.sln"
       configuration: "$(buildConfiguration)"
 
   - task: VSTest@2
@@ -65,14 +69,14 @@ steps:
   - task: NuGetCommand@2
     inputs:
       command: "pack"
-      packagesToPack: "src/Simplic**/*.csproj"
+      packagesToPack: "src/Simplic.FileStructure**/*.csproj"
       configuration: "$(buildConfiguration)"
       versioningScheme: "off"
 
   - task: NuGetCommand@2
     inputs:
       command: "push"
-      packagesToPush: "$(Build.ArtifactStagingDirectory)/Simplic.FileStructure.*.nupkg;!**/Simplic.FileStructure.*.symbols.nupkg"
+      packagesToPush: "$(Build.ArtifactStagingDirectory)/Simplic.FileStructure.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.FileStructure.*.symbols.nupkg"
       nuGetFeedType: "internal"
       publishVstsFeed: "f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e"
       allowPackageConflicts: true
