@@ -118,7 +118,7 @@
       <Version>7.2.1522.426</Version>
     </PackageReference>
     <PackageReference Include="Simplic.User">
-      <Version>9.0.122.426</Version>
+      <Version>9.0.2622.426</Version>
     </PackageReference>
     <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
       <Version>2021.1.223</Version>
