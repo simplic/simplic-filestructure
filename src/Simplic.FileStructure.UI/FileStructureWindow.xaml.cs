@@ -89,6 +89,11 @@ namespace Simplic.FileStructure.UI
 
             DataContext = fileStructureControl.Initialize(fileStructure);
 
+            if (fileStructure.Directories != null && fileStructure.Directories.Any())
+            {
+                fileStructureService.Save(fileStructure);
+            }
+
             AddPagingObject(fileStructure);
             WindowMode = WindowMode.Edit;
         }
