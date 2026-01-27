@@ -122,6 +122,40 @@ namespace Simplic.FileStructure.Workflow.UI
         }
 
         /// <summary>
+        /// Forwards the document to all user who installed the Workflow
+        /// </summary>
+        /// <param name="parameter">Grid parameter</param>
+        /// <returns>Grid invoke result, to control grid refresh</returns>
+        public static GridInvokeMethodResult ForwardToDifferentWorkflow(GridFunctionParameter parameter)
+        {
+            IList<WorkflowOperation> workflowOperationList;
+            if (forwardConfig == 1)
+                workflowOperationList = WorkflowOperationsItemBoxGet(parameter);
+
+            else
+                workflowOperationList = WorkflowOperationsGet(parameter);
+
+            if (workflowOperationList == null)
+                return GridInvokeMethodResult.NoGridRefresh();
+
+            foreach (var workflowOperation in workflowOperationList)
+            {
+                try
+                {
+                    workflowOperationService.ForwardTo(workflowOperation);
+                }
+                catch (DocumentWorkflowException ex)
+                {
+                    Log.LogManagerInstance.Instance.Error("Could not forward document in workflow", ex);
+
+                    MessageBox.Show("filestructure_forward_error", "filestructure_forward_error_head", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return GridInvokeMethodResult.NoGridRefresh();
+                }
+            }
+            return new GridInvokeMethodResult { RefreshGrid = true };
+        }
+
+        /// <summary>
         /// Forwards a copy to the user that will be shown in the itembox or multicolumncombobox.
         /// </summary>
         /// <param name="parameter"></param>
@@ -165,8 +199,10 @@ namespace Simplic.FileStructure.Workflow.UI
             if (parameter.SelectedRows.Count == 0)
                 return null;
 
-            Dictionary<string, string> dictParams = new Dictionary<string, string>();
-            dictParams.Add("[WorkflowId]", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString());
+            Dictionary<string, string> dictParams = new Dictionary<string, string>
+            {
+                { "[WorkflowId]", parameter.GetSelectedRowsAsDataRow().FirstOrDefault()["WorkflowId"].ToString() }
+            };
 
             var win = new ForwardWindow(dictParams);
             win.ShowDialog();

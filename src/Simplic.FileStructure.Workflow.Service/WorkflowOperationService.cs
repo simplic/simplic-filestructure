@@ -415,5 +415,94 @@ namespace Simplic.FileStructure.Workflow.Service
 
             return fileStructure.Directories.FirstOrDefault();
         }
+
+        public void ForwardToDifferentWorkflow(WorkflowOperation workflowOperation)
+        {
+            var configuration = documentWorkflowConfigurationService.Get(workflowOperation.WorkflowId);
+            var accessProvider = unityContainer.Resolve<IDocumentWorkflowAccessProvider>(configuration.AccessProviderName);
+
+            if (workflowOperation.OperationType == WorkflowOperationType.User)
+            {
+                // Add path to forwarded user
+                var workflow = documentWorkflowUserService.Get(workflowOperation.TargetUserId);
+
+                if (workflow == null)
+                    throw new DocumentWorkflowException("workflow is null");
+
+                var targetStructure = fileStructureService.GetByInstanceDataGuid(workflow.Guid);
+
+                if (targetStructure == null)
+                    throw new DocumentWorkflowException("targetStructure is null");
+
+                var existingStructures = fileStructureDocumentPathService.GetByDocumentId(workflowOperation.DocumentId)
+                                                                         .ToList();
+
+                if (existingStructures == null)
+                    throw new DocumentWorkflowException("existingStructures is null");
+
+                var targetPath = existingStructures.FirstOrDefault(x => x.FileStructureGuid == targetStructure.Id);
+
+                if (targetPath != null)
+                {
+                    var returnFolder = GetReturnDirectory(targetPath.FileStructureGuid, targetPath.WorkflowId.Value);
+                    targetPath.DirectoryGuid = returnFolder.Id;
+                    targetPath.WorkflowState = DocumentWorkflowStateType.InReview;
+                }
+
+                else
+                {
+                    var firstDirectory = FindWorkflowDirectory(
+                        targetStructure,
+                        workflowOperation.WorkflowId,
+                        workflowOperation.DocumentId,
+                        workflowOperation.TargetUserId);
+
+                    if (firstDirectory == null)
+                    {
+                        throw new DocumentWorkflowException("existingStructures is null");
+                    }
+
+                    targetPath = new FileStructureDocumenPath
+                    {
+                        DirectoryGuid = firstDirectory.Id,
+                        FileStructureGuid = targetStructure.Id,
+                        Id = Guid.NewGuid(),
+                        DocumentGuid = workflowOperation.DocumentId,
+                        WorkflowId = workflowOperation.WorkflowId,
+                        IsProtectedPath = false,
+                        WorkflowState = DocumentWorkflowStateType.InReview
+                    };
+                }
+
+                var tracker = new DocumentWorkflowTracker
+                {
+                    ActionName = DocumentWorkflowStateType.Forwarded,
+                    CreateDateTime = DateTime.Now,
+                    DocumentId = targetPath.DocumentGuid,
+                    TargetUserId = workflowOperation.TargetUserId,
+                    UserId = workflowOperation.UserId,
+                    Path = targetPath.Path
+                };
+
+                documentWorkflowTrackerService.Save(tracker);
+                fileStructureDocumentPathService.Save(targetPath);
+
+                if (accessProvider != null)
+                    accessProvider.SetUserAccess(workflowOperation.TargetUserId, workflowOperation.DocumentId, targetPath.Id, targetStructure.Id, configuration);
+            }
+            else
+            {
+                SaveWorkflowOrganizationUnitAssignment(workflowOperation, configuration.StateProviderName);
+                TrackChanges(workflowOperation, DocumentWorkflowStateType.Forwarded);
+                if (accessProvider != null && workflowOperation.WorkflowOrganizationId.HasValue)
+                    accessProvider.SetOrganizationUnitAcess(workflowOperation.WorkflowOrganizationId.Value, workflowOperation.DocumentId, configuration);
+            }
+
+            var path = fileStructureDocumentPathService.Get(workflowOperation.DocumentPath);
+            path.WorkflowState = DocumentWorkflowStateType.Completed;
+            fileStructureDocumentPathService.Save(path);
+
+            flowEventService.InvokeEvent("DocumentForwarded", workflowOperation.Guid, workflowOperation, workflowOperation.UserId);
+        }
     }
 }

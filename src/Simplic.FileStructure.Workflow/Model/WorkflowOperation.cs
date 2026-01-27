@@ -80,5 +80,7 @@ namespace Simplic.FileStructure.Workflow
         /// Gets or sets the file structure id
         /// </summary>
         public Guid? FileStructureId { get; set; }
+
+        public Guid? TargetWorflowId { get; set; }
     }
 }

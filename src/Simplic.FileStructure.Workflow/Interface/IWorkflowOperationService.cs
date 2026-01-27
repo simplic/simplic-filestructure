@@ -29,6 +29,12 @@ namespace Simplic.FileStructure.Workflow
         Guid DocumentCheckout(WorkflowOperation workflowOperation);
 
         /// <summary>
+        /// Fowards the WorkflowOperation to all user that have an instance of the work flow
+        /// </summary>
+        /// <param name="workflowOperation"></param>
+        void ForwardToDifferentWorkflow(WorkflowOperation workflowOperation);
+
+        /// <summary>
         /// Sets the state of the document to complete
         /// </summary>
         void Complete(WorkflowOperation workflowOperation);

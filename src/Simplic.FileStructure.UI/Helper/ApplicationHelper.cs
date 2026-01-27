@@ -20,6 +20,7 @@ namespace Simplic.FileStructure.UI.Helper
         /// </summary>
         static ApplicationHelper()
         {
+            MessageBox.Show("","", MessageBoxButton.OK, MessageBoxImage.)
             fileStructureService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IFileStructureService>();
             localizationService = CommonServiceLocator.ServiceLocator.Current.GetInstance<ILocalizationService>();
         }
